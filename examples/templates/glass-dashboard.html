@@ -1,0 +1,131 @@
+<!doctype html>
+<!--
+  借鉴自 ZASENJC/dashboard (https://github.com/ZASENJC/dashboard, MIT) 的玻璃拟态(Glassmorphism)个人主页模式：
+  头像/姓名/简介 + 实时时钟 + 站点运行时间 + 资源加载耗时 + 书签网格。
+  已重写为 workbench-builder 的 token 系统、零依赖单文件（无 CDN / 无外链图标，仅 emoji+SVG）。
+  用途：作为「玻璃质感仪表盘」模板预置到 examples/。
+-->
+<html lang="zh-CN" data-theme="light" data-style="macaron">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glass Dashboard · 玻璃仪表盘</title>
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;
+--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;
+--radius:14px;--shadow:0 4px 18px rgba(20,30,60,.08);--gap:16px}
+[data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;
+--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740;--shadow:0 4px 18px rgba(0,0,0,.45)}
+[data-style="default"]{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--radius:14px}
+[data-style="default"][data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740}
+[data-style="macaron"]{--bg:#fbf7fc;--surface:#fff;--surface-2:#f4edf8;--text:#4a4258;--text-dim:#9b8fae;--border:#ece2f3;--accent:#b48ad4;--accent-weak:#f1e9fb;--radius:18px}
+[data-style="macaron"][data-theme="dark"]{--bg:#171320;--surface:#211a2c;--surface-2:#2a2236;--text:#efeaf6;--text-dim:#b3a6c4;--border:#352b45;--accent:#c9a3e6;--accent-weak:#2e2440}
+[data-style="ink"]{--bg:#fafafa;--surface:#fff;--surface-2:#f0f0f3;--text:#18181b;--text-dim:#71717a;--border:#e4e4e7;--accent:#33334d;--accent-weak:#eaeaef;--radius:8px}
+[data-style="ink"][data-theme="dark"]{--bg:#0a0a0b;--surface:#161618;--surface-2:#232326;--text:#fafafa;--text-dim:#a1a1aa;--border:#2e2e32;--accent:#a0a0c8;--accent-weak:#26263a}
+[data-style="ocean"]{--bg:#f1f8f9;--surface:#fff;--surface-2:#e3f1f2;--text:#1c3a3d;--text-dim:#5b858a;--border:#d3e8ea;--accent:#0f8b8f;--accent-weak:#d8f0f1;--radius:12px}
+[data-style="ocean"][data-theme="dark"]{--bg:#0b1719;--surface:#132225;--surface-2:#1b2e31;--text:#e2f1f2;--text-dim:#7fafb1;--border:#224044;--accent:#2bc4c0;--accent-weak:#16383a}
+[data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
+[data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);min-height:100vh;
+background:
+  radial-gradient(1200px 600px at 12% -10%, color-mix(in srgb,var(--accent) 24%,transparent), transparent 60%),
+  radial-gradient(900px 500px at 100% 0%, color-mix(in srgb,var(--accent-weak) 80%,transparent), transparent 55%),
+  var(--bg);
+transition:background .2s,color .2s}
+.glass{background:color-mix(in srgb,var(--surface) 66%,transparent);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+  border-radius:var(--radius);box-shadow:var(--shadow)}
+.wrap{max-width:980px;margin:0 auto;padding:32px 20px 60px;display:flex;flex-direction:column;gap:20px}
+.hero{display:flex;align-items:center;gap:18px;padding:22px}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--accent-weak);display:flex;align-items:center;justify-content:center;font-size:30px;flex:0 0 64px}
+.hero h1{margin:0;font-size:22px}
+.hero .sub{color:var(--text-dim);margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat{padding:16px;text-align:center}
+.stat .v{font-size:22px;font-weight:700;color:var(--accent)}
+.stat .l{color:var(--text-dim);font-size:12px;margin-top:2px}
+.sec-title{display:flex;align-items:center;justify-content:space-between;margin:6px 2px}
+.sec-title h2{margin:0;font-size:16px}
+.iconbtn{cursor:pointer;border:1px solid var(--border);background:color-mix(in srgb,var(--surface) 66%,transparent);
+  backdrop-filter:blur(10px);border-radius:10px;padding:6px 12px;font-size:13px;color:var(--text)}
+.iconbtn:hover{background:var(--accent-weak);color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--gap)}
+.card{padding:14px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--text);transition:.15s}
+.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card .ico{font-size:20px}
+.card .t{font-weight:600}
+.card .d{color:var(--text-dim);font-size:12px}
+@media(max-width:720px){.wrap{padding:16px}.hero{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="glass hero">
+    <div class="avatar">🧑‍💻</div>
+    <div>
+      <h1 id="name">我的玻璃仪表盘</h1>
+      <div class="sub" id="tagline">双击即可离线打开 · 零依赖单文件</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="glass stat"><div class="v" id="clock">--:--:--</div><div class="l">当前时间</div></div>
+    <div class="glass stat"><div class="v" id="uptime">0d 0h</div><div class="l">站点运行</div></div>
+    <div class="glass stat"><div class="v" id="load">0 ms</div><div class="l">资源加载</div></div>
+    <div class="glass stat"><div class="v" id="count">0</div><div class="l">书签数量</div></div>
+  </div>
+
+  <div class="sec-title">
+    <h2>📎 我的书签</h2>
+    <div>
+      <button class="iconbtn" id="theme">🌓 主题</button>
+      <button class="iconbtn" id="style">🎨 风格</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const SITE_START_DATE='2026-01-01';
+const LINKS=[
+  {t:'WorkBuddy',d:'本地 AI 助手',u:'https://www.workbuddy.cn',i:'🤖'},
+  {t:'GitHub',d:'代码托管',u:'https://github.com',i:'🐙'},
+  {t:'飞书',d:'协作平台',u:'https://www.feishu.cn',i:'📋'},
+  {t:'Figma',d:'UI 设计',u:'https://www.figma.com',i:'🟣'},
+  {t:'MDN',d:'Web 文档',u:'https://developer.mozilla.org',i:'📚'},
+  {t:'Notion',d:'知识库',u:'https://www.notion.so',i:'📝'},
+  {t:'Bilibili',d:'学习视频',u:'https://www.bilibili.com',i:'📺'},
+  {t:'豆瓣',d:'读书电影',u:'https://www.douban.com',i:'🎬'}
+];
+
+const STYLES=['default','macaron','ink','ocean','sunset'];
+function applyTheme(){const s=localStorage.getItem('wb:theme');const sys=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',s||'light');}
+function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';
+  localStorage.setItem('wb:theme',n);applyTheme();}
+function applyStyle(){const id=localStorage.getItem('wb:style')||document.documentElement.getAttribute('data-style')||'default';
+  document.documentElement.setAttribute('data-style',id);}
+function pickStyle(){let cur=document.documentElement.getAttribute('data-style');const i=STYLES.indexOf(cur);
+  const n=STYLES[(i+1)%STYLES.length];localStorage.setItem('wb:style',n);applyStyle();toast('风格：'+n);}
+function toast(m){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';
+  t.style.cssText='position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;transition:.25s;z-index:30;font-size:13px';document.body.appendChild(t);}
+  t.textContent=m;t.style.opacity='1';clearTimeout(t._h);t._h=setTimeout(()=>t.style.opacity='0',1600);}
+
+function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');
+  document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+  const start=new Date(SITE_START_DATE);const ms=d-start;const days=Math.floor(ms/86400000);const hrs=Math.floor(ms%86400000/3600000);
+  document.getElementById('uptime').textContent=days+'d '+hrs+'h';}
+function renderLinks(){const grid=document.getElementById('grid');grid.innerHTML='';
+  document.getElementById('count').textContent=LINKS.length;
+  LINKS.forEach(l=>{const a=document.createElement('a');a.className='glass card';a.href=l.u;a.target='_blank';a.rel='noopener';
+    a.innerHTML='<div class="ico">'+(l.i||'🔗')+'</div><div class="t">'+l.t+'</div><div class="d">'+l.d+'</div>';grid.appendChild(a);});}
+
+document.getElementById('theme').onclick=toggleTheme;
+document.getElementById('style').onclick=pickStyle;
+const t0=performance.now();
+applyTheme();applyStyle();renderLinks();tick();setInterval(tick,1000);
+document.getElementById('load').textContent=Math.round(performance.now()-t0)+' ms';
+</script>
+</body>
+</html>

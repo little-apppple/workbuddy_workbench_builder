@@ -102,6 +102,23 @@
 
 ---
 
+## 模板示例目录（`examples/templates/`）
+
+这些示例全部基于同一套设计 token，可直接作为独立单文件 HTML 打开，也可被当作新工作台的起点。
+
+| 文件 | 来源/灵感 | 特点 | 适合场景 |
+|---|---|---|---|
+| `macaron-masonry.html` | workbench-builder 内置 | 马卡龙预设 + 瀑布流 | 灵感墙 / 轻记录 |
+| `ocean-sidebar.html` | workbench-builder 内置 | 深海预设 + 侧边栏 | 效率 / 数据向 |
+| `ink-topnav.html` | workbench-builder 内置 | 墨韵预设 + 顶部导航 | 极简文档 / 阅读 |
+| `launchpad.html` | 灵感来自 [NavHub](https://github.com/1718638143/NavHub) (MIT) | 玻璃侧边栏 + 分类 Tab + 聚合搜索 + 书签网格 | 链接/导航型工作台 |
+| `glass-dashboard.html` | 灵感来自 [ZASENJC/dashboard](https://github.com/ZASENJC/dashboard) (MIT) | 玻璃拟态 Hero + 实时时钟/运行时间/加载耗时 + 书签统计 | 个人仪表盘首页 |
+| `textured-startpage.html` | 灵感来自 [snownico0722/index-main](https://github.com/snownico0722/index-main) | 中央搜索 + 站点分组 + 8 种质感切换（毛玻璃/液态/亚克力/云母/纸纹/黑曜石/霓虹/像素） | 质感可换起始页 |
+
+> 所有外部灵感模板均已重写为零依赖单文件，并统一使用本 skill 的 token 系统（含 5 套预置风格与深色模式），禁止外链图标字体/CDN。
+
+---
+
 ## 组件规范（所有模板共用）
 
 - 卡片：`background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px;`

@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  借鉴自 snownico022/index-main (https://github.com/snownico0722/index-main) 的「多质感主题起始页」模式：
+  中央聚合搜索 + 站点分组 + 多质感(毛玻璃/液态玻璃/亚克力/云母/纸纹/黑曜石/霓虹/像素)可切换。
+  已重写为 workbench-builder 的 token 系统、零依赖单文件；质感仅通过改变表面模糊/描边/圆角实现，颜色仍由 token 统一控制。
+  用途：作为「质感可切换起始页」模板预置到 examples/。
+-->
+<html lang="zh-CN" data-theme="light" data-style="sunset">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Textured Startpage · 质感起始页</title>
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;
+--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;
+--radius:14px;--shadow:0 4px 18px rgba(20,30,60,.08);--gap:16px}
+[data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;
+--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740;--shadow:0 4px 18px rgba(0,0,0,.45)}
+[data-style="default"]{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--radius:14px}
+[data-style="default"][data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740}
+[data-style="macaron"]{--bg:#fbf7fc;--surface:#fff;--surface-2:#f4edf8;--text:#4a4258;--text-dim:#9b8fae;--border:#ece2f3;--accent:#b48ad4;--accent-weak:#f1e9fb;--radius:18px}
+[data-style="macaron"][data-theme="dark"]{--bg:#171320;--surface:#211a2c;--surface-2:#2a2236;--text:#efeaf6;--text-dim:#b3a6c4;--border:#352b45;--accent:#c9a3e6;--accent-weak:#2e2440}
+[data-style="ink"]{--bg:#fafafa;--surface:#fff;--surface-2:#f0f0f3;--text:#18181b;--text-dim:#71717a;--border:#e4e4e7;--accent:#33334d;--accent-weak:#eaeaef;--radius:8px}
+[data-style="ink"][data-theme="dark"]{--bg:#0a0a0b;--surface:#161618;--surface-2:#232326;--text:#fafafa;--text-dim:#a1a1aa;--border:#2e2e32;--accent:#a0a0c8;--accent-weak:#26263a}
+[data-style="ocean"]{--bg:#f1f8f9;--surface:#fff;--surface-2:#e3f1f2;--text:#1c3a3d;--text-dim:#5b858a;--border:#d3e8ea;--accent:#0f8b8f;--accent-weak:#d8f0f1;--radius:12px}
+[data-style="ocean"][data-theme="dark"]{--bg:#0b1719;--surface:#132225;--surface-2:#1b2e31;--text:#e2f1f2;--text-dim:#7fafb1;--border:#224044;--accent:#2bc4c0;--accent-weak:#16383a}
+[data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
+[data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);min-height:100vh;
+background:radial-gradient(1000px 600px at 80% -10%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 60%),var(--bg);
+transition:background .2s,color .2s}
+*{box-sizing:border-box}
+.wrap{max-width:900px;margin:0 auto;padding:48px 20px 60px;display:flex;flex-direction:column;gap:24px}
+.search{display:flex;gap:8px}
+.search input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:15px}
+.search select{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0 10px}
+.surface{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  transition:background .2s,border-color .2s,box-shadow .2s,backdrop-filter .2s}
+/* ===== 质感（仅改表面表现，颜色仍由 token 控制）===== */
+[data-material="frosted"] .surface{background:color-mix(in srgb,var(--surface) 70%,transparent);backdrop-filter:blur(12px)}
+[data-material="liquid"]  .surface{background:color-mix(in srgb,var(--surface) 60%,transparent);backdrop-filter:blur(20px) saturate(140%)}
+[data-material="acrylic"] .surface{background:color-mix(in srgb,var(--surface) 55%,var(--accent-weak));backdrop-filter:blur(16px)}
+[data-material="mica"]    .surface{background:linear-gradient(135deg,color-mix(in srgb,var(--surface) 80%,transparent),color-mix(in srgb,var(--accent-weak) 60%,transparent));backdrop-filter:blur(10px)}
+[data-material="paper"]   .surface{background:var(--surface-2);border-color:var(--border)}
+[data-material="obsidian"].surface,body[data-material="obsidian"] .surface{background:#0b0b0f;color:#e9eef7;border-color:#2a2f3a}
+[data-material="obsidian"] .surface{box-shadow:0 0 0 1px #2a2f3a, 0 8px 30px rgba(0,0,0,.5)}
+[data-material="neon"]    .surface{background:#0c0c14;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 18px color-mix(in srgb,var(--accent) 50%,transparent);color:#eafcff}
+[data-material="pixel"]   .surface{background:var(--surface);border:2px solid var(--text);border-radius:0;box-shadow:4px 4px 0 var(--text);font-family:ui-monospace,Menlo,Consolas,monospace}
+.group{padding:16px}
+.group h3{margin:0 0 12px;font-size:15px;display:flex;align-items:center;gap:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{padding:12px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:inherit}
+.card .ico{font-size:18px}
+.card .t{font-weight:600}
+.card .d{color:var(--text-dim);font-size:12px}
+.toolbar{position:fixed;right:16px;top:14px;display:flex;gap:6px;z-index:20}
+.iconbtn{cursor:pointer;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:6px 12px;font-size:13px}
+.iconbtn:hover{background:var(--accent-weak);color:var(--accent)}
+.sel{padding:6px 10px;border-radius:10px;border:1px solid var(--border);background:var(--surface)}
+@media(max-width:720px){.wrap{padding:24px 14px}.toolbar{position:static;justify-content:flex-end;margin-bottom:8px}}
+</style>
+</head>
+<body data-material="frosted">
+<div class="toolbar">
+  <select class="sel" id="material" title="质感">
+    <option value="frosted">毛玻璃</option>
+    <option value="liquid">液态玻璃</option>
+    <option value="acrylic">亚克力</option>
+    <option value="mica">云母</option>
+    <option value="paper">纸纹</option>
+    <option value="obsidian">黑曜石</option>
+    <option value="neon">霓虹</option>
+    <option value="pixel">像素</option>
+  </select>
+  <button class="iconbtn" id="theme">🌓</button>
+  <button class="iconbtn" id="style">🎨</button>
+</div>
+<div class="wrap">
+  <div class="search surface" style="padding:8px">
+    <select id="engine"></select>
+    <input id="q" placeholder="搜索…（回车跳转）">
+  </div>
+
+  <div class="group surface" id="g-work">
+    <h3>🛠 工作</h3>
+    <div class="cards" id="c-work"></div>
+  </div>
+  <div class="group surface" id="g-life">
+    <h3>🌿 生活</h3>
+    <div class="cards" id="c-life"></div>
+  </div>
+</div>
+
+<script>
+const ENGINES=[{n:'Google',u:'https://www.google.com/search?q=%s'},{n:'百度',u:'https://www.baidu.com/s?wd=%s'},{n:'Bing',u:'https://www.bing.com/search?q=%s'}];
+const GROUPS={
+  work:[{t:'WorkBuddy',d:'AI 助手',u:'https://www.workbuddy.cn',i:'🤖'},{t:'GitHub',d:'代码',u:'https://github.com',i:'🐙'},{t:'Figma',d:'设计',u:'https://www.figma.com',i:'🟣'},{t:'MDN',d:'文档',u:'https://developer.mozilla.org',i:'📚'}],
+  life:[{t:'Bilibili',d:'视频',u:'https://www.bilibili.com',i:'📺'},{t:'豆瓣',d:'读书',u:'https://www.douban.com',i:'🎬'},{t:'网易云',d:'音乐',u:'https://music.163.com',i:'🎵'},{t:'高德',d:'地图',u:'https://www.amap.com',i:'🗺'}]
+};
+const STYLES=['default','macaron','ink','ocean','sunset'];
+function applyTheme(){const s=localStorage.getItem('wb:theme');document.documentElement.setAttribute('data-theme',s||'light');}
+function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';localStorage.setItem('wb:theme',n);applyTheme();}
+function applyStyle(){const id=localStorage.getItem('wb:style')||document.documentElement.getAttribute('data-style')||'default';document.documentElement.setAttribute('data-style',id);}
+function pickStyle(){let cur=document.documentElement.getAttribute('data-style');const i=STYLES.indexOf(cur);const n=STYLES[(i+1)%STYLES.length];localStorage.setItem('wb:style',n);applyStyle();toast('风格：'+n);}
+function applyMaterial(){const m=localStorage.getItem('wb:material')||'frosted';document.body.setAttribute('data-material',m);document.getElementById('material').value=m;}
+function toast(m){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;transition:.25s;z-index:30;font-size:13px';document.body.appendChild(t);}t.textContent=m;t.style.opacity='1';clearTimeout(t._h);t._h=setTimeout(()=>t.style.opacity='0',1600);}
+
+function renderEngine(){const sel=document.getElementById('engine');sel.innerHTML='';ENGINES.forEach(e=>{const o=document.createElement('option');o.value=e.u;o.textContent=e.n;sel.appendChild(o);});}
+function renderGroup(id,key){const wrap=document.getElementById(id);wrap.innerHTML='';
+  GROUPS[key].forEach(l=>{const a=document.createElement('a');a.className='card';a.href=l.u;a.target='_blank';a.rel='noopener';
+    a.innerHTML='<div class="ico">'+(l.i||'🔗')+'</div><div class="t">'+l.t+'</div><div class="d">'+l.d+'</div>';wrap.appendChild(a);});}
+
+document.getElementById('theme').onclick=toggleTheme;
+document.getElementById('style').onclick=pickStyle;
+document.getElementById('material').onchange=e=>{localStorage.setItem('wb:material',e.target.value);applyMaterial();};
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter'){const url=document.getElementById('engine').value.replace('%s',encodeURIComponent(e.target.value));if(url)window.open(url,'_blank');}});
+applyTheme();applyStyle();applyMaterial();renderEngine();renderGroup('c-work','work');renderGroup('c-life','life');
+</script>
+</body>
+</html>
