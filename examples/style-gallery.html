@@ -25,6 +25,27 @@
 [data-style="ocean"][data-theme="dark"]{--bg:#0b1719;--surface:#132225;--surface-2:#1b2e31;--text:#e2f1f2;--text-dim:#7fafb1;--border:#224044;--accent:#2bc4c0;--accent-weak:#16383a}
 [data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
 [data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
+/* wb · WorkBuddy 官方 */
+[data-style="wb"]{--bg:#f4f3ee;--surface:#fff;--surface-2:#eceae2;--text:#2c2c2a;--text-dim:#5f5e5a;--border:#d3d1c7;--accent:#185fa5;--accent-weak:#e6f1fb;--radius:8px}
+[data-style="wb"][data-theme="dark"]{--bg:#1c1b18;--surface:#2c2c2a;--surface-2:#444441;--text:#f1efe8;--text-dim:#b4b2a9;--border:#5f5e5a;--accent:#85b7eb;--accent-weak:#1a2633}
+/* nord · 北欧极地 */
+[data-style="nord"]{--bg:#eceff4;--surface:#f7f9fc;--surface-2:#dfe5ee;--text:#2e3440;--text-dim:#4c566a;--border:#d1dae4;--accent:#5e81ac;--accent-weak:#dfe7f2;--radius:10px}
+[data-style="nord"][data-theme="dark"]{--bg:#2e3440;--surface:#3b4252;--surface-2:#434c5e;--text:#eceff4;--text-dim:#aeb8c9;--border:#4c566a;--accent:#88c0d0;--accent-weak:#3f4d63}
+/* catppuccin · 奶咖粉彩 */
+[data-style="catppuccin"]{--bg:#eff1f5;--surface:#f7f8fb;--surface-2:#e3e6ef;--text:#4c4f69;--text-dim:#7c7f93;--border:#d4d8e3;--accent:#8839ef;--accent-weak:#e7defa;--radius:14px}
+[data-style="catppuccin"][data-theme="dark"]{--bg:#1e1e2e;--surface:#181825;--surface-2:#313244;--text:#cdd6f4;--text-dim:#a6adc8;--border:#45475a;--accent:#cba6f7;--accent-weak:#453759}
+/* rosepine · 玫瑰松 */
+[data-style="rosepine"]{--bg:#faf4ed;--surface:#fffaf3;--surface-2:#f2e9e1;--text:#575279;--text-dim:#797593;--border:#e5dfd6;--accent:#d7827e;--accent-weak:#f4e3e0;--radius:16px}
+[data-style="rosepine"][data-theme="dark"]{--bg:#191724;--surface:#1f1d2e;--surface-2:#26233a;--text:#e0def4;--text-dim:#908caa;--border:#403d52;--accent:#ebbcba;--accent-weak:#3b3550}
+/* tokyonight · 东京夜 */
+[data-style="tokyonight"]{--bg:#e1e2e7;--surface:#edeff5;--surface-2:#d8dce6;--text:#376188;--text-dim:#5a6b84;--border:#c8cede;--accent:#34548a;--accent-weak:#d4dcec;--radius:10px}
+[data-style="tokyonight"][data-theme="dark"]{--bg:#1a1b26;--surface:#24283b;--surface-2:#292e42;--text:#c0caf5;--text-dim:#8189af;--border:#3b4261;--accent:#7aa2f7;--accent-weak:#2a2f45}
+/* everforest · 常青森林 */
+[data-style="everforest"]{--bg:#faf5e9;--surface:#fffdf5;--surface-2:#eee8d8;--text:#4d5c53;--text-dim:#7d8c80;--border:#ddd6c2;--accent:#8da101;--accent-weak:#e8efd0;--radius:12px}
+[data-style="everforest"][data-theme="dark"]{--bg:#2d353b;--surface:#343f44;--surface-2:#3d484d;--text:#d3c6aa;--text-dim:#9da9a0;--border:#4f585e;--accent:#a7c080;--accent-weak:#3c4a42}
+/* mono · 纯粹黑白 */
+[data-style="mono"]{--bg:#ffffff;--surface:#fafafa;--surface-2:#f0f0f0;--text:#111111;--text-dim:#777777;--border:#e2e2e2;--accent:#111111;--accent-weak:#eeeeee;--radius:4px}
+[data-style="mono"][data-theme="dark"]{--bg:#0d0d0d;--surface:#141414;--surface-2:#1e1e1e;--text:#f5f5f5;--text-dim:#9a9a9a;--border:#2a2a2a;--accent:#f5f5f5;--accent-weak:#242424}
 *{box-sizing:border-box}
 body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);padding:0 0 40px}
 header{padding:24px 28px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
@@ -76,11 +97,18 @@ code{background:var(--surface-2);padding:1px 6px;border-radius:6px}
 
 <script>
 const PREVIEWS=[
-  {style:'default',name:'云灰蓝',desc:'中性蓝灰，专业克制'},
-  {style:'macaron',name:'马卡龙',desc:'粉彩柔润，轻盈治愈'},
-  {style:'ink',   name:'墨韵',  desc:'极简黑白，锋利高级'},
-  {style:'ocean', name:'深海',  desc:'青蓝静谧，清爽专注'},
-  {style:'sunset',name:'晚霞',  desc:'暖橙活力，亲和明快'}
+  {style:'default',   name:'云灰蓝',     desc:'中性蓝灰，专业克制'},
+  {style:'wb',        name:'WorkBuddy', desc:'官方同源，无缝融入'},
+  {style:'macaron',   name:'马卡龙',     desc:'粉彩柔润，轻盈治愈'},
+  {style:'ink',       name:'墨韵',       desc:'极简黑白，锋利高级'},
+  {style:'ocean',     name:'深海',       desc:'青蓝静谧，清爽专注'},
+  {style:'sunset',    name:'晚霞',       desc:'暖橙活力，亲和明快'},
+  {style:'nord',      name:'北欧',       desc:'极地冷色，沉稳理性'},
+  {style:'catppuccin',name:'奶咖',       desc:'柔和低饱和，长时舒适'},
+  {style:'rosepine',  name:'玫瑰松',     desc:'暮色玫瑰，温润雅致'},
+  {style:'tokyonight',name:'东京夜',     desc:'霓虹深蓝，都市夜色'},
+  {style:'everforest',name:'常青',       desc:'森林抹茶，自然疗愈'},
+  {style:'mono',      name:'纯粹',       desc:'黑白极简，零干扰'}
 ];
 function setTheme(t){
   document.documentElement.setAttribute('data-theme',t);

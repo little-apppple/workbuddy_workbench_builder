@@ -23,7 +23,7 @@
 
 - **15 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news` / `resources`
 - **4 套 UI 模板**：`sidebar`（侧边栏）/`cardGrid`（卡片网格）/`topnav`（顶部导航）/`masonry`（瀑布流），深 / 浅色主题
-- **5 套全局 UI 风格预设**：`default`（云灰蓝）/`macaron`（马卡龙）/`ink`（墨韵）/`ocean`（深海）/`sunset`（晚霞），切换全局生效，图表/模块同步跟随
+- **12 套全局 UI 风格预设**：原生 6 套（`default` 云灰蓝/`wb` WorkBuddy 官方/`macaron` 马卡龙/`ink` 墨韵/`ocean` 深海/`sunset` 晚霞）+ 社区经典 6 套（`nord` 北欧/`catppuccin` 奶咖/`rosepine` 玫瑰松/`tokyonight` 东京夜/`everforest` 常青/`mono` 纯粹），切换全局生效，图表/模块同步跟随
 - **8 套模板示例**：5 套风格×布局内置组合 + 从 GitHub 优秀项目汲取灵感的导航启动页、玻璃仪表盘、质感起始页（均改写为同一 token 系统、零依赖）
 - **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层；最终交付是资料库「我的文档」里的在线 page + database 节点
 - **在线存储 + 自动双向同步**：数据以资料库 `CSV(database)` 节点在线保存（跨设备、非本地文件）；工作台运行时直连资料库 database 节点，本地编辑自动 diff 写回，资料库变更经轮询自动刷新前端——无需手动导入导出 CSV。本地 `file://` 预览无 SDK 时优雅降级到 localStorage（仅演示）
@@ -85,7 +85,7 @@ workbench-builder/
 ├── SKILL.md                      # 主流程与约束（权威说明）
 ├── examples/
 │   ├── reference-workbench.html     # 权威交付种子（已内联 15 模块 + 4 模板 + 5 风格）
-│   ├── style-gallery.html           # 5 套 UI 风格预设预览器
+│   ├── style-gallery.html           # 12 套 UI 风格预设预览器
 │   ├── templates/                   # 完整模板示例（预设/布局组合 + 外部灵感改写）
 │   │   ├── README.md                # 模板索引：清单 + 配色速览 + 风格切换 + 起点指引
 │   │   ├── macaron-masonry.html     # 马卡龙 + 瀑布流

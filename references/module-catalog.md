@@ -104,6 +104,8 @@
 
 ## 默认推荐组合
 
+> 角色化完整配方（含风格与布局绑定）见 `references/presets.md`，下表仅按场景给模块组合。
+
 | 场景 | 推荐 modules |
 |---|---|
 | 极简个人面板 | `todo, mem, dashboard` |

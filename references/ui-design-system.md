@@ -40,19 +40,33 @@
 
 ## UI 风格预设（全局换肤）
 
-5 套预置风格全部基于同一组设计 token 派生，切换时只需改 `html` 的 `data-style` 属性，所有组件、布局、图表自动跟随，**不存在某个模块掉队**。
+12 套预置风格全部基于同一组设计 token 派生，切换时只需改 `html` 的 `data-style` 属性，所有组件、布局、图表自动跟随，**不存在某个模块掉队**。
+
+原生 6 套：
 
 | 风格键 | 名称 | 气质 | 建议场景 |
 |---|---|---|---|
 | `default` | 云灰蓝 | 中性、专业、克制 | 通用后台、默认推荐 |
+| `wb` | WorkBuddy | 官方同源、暖灰纸感 | 与宿主/官方生态一致的稳重交付 |
 | `macaron` | 马卡龙 | 粉彩柔润、轻盈治愈 | 个人生活、灵感记录 |
 | `ink` | 墨韵 | 极简黑白、锋利高级 | 写作/阅读、文档向 |
 | `ocean` | 深海 | 青蓝静谧、清爽专注 | 效率/生产力、数据向 |
 | `sunset` | 晚霞 | 暖橙活力、亲和明快 | 展示/运营、轻松氛围 |
 
+社区经典 6 套（色值取自各官方配色，light/dark 双态齐全）：
+
+| 风格键 | 名称 | 来源 | 气质 | 建议场景 |
+|---|---|---|---|---|
+| `nord` | 北欧 | Nord Theme | 极地冷色、单色调基底 | 底层开发、复杂逻辑、长时专注 |
+| `catppuccin` | 奶咖 | Catppuccin (Latte/Mocha) | 柔和低饱和粉彩 | 全场景长时使用、护眼首选 |
+| `rosepine` | 玫瑰松 | Rosé Pine (Main/Dawn) | 暮色玫瑰、低对比雅致 | 写作/创作、深夜工作 |
+| `tokyonight` | 东京夜 | Tokyo Night (Night/Day) | 霓虹深蓝、高对比 | Web 开发、快速迭代 |
+| `everforest` | 常青 | Everforest | 森林抹茶、自然疗愈 | 生活记录、慢节奏场景 |
+| `mono` | 纯粹 | minimal 趋势派生 | 纯黑白、4px 锐角 | 极简主义、零干扰清单 |
+
 实现方式：种子文件用 `[data-style="<键>"]` 覆盖同一组 token（`--bg/--surface/--surface-2/--text/--text-dim/--border/--accent/--accent-weak/--radius`），并配套 `[data-style="<键>"][data-theme="dark"]` 深色变体。运行时通过 `applyStyle(id)` 设置 `document.documentElement.setAttribute('data-style', id)` 并持久化到 `localStorage['wb:style']`；所有模块的 Canvas 图表通过 `getComputedStyle(document.documentElement).getPropertyValue('--accent')` 读取当前强调色，**没有硬编码颜色**。
 
-交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 5 套预置风格让用户选择**，并在底部右下角工具栏提供「🎨 风格」入口。
+交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 12 套预置风格让用户选择**（弹窗 `.style-grid` 本就是 12 张卡片），并在底部右下角工具栏提供「🎨 风格」入口。注意：除 `default` 外的 11 套风格自带 accent，`WORKBENCH_CONFIG.accent` 自定义色仅对 `default` 生效。
 
 参考：
 - 预设预览器：`examples/style-gallery.html`

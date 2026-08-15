@@ -12,7 +12,7 @@
   ║            ledger,habits,reading,contacts,inventory,journal,news,resources] 中挑选 ║
   ║  - ui:       sidebar | cardGrid | topnav | masonry             ║
   ║  - theme:    light | dark | auto                               ║
-  ║  - style:    default | macaron | ink | ocean | sunset         ║
+  ║  - style:    12 套预设（见 STYLES / ui-design-system.md）         ║
   ║  数据（v1.2 起）：资料库 page 运行时直连 DATABASE_ID 节点，自动双向 ║
   ║      同步（外部改 CSV/资料库→前端轮询刷新；前端改→直写库）。         ║
   ║      本地 file:// 预览无 SDK 时自动降级 localStorage（仅演示用）。   ║
@@ -40,6 +40,27 @@
 /* sunset · 晚霞暖橙 */
 [data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
 [data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
+/* wb · WorkBuddy 官方（宿主同源：暖灰纸感 + 官方蓝 c-blue，radius 8 对齐 --border-radius-md） */
+[data-style="wb"]{--bg:#f4f3ee;--surface:#fff;--surface-2:#eceae2;--text:#2c2c2a;--text-dim:#5f5e5a;--border:#d3d1c7;--accent:#185fa5;--accent-weak:#e6f1fb;--radius:8px}
+[data-style="wb"][data-theme="dark"]{--bg:#1c1b18;--surface:#2c2c2a;--surface-2:#444441;--text:#f1efe8;--text-dim:#b4b2a9;--border:#5f5e5a;--accent:#85b7eb;--accent-weak:#1a2633}
+/* nord · 北欧极地（Nord 官方 Polar Night / Snow Storm / Frost） */
+[data-style="nord"]{--bg:#eceff4;--surface:#f7f9fc;--surface-2:#dfe5ee;--text:#2e3440;--text-dim:#4c566a;--border:#d1dae4;--accent:#5e81ac;--accent-weak:#dfe7f2;--radius:10px}
+[data-style="nord"][data-theme="dark"]{--bg:#2e3440;--surface:#3b4252;--surface-2:#434c5e;--text:#eceff4;--text-dim:#aeb8c9;--border:#4c566a;--accent:#88c0d0;--accent-weak:#3f4d63}
+/* catppuccin · 奶咖粉彩（Catppuccin 官方 Latte / Mocha） */
+[data-style="catppuccin"]{--bg:#eff1f5;--surface:#f7f8fb;--surface-2:#e3e6ef;--text:#4c4f69;--text-dim:#7c7f93;--border:#d4d8e3;--accent:#8839ef;--accent-weak:#e7defa;--radius:14px}
+[data-style="catppuccin"][data-theme="dark"]{--bg:#1e1e2e;--surface:#181825;--surface-2:#313244;--text:#cdd6f4;--text-dim:#a6adc8;--border:#45475a;--accent:#cba6f7;--accent-weak:#453759}
+/* rosepine · 玫瑰松（Rosé Pine 官方 Main / Dawn） */
+[data-style="rosepine"]{--bg:#faf4ed;--surface:#fffaf3;--surface-2:#f2e9e1;--text:#575279;--text-dim:#797593;--border:#e5dfd6;--accent:#d7827e;--accent-weak:#f4e3e0;--radius:16px}
+[data-style="rosepine"][data-theme="dark"]{--bg:#191724;--surface:#1f1d2e;--surface-2:#26233a;--text:#e0def4;--text-dim:#908caa;--border:#403d52;--accent:#ebbcba;--accent-weak:#3b3550}
+/* tokyonight · 东京夜（Tokyo Night 官方 Night / Day） */
+[data-style="tokyonight"]{--bg:#e1e2e7;--surface:#edeff5;--surface-2:#d8dce6;--text:#376188;--text-dim:#5a6b84;--border:#c8cede;--accent:#34548a;--accent-weak:#d4dcec;--radius:10px}
+[data-style="tokyonight"][data-theme="dark"]{--bg:#1a1b26;--surface:#24283b;--surface-2:#292e42;--text:#c0caf5;--text-dim:#8189af;--border:#3b4261;--accent:#7aa2f7;--accent-weak:#2a2f45}
+/* everforest · 常青森林（Everforest 官方 light / dark） */
+[data-style="everforest"]{--bg:#faf5e9;--surface:#fffdf5;--surface-2:#eee8d8;--text:#4d5c53;--text-dim:#7d8c80;--border:#ddd6c2;--accent:#8da101;--accent-weak:#e8efd0;--radius:12px}
+[data-style="everforest"][data-theme="dark"]{--bg:#2d353b;--surface:#343f44;--surface-2:#3d484d;--text:#d3c6aa;--text-dim:#9da9a0;--border:#4f585e;--accent:#a7c080;--accent-weak:#3c4a42}
+/* mono · 纯粹黑白（minimal 极简：白纸黑字、4px 锐角、零彩色装饰） */
+[data-style="mono"]{--bg:#ffffff;--surface:#fafafa;--surface-2:#f0f0f0;--text:#111111;--text-dim:#777777;--border:#e2e2e2;--accent:#111111;--accent-weak:#eeeeee;--radius:4px}
+[data-style="mono"][data-theme="dark"]{--bg:#0d0d0d;--surface:#141414;--surface-2:#1e1e1e;--text:#f5f5f5;--text-dim:#9a9a9a;--border:#2a2a2a;--accent:#f5f5f5;--accent-weak:#242424}
 *{box-sizing:border-box}
 body{margin:0;padding-bottom:100px;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
 background:var(--bg);color:var(--text);transition:background .2s,color .2s}
@@ -139,7 +160,7 @@ const WORKBENCH_CONFIG = {
   title: "我的工作台",
   ui: "sidebar",            // sidebar | cardGrid | topnav | masonry
   theme: "auto",            // light | dark | auto
-  style: "default",         // default | macaron | ink | ocean | sunset
+  style: "default",         // default|wb|macaron|ink|ocean|sunset|nord|catppuccin|rosepine|tokyonight|everforest|mono
   accent: "#3b6cff",
   modules: ["todo","mem","dashboard","notes","links","resources"],
   // 资料库直连：每个模块对应一个 database 节点 id（来自 create_database.py 的 stdout）。
@@ -764,11 +785,18 @@ function toggleTheme(){ const cur=document.documentElement.getAttribute('data-th
 
 /* ============ UI 风格预设（全局换肤，仅切同一组 token） ============ */
 const STYLES=[
-  {id:'default',name:'云灰蓝',desc:'中性蓝灰，专业克制',sw:['#3b6cff','#e8efff','#f5f6f8','#1f2430']},
-  {id:'macaron',name:'马卡龙',desc:'粉彩柔润，轻盈治愈',sw:['#b48ad4','#f1e9fb','#fbf7fc','#4a4258']},
-  {id:'ink',   name:'墨韵',  desc:'极简黑白，锋利高级',sw:['#33334d','#eaeaef','#fafafa','#18181b']},
-  {id:'ocean', name:'深海',  desc:'青蓝静谧，清爽专注',sw:['#0f8b8f','#d8f0f1','#f1f8f9','#1c3a3d']},
-  {id:'sunset',name:'晚霞',  desc:'暖橙活力，亲和明快',sw:['#f0735f','#ffe2d8','#fff6f2','#4a2e26']}
+  {id:'default',   name:'云灰蓝',     desc:'中性蓝灰，专业克制',sw:['#3b6cff','#e8efff','#f5f6f8','#1f2430']},
+  {id:'wb',        name:'WorkBuddy', desc:'官方同源，无缝融入',sw:['#185fa5','#e6f1fb','#f4f3ee','#2c2c2a']},
+  {id:'macaron',   name:'马卡龙',     desc:'粉彩柔润，轻盈治愈',sw:['#b48ad4','#f1e9fb','#fbf7fc','#4a4258']},
+  {id:'ink',       name:'墨韵',       desc:'极简黑白，锋利高级',sw:['#33334d','#eaeaef','#fafafa','#18181b']},
+  {id:'ocean',     name:'深海',       desc:'青蓝静谧，清爽专注',sw:['#0f8b8f','#d8f0f1','#f1f8f9','#1c3a3d']},
+  {id:'sunset',    name:'晚霞',       desc:'暖橙活力，亲和明快',sw:['#f0735f','#ffe2d8','#fff6f2','#4a2e26']},
+  {id:'nord',      name:'北欧',       desc:'极地冷色，沉稳理性',sw:['#5e81ac','#dfe7f2','#eceff4','#2e3440']},
+  {id:'catppuccin',name:'奶咖',       desc:'柔和低饱和，长时舒适',sw:['#8839ef','#e7defa','#eff1f5','#4c4f69']},
+  {id:'rosepine',  name:'玫瑰松',     desc:'暮色玫瑰，温润雅致',sw:['#d7827e','#f4e3e0','#faf4ed','#575279']},
+  {id:'tokyonight',name:'东京夜',     desc:'霓虹深蓝，都市夜色',sw:['#7aa2f7','#2a2f45','#1a1b26','#c0caf5']},
+  {id:'everforest',name:'常青',       desc:'森林抹茶，自然疗愈',sw:['#8da101','#e8efd0','#faf5e9','#4d5c53']},
+  {id:'mono',      name:'纯粹',       desc:'黑白极简，零干扰',  sw:['#111111','#eeeeee','#ffffff','#111111']}
 ];
 function applyStyle(id){
   if(!id) id=localStorage.getItem('wb:style')||CFG.style||'default';
