@@ -1,0 +1,199 @@
+{
+  "html": "examples/reference-workbench.html",
+  "modules": [
+    {
+      "name": "todo",
+      "title": "工作台·待办",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "done", "config": {"checkbox": false}},
+        {"name": "due", "config": {"date": "2026-08-15"}},
+        {"name": "created", "config": {"date": "2026-08-15"}},
+        {"name": "priority", "config": {"select": {"options": [{"text": "低"}, {"text": "中"}, {"text": "高"}]}}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "title": {"text": "欢迎使用工作台，勾选可标记完成"}, "done": {"checkbox": false}, "due": {"date": "2026-08-20"}, "created": {"date": "2026-08-15"}, "priority": {"select": "中"}},
+        {"id": {"text": "id_seed_2"}, "title": {"text": "右上角「导出CSV」把数据落库到资料库"}, "done": {"checkbox": false}, "due": {"date": "2026-08-18"}, "created": {"date": "2026-08-15"}, "priority": {"select": "高"}}
+      ]
+    },
+    {
+      "name": "mem",
+      "title": "工作台·速记",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "text", "config": {"text": ""}},
+        {"name": "tags", "config": {"text": ""}},
+        {"name": "created", "config": {"date": "2026-08-15"}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_m1"}, "text": {"text": "这是个零依赖单文件工作台，双击即可离线打开"}, "tags": {"text": "tips"}, "created": {"date": "2026-08-15"}}
+      ]
+    },
+    {
+      "name": "notes",
+      "title": "工作台·长笔记",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "body", "config": {"text": ""}},
+        {"name": "updated", "config": {"date": "2026-08-15"}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_n1"}, "title": {"text": "示例笔记"}, "body": {"text": "在这里写正文，支持换行。"}, "updated": {"date": "2026-08-15"}}
+      ]
+    },
+    {
+      "name": "links",
+      "title": "工作台·收藏",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "url", "config": {"url": {"text": "", "link": ""}}},
+        {"name": "category", "config": {"text": ""}},
+        {"name": "created", "config": {"date": "2026-08-15"}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_l1"}, "title": {"text": "WorkBuddy"}, "url": {"url": {"text": "WorkBuddy", "link": "https://www.workbuddy.cn"}}, "category": {"text": "工具"}, "created": {"date": "2026-08-15"}}
+      ]
+    },
+    {
+      "name": "dashboard",
+      "title": "工作台·概览指标",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "name", "config": {"text": ""}},
+        {"name": "value", "config": {"number": 0}},
+        {"name": "unit", "config": {"text": ""}}
+      ],
+      "seed": []
+    },
+    {
+      "name": "kanban",
+      "title": "工作台·看板",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "column", "config": {"select": {"options": [{"text": "待办"}, {"text": "进行中"}, {"text": "完成"}]}}},
+        {"name": "order", "config": {"number": 0}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "title": {"text": "整理需求文档"}, "column": {"select": "待办"}, "order": {"number": 0}},
+        {"id": {"text": "id_seed_2"}, "title": {"text": "联调接口"}, "column": {"select": "进行中"}, "order": {"number": 1}},
+        {"id": {"text": "id_seed_3"}, "title": {"text": "发布 v1"}, "column": {"select": "完成"}, "order": {"number": 2}}
+      ]
+    },
+    {
+      "name": "calendar",
+      "title": "工作台·日程",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "date", "config": {"date": "2026-08-15"}},
+        {"name": "note", "config": {"text": ""}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "title": {"text": "团队周会"}, "date": {"date": "2026-08-15"}, "note": {"text": "同步进度"}},
+        {"id": {"text": "id_seed_2"}, "title": {"text": "提交周报"}, "date": {"date": "2026-08-15"}, "note": {"text": ""}}
+      ]
+    },
+    {
+      "name": "ledger",
+      "title": "工作台·流水账",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "item", "config": {"text": ""}},
+        {"name": "amount", "config": {"number": 0}},
+        {"name": "type", "config": {"select": {"options": [{"text": "收入"}, {"text": "支出"}]}}},
+        {"name": "category", "config": {"text": ""}},
+        {"name": "date", "config": {"date": "2026-08-15"}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "item": {"text": "工资"}, "amount": {"number": 12000}, "type": {"select": "收入"}, "category": {"text": "薪资"}, "date": {"date": "2026-08-15"}},
+        {"id": {"text": "id_seed_2"}, "item": {"text": "午餐"}, "amount": {"number": 35}, "type": {"select": "支出"}, "category": {"text": "餐饮"}, "date": {"date": "2026-08-15"}}
+      ]
+    },
+    {
+      "name": "habits",
+      "title": "工作台·习惯",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "name", "config": {"text": ""}},
+        {"name": "date", "config": {"date": "2026-08-15"}},
+        {"name": "done", "config": {"checkbox": false}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "name": {"text": "读书"}, "date": {"date": "2026-08-15"}, "done": {"checkbox": true}},
+        {"id": {"text": "id_seed_2"}, "name": {"text": "运动"}, "date": {"date": "2026-08-15"}, "done": {"checkbox": false}}
+      ]
+    },
+    {
+      "name": "reading",
+      "title": "工作台·阅读",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "author", "config": {"text": ""}},
+        {"name": "status", "config": {"select": {"options": [{"text": "想读"}, {"text": "在读"}, {"text": "读完"}]}}},
+        {"name": "rating", "config": {"number": 0}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "title": {"text": "《深度工作》"}, "author": {"text": "Cal Newport"}, "status": {"select": "在读"}, "rating": {"number": 4}}
+      ]
+    },
+    {
+      "name": "contacts",
+      "title": "工作台·联系人",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "name", "config": {"text": ""}},
+        {"name": "phone", "config": {"text": ""}},
+        {"name": "email", "config": {"text": ""}},
+        {"name": "note", "config": {"text": ""}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "name": {"text": "张三"}, "phone": {"text": "13800000000"}, "email": {"text": "z@example.com"}, "note": {"text": "合作方"}}
+      ]
+    },
+    {
+      "name": "inventory",
+      "title": "工作台·物品",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "name", "config": {"text": ""}},
+        {"name": "qty", "config": {"number": 0}},
+        {"name": "location", "config": {"text": ""}},
+        {"name": "note", "config": {"text": ""}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "name": {"text": "显示器"}, "qty": {"number": 2}, "location": {"text": "书房"}, "note": {"text": "27寸"}}
+      ]
+    },
+    {
+      "name": "journal",
+      "title": "工作台·日记",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "date", "config": {"date": "2026-08-15"}},
+        {"name": "mood", "config": {"select": {"options": [{"text": "😀"}, {"text": "😐"}, {"text": "😞"}]}}},
+        {"name": "body", "config": {"text": ""}}
+      ],
+      "seed": [
+        {"id": {"text": "id_seed_1"}, "date": {"date": "2026-08-15"}, "mood": {"select": "😐"}, "body": {"text": "今天开始用工作台。"}}
+      ]
+    },
+    {
+      "name": "news",
+      "title": "工作台·资讯",
+      "properties": [
+        {"name": "id", "config": {"text": ""}},
+        {"name": "title", "config": {"text": ""}},
+        {"name": "summary", "config": {"text": ""}},
+        {"name": "source", "config": {"text": ""}},
+        {"name": "url", "config": {"url": {"text": "", "link": ""}}},
+        {"name": "date", "config": {"date": "2026-08-15"}}
+      ],
+      "seed": []
+    }
+  ]
+}

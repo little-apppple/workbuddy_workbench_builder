@@ -1,0 +1,33 @@
+<!-- UI 模板: cardGrid（卡片网格马赛克，一屏看全局） -->
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>工作台 · cardGrid</title>
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;
+--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;
+--radius:14px;--shadow:0 4px 18px rgba(20,30,60,.08);--gap:16px}
+[data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;
+--text-dim:#94a0b3;--border:#2a313d;--accent-weak:#1c2740;--shadow:0 4px 18px rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+background:var(--bg);color:var(--text)}
+.topbar{padding:18px 24px;font-weight:700;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--gap);padding:0 24px 24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+box-shadow:var(--shadow);padding:16px;min-height:220px}
+.card h3{margin:0 0 10px;font-size:15px;display:flex;align-items:center;gap:8px}
+@media(max-width:720px){.grid{grid-template-columns:1fr;padding:0 16px 16px}}
+</style>
+</head>
+<body>
+<div class="topbar">🧰 我的工作台</div>
+<div class="grid">
+  <div class="card"><h3>✅ 待办</h3></div>
+  <div class="card"><h3>💡 速记</h3></div>
+  <div class="card"><h3>📊 概览</h3></div>
+</div>
+</body>
+</html>
