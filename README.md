@@ -4,6 +4,7 @@
 ![WorkBuddy Skill](https://img.shields.io/badge/WorkBuddy-Skill-brightgreen)
 ![Modules](https://img.shields.io/badge/Modules-14-blue)
 ![UI Templates](https://img.shields.io/badge/UI%20Templates-4-orange)
+![UI Styles](https://img.shields.io/badge/UI%20Styles-5-pink)
 
 基于 **WorkBuddy 资料库** 构建可插拔、单文件交付的个人 / 团队工作台 Skill。
 
@@ -19,6 +20,7 @@
 
 - **14 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news`
 - **4 套 UI 模板**：`sidebar`（侧边栏）/`cardGrid`（卡片网格）/`topnav`（顶部导航）/`masonry`（瀑布流），深 / 浅色主题
+- **5 套全局 UI 风格预设**：`default`（云灰蓝）/`macaron`（马卡龙）/`ink`（墨韵）/`ocean`（深海）/`sunset`（晚霞），切换全局生效，图表/模块同步跟随
 - **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层（localStorage 暂存），CSV 导入 / 导出做同步；最终交付是资料库「我的文档」里的在线 page + database 节点
 - **每日信息源自动更新**：对 `news` / `links` / 外部驱动的 `dashboard` 等动态模块，自动配置 `automation_update` 每日定时把最新数据写回资料库 CSV
 - **交付前自动化验收**：六维质量门（UI 交互逻辑 / 样式配色 / 布局完整度 / 数据结构 / 设计一致性 / 自动化任务符合预期），配套 Check List 与 Test Case
@@ -45,7 +47,7 @@ Skill 会按五步流程执行：
 
 1. **存量数据确认** —— 导入 CSV / Excel / 微信文档 / 飞书 / 腾讯文档等
 2. **需求板块确认** —— 从模块目录勾选要包含的模块
-3. **UI 规范确认** —— 选择模板与主题
+3. **UI 规范确认** —— 选择模板、风格与主题
 4. **生成并交付到资料库「我的文档」** —— 产出单文件内联 HTML + 各模块 CSV 落库（强制终态）
 5. **每日信息源自动更新** —— 按需自动配置定时任务
 
@@ -57,11 +59,16 @@ Skill 会按五步流程执行：
 workbench-builder/
 ├── SKILL.md                      # 主流程与约束（权威说明）
 ├── examples/
-│   ├── reference-workbench.html  # 权威交付种子（已内联 14 模块 + 4 模板）
-│   ├── official-cases.md         # 资料库官方案例 → 模块组合映射
-│   ├── usage-example.md          # 使用示例 + 分步截图说明
-│   ├── preview.png               # 静态界面预览
-│   └── demo.gif                  # 4 套模板 + 深色主题动态演示
+│   ├── reference-workbench.html     # 权威交付种子（已内联 14 模块 + 4 模板 + 5 风格）
+│   ├── style-gallery.html           # 5 套 UI 风格预设预览器
+│   ├── templates/                   # 完整模板示例（预设 + 布局组合）
+│   │   ├── macaron-masonry.html
+│   │   ├── ocean-sidebar.html
+│   │   └── ink-topnav.html
+│   ├── official-cases.md            # 资料库官方案例 → 模块组合映射
+│   ├── usage-example.md             # 使用示例 + 分步截图说明
+│   ├── preview.png                  # 静态界面预览
+│   └── demo.gif                     # 4 套模板 + 深色主题动态演示
 ├── assets/
 │   ├── deploy/
 │   │   ├── deploy_to_library.py  # 一键建库 + 灌数 + 上传 HTML

@@ -72,19 +72,26 @@ metadata:
 
 > 决策门：产出 `modules = [选中的模块类型列表]` 与「模块↔资料库 database_id 映射」。
 
-### 第 3 步 · UI 规范确认（模板选择）
+### 第 3 步 · UI 规范确认（模板 + 风格选择）
 
-目标：选一套 UI 模板，必要时让用户挑主题/配色。
+目标：选一套 UI 模板和一套全局风格预设，保证整个工作台视觉一致。
 
-1. 展示** UI 模板目录**（`references/ui-design-system.md`），提供 4 套可直接选用的布局：
+1. 展示 **UI 模板目录**（`references/ui-design-system.md`），提供 4 套可直接选用的布局：
    - `sidebar` 侧边栏导航 + 内容面板（控制台风，模块多时首选）
    - `cardGrid` 卡片网格马赛克（概览风，模块少/重可视首选）
    - `topnav` 顶部导航 + 标签页（简洁风）
    - `masonry` 瀑布流（展示/灵感墙风）
-2. 让用户选一套（无偏好则默认 `sidebar`）；可选深/浅色或跟随系统。
-3. 参考 `assets/ui/<模板>.html` 的布局与 CSS 变量设计 token（实际装配以 `examples/reference-workbench.html` 权威种子为准，见下方"装配参考"说明）。
+2. 展示 **UI 风格预设**（`examples/style-gallery.html` 可直接预览），5 套全局配色：
+   - `default` 云灰蓝（中性专业）
+   - `macaron` 马卡龙（粉彩柔润）
+   - `ink` 墨韵（极简黑白）
+   - `ocean` 深海（青蓝清爽）
+   - `sunset` 晚霞（暖橙活力）
+3. 若用户说"换个 UI 风格 / 换肤 / 换配色"等，**必须列出这 5 套预置风格让用户选择**，并说明切换会全局生效（所有布局、模块、图表同步换肤）。选择后把对应 `style` 键写进 `WORKBENCH_CONFIG.style`。
+4. 让用户选布局（无偏好默认 `sidebar`）；可选深/浅色或跟随系统；`default` 风格下可再微调 `accent` 主题色，预置风格则使用其自带强调色。
+5. 参考 `assets/ui/<模板>.html` 的布局与 CSS 变量设计 token（实际装配以 `examples/reference-workbench.html` 权威种子为准，见下方"装配参考"说明）。
 
-> 决策门：产出 `ui = 模板键`、`theme = light|dark|auto`、可选 `accent` 配色。
+> 决策门：产出 `ui = 模板键`、`theme = light|dark|auto`、`style = default|macaron|ink|ocean|sunset`、可选 `accent`（仅 default 风格生效）。
 
 ### 第 4 步 · 生成并交付到资料库「我的文档」（强制终态）
 
@@ -146,7 +153,7 @@ metadata:
 
 生成完成后、把交付物交给用户前，必须跑一轮**自动化验收**，产出一份「验收报告」随交付一并给出。验收不是人工过目，而是按 `references/test-cases.md` 的用例逐条执行 + 按 `references/checklist.md` 的 P0/P1/P2 门判定。该环节对应第 4 步第 ② 小节的 6 个维度，缺一不可：
 
-1. **UI 交互逻辑**：增/删/改/查、筛选、CSV 导入导出、主题切换、重置——逐项点一遍，无 JS 报错、状态正确回写 localStorage 与导出文件。
+1. **UI 交互逻辑**：增/删/改/查、筛选、CSV 导入导出、主题切换、**风格预设切换**、重置——逐项点一遍，无 JS 报错、状态正确回写 localStorage 与导出文件。
 2. **样式配色**：设计 token（CSS 变量）为全局唯一来源；深浅色对比度达标；无硬编码颜色漂移。
 3. **布局完整度与合理性**：4 套模板在 ≥1280px 与 ≤480px 两种视口下均不破版、无重叠/溢出、信息层级清晰。
 4. **数据结构完整性**：每个模块导出的 CSV 列名与 `schema` 完全一致；seed 能成功 `import_csv`/落库；空数据与超长字段不崩。
@@ -159,11 +166,13 @@ metadata:
 
 `examples/reference-workbench.html` 是**已完整可运行**的种子。它内置：
 
-- `WORKBENCH_CONFIG`：改这一个对象即可切换模块与 UI 模板（直接满足"模板选择"）。
+- `WORKBENCH_CONFIG`：改这一个对象即可切换模块、UI 模板与全局风格（直接满足"模板/风格选择"）。字段包括 `ui`、`theme`、`style`、`accent`、`modules`。
 - `MODULE_REGISTRY`：**14 个模块全部开箱即用**（todo / mem / dashboard / notes / links / kanban / calendar / ledger / habits / reading / contacts / inventory / journal / news），每个含 `schema`（CSV 列）、`seed`、`render`；CSV 导入/导出由全局共享的 `toCSV(rows, schema)` 按各模块 `schema` 列名统一处理（CSV 列 === schema 字段 === 资料库落库字段），故各模块无需各自实现。
-- `UI_LAYOUTS`：4 套布局（sidebar / cardGrid / topnav / masonry），CSS 变量驱动深/浅色。
-- 工具栏：导出全部 CSV（打包下载）、导入 CSV、主题切换、重置。
+- `UI_LAYOUTS`：4 套布局（sidebar / cardGrid / topnav / masonry），CSS 变量驱动深/浅色与全局风格。
+- **UI 风格预设系统**：种子内置 5 套风格（`default / macaron / ink / ocean / sunset`），共享同一组 CSS 设计 token；右上角工具栏有「🎨 风格」按钮，点击弹出预设列表供用户选择，切换全局生效并持久化到 `localStorage['wb:style']`。
+- 工具栏：导出全部 CSV（打包下载）、导入 CSV、主题切换、风格切换、重置。
 - 持久化：localStorage 运行时暂存；CSV 导入/导出与资料库 CSV 对齐。
+- 更多模板示例见 `examples/templates/`（3 套完整预设+布局组合）和 `examples/style-gallery.html`（预设预览器）。
 
 > **权威种子 vs 视觉骨架（重要）**：`examples/reference-workbench.html` 是**唯一的权威交付种子**——它已实现全部 14 个模块与 4 套 UI 主题，可直接改成任意工作台交付。**`assets/ui/<模板>.html` 仅是「布局/视觉骨架参考」，不是交付种子**（模块不全、仅展示布局），生成时一律以 `reference-workbench.html` 为准，切勿拿 `assets/ui/*.html` 当成品交付。
 

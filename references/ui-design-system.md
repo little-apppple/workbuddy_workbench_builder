@@ -33,8 +33,30 @@
 ```
 
 - 主题：`light` / `dark` / `auto`（跟随 `prefers-color-scheme`）。
-- 配色：可换 `--accent`（蓝/绿/橙/紫），由 `WORKBENCH_CONFIG.accent` 控制。
+- 配色：可换 `--accent`（蓝/绿/橙/紫），由 `WORKBENCH_CONFIG.accent` 控制；**预置风格下由风格自身覆盖**。
 - 响应式：所有布局在窄屏（<720px）自动堆叠为单列。
+
+---
+
+## UI 风格预设（全局换肤）
+
+5 套预置风格全部基于同一组设计 token 派生，切换时只需改 `html` 的 `data-style` 属性，所有组件、布局、图表自动跟随，**不存在某个模块掉队**。
+
+| 风格键 | 名称 | 气质 | 建议场景 |
+|---|---|---|---|
+| `default` | 云灰蓝 | 中性、专业、克制 | 通用后台、默认推荐 |
+| `macaron` | 马卡龙 | 粉彩柔润、轻盈治愈 | 个人生活、灵感记录 |
+| `ink` | 墨韵 | 极简黑白、锋利高级 | 写作/阅读、文档向 |
+| `ocean` | 深海 | 青蓝静谧、清爽专注 | 效率/生产力、数据向 |
+| `sunset` | 晚霞 | 暖橙活力、亲和明快 | 展示/运营、轻松氛围 |
+
+实现方式：种子文件用 `[data-style="<键>"]` 覆盖同一组 token（`--bg/--surface/--surface-2/--text/--text-dim/--border/--accent/--accent-weak/--radius`），并配套 `[data-style="<键>"][data-theme="dark"]` 深色变体。运行时通过 `applyStyle(id)` 设置 `document.documentElement.setAttribute('data-style', id)` 并持久化到 `localStorage['wb:style']`；所有模块的 Canvas 图表通过 `getComputedStyle(document.documentElement).getPropertyValue('--accent')` 读取当前强调色，**没有硬编码颜色**。
+
+交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 5 套预置风格让用户选择**，并在右上角工具栏提供「🎨 风格」入口。
+
+参考：
+- 预设预览器：`examples/style-gallery.html`
+- 预设+布局组合模板：`examples/templates/macaron-masonry.html`、`examples/templates/ocean-sidebar.html`、`examples/templates/ink-topnav.html`
 
 ---
 

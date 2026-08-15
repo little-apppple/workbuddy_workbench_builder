@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light" data-style="default">
+<html lang="zh-CN" data-theme="light" data-style="macaron">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>工作台</title>
+<title>灵感工作台 · 马卡龙</title>
 <!--
   ╔══════════════════════════════════════════════════════════════╗
   ║  Workbench Builder · 单文件工作台种子                          ║
@@ -134,12 +134,12 @@ transition:.25s;z-index:30;pointer-events:none;font-size:13px}
 <script>
 /* ============ 配置（改这里即可选模块 / UI 模板） ============ */
 const WORKBENCH_CONFIG = {
-  title: "我的工作台",
-  ui: "sidebar",            // sidebar | cardGrid | topnav | masonry
+  title: "灵感工作台",
+  ui: "masonry",           // sidebar | cardGrid | topnav | masonry
   theme: "auto",            // light | dark | auto
-  style: "default",         // default | macaron | ink | ocean | sunset
-  accent: "#3b6cff",
-  modules: ["todo","mem","dashboard","notes","links"]
+  style: "macaron",         // default | macaron | ink | ocean | sunset
+  accent: "#b48ad4",
+  modules: ["mem","notes","links","journal","reading"]
 };
 const CFG = WORKBENCH_CONFIG;
 
