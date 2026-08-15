@@ -7,6 +7,12 @@
 
 执行方式：能用脚本/ grep 自检的尽量自动化；涉及渲染与交互的用浏览器/预览面板点一遍并截图留证。
 
+### 自动化断言注意事项（Playwright 等）
+
+- `SLOTS` 是模块内 `let` 声明、**不在 `window` 上**——`window.SLOTS['todo']` 返回 undefined，断言请用 DOM 查询（如 `document.querySelectorAll('[data-mod]')`、输入框 placeholder 等）。
+- sidebar/topnav 布局是 tab 式导航，**非活跃模块 `display:none`**——基于全文长度/bodyTextLen 的断言会偏低，应按面板逐个校验。
+- 在线 page URL 是文档编辑器 SPA（需登录态），不要浏览器直开；用 HTTP 200 + library API 查库代替。
+
 ---
 
 ## ① UI 交互逻辑（P0）
@@ -22,6 +28,7 @@
 | TC-UI-07 | 导入 CSV | 导入 TC-UI-06 导出的文件 | 数据完整回填，不丢不串列 | 与导出前 diff 一致 |
 | TC-UI-08 | 主题切换 | 切浅色/深色/跟随 | 配色即时变化且持久 | 刷新后仍生效 |
 | TC-UI-09 | 重置 | 点"重置"并确认 | 回到默认 seed，不残留 | 控制台无报错 |
+| TC-UI-10 | 风格切换 | 点工具栏「🎨 风格」按钮 → **弹窗（`.style-grid`）中点 `.style-card` 卡片** | 全局 token 切换生效（如 macaron→ocean 背景色变化）且持久 | 刷新后仍生效。⚠️ 是弹窗选卡片、**非循环切换**，勿按"点一下按钮切一档"写断言（会假 FAIL） |
 
 ## ② 样式配色（P1）
 

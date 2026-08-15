@@ -3,11 +3,12 @@
 """
 deploy_to_library.py — 把工作台一键落地到资料库「我的文档」。
 
-用法（client 模式）：
+用法（client 模式，token 二选一）：
+    printf '%s' "<token>" | python deploy_to_library.py --token-stdin
     WB_TOKEN=<token> python deploy_to_library.py
     WB_TOKEN=<token> python deploy_to_library.py --manifest custom.json --space-id <id>
 
-- token 从环境变量读取（由 connect_open_platform 取得），不写文件、不回显。
+- token 优先级：--token-stdin（读 stdin 首行/全文）> 环境变量 WB_TOKEN（由 connect_open_platform 取得），不写文件、不回显。
 - 省略 --space-id 时，建库与上传都默认落「我的文档」。
 - 依赖 library 技能脚本（database/create_database.py, batch_add_database_records.py,
   page/import_html.py）；脚本目录自动探测（CODEBUDDY_PLUGIN_ROOT 或插件缓存）。
@@ -53,11 +54,17 @@ def main():
     ap.add_argument("--html", default=None)
     ap.add_argument("--space-id", default="")
     ap.add_argument("--token-env", default="WB_TOKEN")
+    ap.add_argument("--token-stdin", action="store_true", help="从 stdin 读取 token（与 library 子脚本一致）")
     args, _ = ap.parse_known_args()
 
-    token = os.environ.get(args.token_env, "")
+    token = ""
+    if args.token_stdin and not sys.stdin.isatty():
+        lines = (sys.stdin.read() or "").strip().splitlines()
+        token = lines[0] if lines else ""
     if not token:
-        print(json.dumps({"error": f"缺少环境变量 {args.token_env}（请先从 connect_open_platform 取 token 注入）"}))
+        token = os.environ.get(args.token_env, "")
+    if not token:
+        print(json.dumps({"error": f"缺少 token（请用 --token-stdin 传入，或设置环境变量 {args.token_env}）"}))
         sys.exit(1)
 
     lib = find_library()

@@ -3,8 +3,8 @@ name: workbench-builder
 slug: workbuddy-workbench-builder
 displayName: Workbench Builder（工作台构建器）
 description: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台。把用户的待办/记忆/指标聚合为一个可离线 HTML 工作台，数据自动落到资料库 CSV 并托管为在线 page、自动双向同步。内置 15 模块、4 布局、5 风格预设；存储层已封装在种子，选模块即自动确定页面元素与数据库字段。当用户说"搭个工作台/做个个人面板/用资料库建仪表盘/给我一个本地可运行的看板/每天自动更新工作台数据"时使用。
-version: 1.2.3
-summary: 零依赖单文件工作台构建器；内置 15 模块/4 布局/5 风格；数据落资料库 CSV 并托管在线 page，自动双向同步；存储层已封装，改 WORKBENCH_CONFIG 即可装配，选模块即自动适配页面元素与数据结构。v1.2.3：全量 review 修复——manifest 补 resources 模块、全部文档对齐 15 模块与直连存储模型。
+version: 1.2.4
+summary: 零依赖单文件工作台构建器；内置 15 模块/4 布局/5 风格；数据落资料库 CSV 并托管在线 page，自动双向同步；存储层已封装，改 WORKBENCH_CONFIG 即可装配，选模块即自动适配页面元素与数据结构。v1.2.4：端到端模拟验收反馈——deploy 脚本统一 --token-stdin 传参、验收文档补风格弹窗/SLOTS DOM 断言/在线 page 验证方式。
 author: Remo
 level: personal
 license: MIT
@@ -43,7 +43,8 @@ metadata:
 - 运行模式：先 `python3 "${CODEBUDDY_SKILL_DIR}/runtime_context.py"` 判定 `mode`。
   - `sandbox`：auth-proxy 注入身份，直接跑。
   - `client`：每次网络命令前取 token——`ToolSearch connect_open_platform` → `DeferExecuteTool(skill_id="library")` 拿 token → `printf '%s' "<token>" | python3 <script> --token-stdin [args]`。token 不落地、不回显、不进产物。
-- 库脚本根用 library 的 `${CODEBUDDY_SKILL_DIR}`（**不要**用失效的 `${CODEBUDDY_PLUGIN_ROOT}/skills/library/`）；`deploy_to_library.py` 内置 `find_library()` 会自动定位，无需手填。
+- 库脚本根用 library 的 `${CODEBUDDY_SKILL_DIR}`（**不要**用失效的 `${CODEBUDDY_PLUGIN_ROOT}/skills/library/`）；`deploy_to_library.py` 内置 `find_library()` 会自动定位，无需手填。token 传给 deploy 脚本两种方式等价：`printf '%s' "<token>" | python deploy_to_library.py --token-stdin` 或 `WB_TOKEN=<token> python deploy_to_library.py`。
+- 在线 page URL 是资料库文档编辑器（SPA，需登录态，SDK 由编辑器注入），**不要用浏览器/Playwright 直开验收**；在线侧验证用 `curl -s -o /dev/null -w "%{http_code}" <url>` 确认 200 + 用 library API 查 database 记录代替。
 - 「我的文档」= 省略 `--space-id` / `space_id`。
 
 ## 自动化验收（交付前必过）
