@@ -4,6 +4,8 @@ description: 基于 WorkBuddy 资料库构建可插拔、单文件交付的个�
 version: 1.0.0
 author: Remo
 level: personal
+license: MIT
+agent_created: true
 metadata:
   spec_version: "V1.0"
   data_classification: L2
