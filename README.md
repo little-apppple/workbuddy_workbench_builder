@@ -2,9 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 ![WorkBuddy Skill](https://img.shields.io/badge/WorkBuddy-Skill-brightgreen)
-![Modules](https://img.shields.io/badge/Modules-15-blue)
+![Modules](https://img.shields.io/badge/Modules-19-blue)
 ![UI Templates](https://img.shields.io/badge/UI%20Templates-4-orange)
-![UI Styles](https://img.shields.io/badge/UI%20Styles-5-pink)
+![UI Styles](https://img.shields.io/badge/UI%20Styles-13-pink)
+![Presets](https://img.shields.io/badge/Role%20Presets-11-teal)
 ![Templates](https://img.shields.io/badge/Templates-8-purple)
 
 基于 **WorkBuddy 资料库** 构建可插拔、单文件交付的个人 / 团队工作台 Skill。
@@ -21,9 +22,9 @@
 
 ## 特性
 
-- **15 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news` / `resources`
+- **19 个开箱即用模块**（按需勾选）：基础 15 个——`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news` / `resources`；经营向 4 个（v1.4，借鉴「缮语·企业 Claw」）——`briefing`（今日简报）/ `insight`（外部洞察）/ `approvals`（审批中心）/ `cron`（定时任务，可联动 automation）
 - **4 套 UI 模板**：`sidebar`（侧边栏）/`cardGrid`（卡片网格）/`topnav`（顶部导航）/`masonry`（瀑布流），深 / 浅色主题
-- **13 套全局 UI 风格预设**：原生 6 套（`default` 云灰蓝/`wb` WorkBuddy 官方/`macaron` 马卡龙/`ink` 墨韵/`ocean` 深海/`sunset` 晚霞）+ 社区经典 6 套（`nord` 北欧/`catppuccin` 奶咖/`rosepine` 玫瑰松/`tokyonight` 东京夜/`everforest` 常青/`mono` 纯粹），切换全局生效，图表/模块同步跟随
+- **13 套全局 UI 风格预设**：原生 6 套（`default` 云灰蓝/`wb` WorkBuddy 官方/`macaron` 马卡龙/`ink` 墨韵/`ocean` 深海/`sunset` 晚霞）+ 社区经典 6 套（`nord` 北欧/`catppuccin` 奶咖/`rosepine` 玫瑰松/`tokyonight` 东京夜/`everforest` 常青/`mono` 纯粹）+ 商务 1 套（`claw` 企业蓝，dark 态为驾驶舱大屏风），切换全局生效，图表/模块同步跟随
 - **8 套模板示例**：5 套风格×布局内置组合 + 从 GitHub 优秀项目汲取灵感的导航启动页、玻璃仪表盘、质感起始页（均改写为同一 token 系统、零依赖）
 - **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层；最终交付是资料库「我的文档」里的在线 page + database 节点
 - **在线存储 + 自动双向同步**：数据以资料库 `CSV(database)` 节点在线保存（跨设备、非本地文件）；工作台运行时直连资料库 database 节点，本地编辑自动 diff 写回，资料库变更经轮询自动刷新前端——无需手动导入导出 CSV。本地 `file://` 预览无 SDK 时优雅降级到 localStorage（仅演示）
@@ -84,7 +85,7 @@ Skill 会按五步流程执行：
 workbench-builder/
 ├── SKILL.md                      # 主流程与约束（权威说明）
 ├── examples/
-│   ├── reference-workbench.html     # 权威交付种子（已内联 15 模块 + 4 模板 + 5 风格）
+│   ├── reference-workbench.html     # 权威交付种子（已内联 19 模块 + 4 模板 + 13 风格）
 │   ├── style-gallery.html           # 13 套 UI 风格预设预览器
 │   ├── templates/                   # 完整模板示例（预设/布局组合 + 外部灵感改写）
 │   │   ├── README.md                # 模板索引：清单 + 配色速览 + 风格切换 + 起点指引
@@ -124,7 +125,7 @@ workbench-builder/
 
 ## 接入其他服务（通过 API 文档）
 
-除了内置的 15 个模块，本 Skill 支持**你提供任意第三方服务的 API 文档（OpenAPI / Swagger / 接口说明），据此把该服务接入为工作台的一个新模块**。接入后数据定期拉取并落到资料库 CSV，由 HTML 工作台统一展示，体验与内置模块一致。
+除了内置的 19 个模块，本 Skill 支持**你提供任意第三方服务的 API 文档（OpenAPI / Swagger / 接口说明），据此把该服务接入为工作台的一个新模块**。接入后数据定期拉取并落到资料库 CSV，由 HTML 工作台统一展示，体验与内置模块一致。
 
 典型流程：
 
@@ -136,6 +137,10 @@ workbench-builder/
 > - 前端单文件**不包含**任何密钥 / 后端调用；所有外部请求由 WorkBuddy 侧中间层（自动化任务或连接器）代发，符合本 Skill「资料库是唯一持久化层」的设计。
 > - 生成「API → 调用 Skill」的适配能力，可复用同生态的 `openapi2skill` 思路（基于 API 文档自动生成后端调用 skill）。
 > - 目标服务若没有公开 API、但有网页 / 导出文件，也支持以「网页抓取 / 文件导入」方式接入（见「使用」第 1 步存量数据确认）。
+
+## 版本与上线记录
+
+各版本变更与发布记录见 [`CHANGELOG.md`](./CHANGELOG.md)（含 SkillHub 发布、GitHub 推送与实战交付页清单）。
 
 ## 许可证
 

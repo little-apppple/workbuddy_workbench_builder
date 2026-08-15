@@ -29,11 +29,11 @@ metadata:
 
 ## 装配流程（以种子为准）
 
-> 唯一权威种子：`examples/reference-workbench.html`（已内联 15 模块 + 4 布局 + 5 风格，开箱即用）。**不要从零重写**，按 `WORKBENCH_CONFIG` 改配置即可。
+> 唯一权威种子：`examples/reference-workbench.html`（已内联 19 模块 + 4 布局 + 13 风格，开箱即用）。**不要从零重写**，按 `WORKBENCH_CONFIG` 改配置即可。
 
 1. **需求澄清**：问清要哪些模块、UI 风格、有无存量数据（及来源：本地 CSV/Excel、微信/腾讯文档、飞书、Notion 导出等）。
-2. **选模块 / UI**：从 `MODULE_REGISTRY`（15 模块）与 4 套布局、5 套风格预设中选；改 `WORKBENCH_CONFIG` 即可。**模块自带 `schema`+`render`，选模块即自动确定页面元素与数据库字段，无需手动适配结构。**
-3. **改种子**：复制种子，按第 2 步修改顶部 `WORKBENCH_CONFIG`（`title/ui/theme/style/modules`，可选 `accent`、`databases`）；角色场景直接套用 `references/presets.md` 的 10 个配方（布局×风格×模块已按角色差异化校准，避免千篇一律）；存量数据作各模块 `seed` 或保持默认示例。
+2. **选模块 / UI**：从 `MODULE_REGISTRY`（19 模块）与 4 套布局、13 套风格预设中选；改 `WORKBENCH_CONFIG` 即可。**模块自带 `schema`+`render`，选模块即自动确定页面元素与数据库字段，无需手动适配结构。**
+3. **改种子**：复制种子，按第 2 步修改顶部 `WORKBENCH_CONFIG`（`title/ui/theme/style/modules`，可选 `accent`、`databases`）；角色场景直接套用 `references/presets.md` 的 11 个配方（布局×风格×模块已按角色差异化校准，避免千篇一律）；存量数据作各模块 `seed` 或保持默认示例。
 4. **落库交付**：优先跑 `assets/deploy/deploy_to_library.py`（读 `manifest.json` 的 schema/seed，自动 `find_library()` 建库 + 灌数 + 上传 HTML 到「我的文档」）。token 按下方「鉴权」注入 `WB_TOKEN`。
 5. **（可选）自动更新**：含新闻/行情等动态模块时，用 `automation_update` 配置每日追加更新（尽力而为，创建后立即手动验证一次）。
 6. **（可选）跨平台备份**：用 `automation_update` 定时导出 CSV 到飞书/ima/github（单向，需用户确认目标节点）。
@@ -55,8 +55,8 @@ metadata:
 ## 装配参考（种子已内置）
 
 - `WORKBENCH_CONFIG`：改这一个对象即可切换模块、UI、风格（含 `databases` 槽，由 deploy 脚本自动回填 `database_id`）。
-- `MODULE_REGISTRY`：15 模块全部开箱即用，每模块含 `schema`/`seed`/`render`；CSV 读写复用全局 `toCSV(rows, schema)`（CSV 列 === schema === 落库字段）。
-- `UI_LAYOUTS`：4 套布局；5 套风格预设（`default/macaron/ink/ocean/sunset`）共享同一组 CSS token，全局切换生效。
+- `MODULE_REGISTRY`：19 模块全部开箱即用，每模块含 `schema`/`seed`/`render`；CSV 读写复用全局 `toCSV(rows, schema)`（CSV 列 === schema === 落库字段）。
+- `UI_LAYOUTS`：4 套布局；13 套风格预设共享同一组 CSS token，全局切换生效。
 - **持久化已封装**：配置 `database_id` 后运行时直连资料库节点、自动双向同步；未配置（file:// 预览）自动降级到 localStorage 以保证可演示。**AI 无需理解其实现，只需用种子。**
 - 更多模板见 `examples/templates/`（8 套完整模板）+ `examples/style-gallery.html`（预设预览器）。
 - **权威种子 vs 视觉骨架**：`reference-workbench.html` 是唯一权威交付种子；`assets/ui/*.html` 仅为布局视觉骨架参考、非成品，切勿当种子交付。
