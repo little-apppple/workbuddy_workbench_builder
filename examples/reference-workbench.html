@@ -9,7 +9,7 @@
   ║  Workbench Builder · 单文件工作台种子                          ║
   ║  用法：修改下方 WORKBENCH_CONFIG 即可切换模块与 UI 模板。        ║
   ║  - modules: 从 [todo,mem,dashboard,notes,links,kanban,calendar, ║
-  ║            ledger,habits,reading,contacts,inventory,journal,news] 中挑选 ║
+  ║            ledger,habits,reading,contacts,inventory,journal,news,resources] 中挑选 ║
   ║  - ui:       sidebar | cardGrid | topnav | masonry             ║
   ║  - theme:    light | dark | auto                               ║
   ║  - style:    default | macaron | ink | ocean | sunset         ║
@@ -39,7 +39,7 @@
 [data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
 [data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
 *{box-sizing:border-box}
-body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+body{margin:0;padding-bottom:100px;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
 background:var(--bg);color:var(--text);transition:background .2s,color .2s}
 *{box-sizing:border-box}
 input,select,textarea,button{font:inherit;color:inherit}
@@ -80,7 +80,7 @@ border-right:1px solid var(--border);padding:18px 12px;display:flex;flex-directi
 .layout-sidebar .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;
 border-radius:10px;cursor:pointer;color:var(--text-dim)}
 .layout-sidebar .nav-item.active{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.layout-sidebar .main{flex:1 1 auto;min-width:0;max-width:1100px;padding:24px;overflow:auto}
+.layout-sidebar .main{flex:1 1 auto;min-width:0;max-width:1100px;padding:24px 24px 100px;overflow:auto}
 .layout-sidebar .panel{display:none}.layout-sidebar .panel.active{display:block}
 /* 布局：cardGrid / masonry 共用 topbar */
 .topbar{padding:18px 24px;font-weight:700;font-size:18px;background:var(--surface);
@@ -94,7 +94,7 @@ border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
 .layout-topnav .brand{font-weight:700;margin-right:14px}
 .layout-topnav .tab{padding:8px 14px;border-radius:10px;cursor:pointer;color:var(--text-dim)}
 .layout-topnav .tab.active{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.layout-topnav .main{padding:24px;max-width:1100px;margin:0 auto}
+.layout-topnav .main{padding:24px 24px 100px;max-width:1100px;margin:0 auto}
 .layout-topnav .panel{display:none}.layout-topnav .panel.active{display:block}
 /* 布局：masonry */
 .masonry{column-count:3;column-gap:var(--gap);max-width:1180px;margin:16px auto 24px;padding:0 24px}
@@ -104,7 +104,7 @@ border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
 .layout-sidebar .main{padding:16px}.grid{grid-template-columns:1fr;padding:0 16px 16px}.masonry{column-count:1;padding:0 16px 16px}
 .layout-topnav .main{padding:16px}.topbar{padding:14px 16px}}
 /* 工具栏 */
-.toolbar{position:fixed;right:16px;top:14px;display:flex;gap:6px;z-index:20;
+.toolbar{position:fixed;right:16px;bottom:16px;top:auto;display:flex;gap:6px;z-index:20;flex-wrap:wrap;max-width:min(92vw,520px);justify-content:flex-end;
 background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:6px;box-shadow:var(--shadow)}
 .toolbar button{background:var(--surface-2);padding:6px 10px;font-size:13px}
 .toolbar button:hover{background:var(--accent-weak);color:var(--accent)}
@@ -139,7 +139,7 @@ const WORKBENCH_CONFIG = {
   theme: "auto",            // light | dark | auto
   style: "default",         // default | macaron | ink | ocean | sunset
   accent: "#3b6cff",
-  modules: ["todo","mem","dashboard","notes","links"]
+  modules: ["todo","mem","dashboard","notes","links","resources"]
 };
 const CFG = WORKBENCH_CONFIG;
 
@@ -458,15 +458,58 @@ register({
   }
 });
 
+register({
+  type:'resources', title:'资源中心', icon:'🌐',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'url',type:'url'},{name:'category',type:'text'},{name:'desc',type:'text'},{name:'free',type:'text'},{name:'created',type:'date'}],
+  seed:[
+    {id:uid(),name:'Open-Meteo',url:'https://open-meteo.com',category:'开放API',desc:'天气预报与历史数据，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'Frankfurter',url:'https://frankfurter.dev',category:'开放API',desc:'欧洲央行汇率，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'REST Countries',url:'https://restcountries.com',category:'开放API',desc:'国家信息（国旗/货币/语言），免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'Nager.Date',url:'https://date.nager.at',category:'开放API',desc:'全球公共节假日，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'Open Library',url:'https://openlibrary.org',category:'开放API',desc:'2000 万+ 图书元数据，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'Wikipedia API',url:'https://www.mediawiki.org/wiki/API:Main_page',category:'开放API',desc:'维基百科内容接口，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'Hacker News API',url:'https://github.com/HackerNews/API',category:'开放API',desc:'科技资讯实时接口，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'CoinGecko',url:'https://www.coingecko.com/en/api',category:'开放API',desc:'加密货币行情，免密钥（限流）',free:'免密钥',created:today()},
+    {id:uid(),name:'NASA Open APIs',url:'https://api.nasa.gov',category:'开放API',desc:'APOD/火星照片等，需免费 Key',free:'免费Key',created:today()},
+    {id:uid(),name:'World Bank Open Data',url:'https://data.worldbank.org',category:'开放数据',desc:'全球发展指标，5000+ 免费下载',free:'免费',created:today()},
+    {id:uid(),name:'Data.gov',url:'https://www.data.gov',category:'开放数据',desc:'美国政府开放数据门户 20 万+ 数据集',free:'免费',created:today()},
+    {id:uid(),name:'Our World in Data',url:'https://ourworldindata.org',category:'开放数据',desc:'全球趋势数据，图表可下载 CSV',free:'免费',created:today()},
+    {id:uid(),name:'Kaggle Datasets',url:'https://www.kaggle.com/datasets',category:'开放数据',desc:'8 万+ 社区数据集',free:'免费',created:today()},
+    {id:uid(),name:'Zenodo',url:'https://zenodo.org',category:'开放数据',desc:'CERN 多学科 archive，带 DOI',free:'免费',created:today()},
+    {id:uid(),name:'Google Dataset Search',url:'https://datasetsearch.research.google.com',category:'开放数据',desc:'元搜索引擎，索引 2500 万+ 数据集',free:'免费',created:today()},
+    {id:uid(),name:'GBIF',url:'https://www.gbif.org',category:'开放数据',desc:'全球生物多样性数据',free:'免费',created:today()},
+    {id:uid(),name:'Project Gutenberg',url:'https://www.gutenberg.org',category:'公共知识',desc:'7 万+ 公版电子书',free:'公版',created:today()},
+    {id:uid(),name:'arXiv',url:'https://arxiv.org',category:'公共知识',desc:'预印本论文库（物理/AI/等）',free:'免费',created:today()},
+    {id:uid(),name:'OpenAlex',url:'https://openalex.org',category:'公共知识',desc:'2.5 亿+ 学术文献，免密钥',free:'免密钥',created:today()},
+    {id:uid(),name:'MDN Web Docs',url:'https://developer.mozilla.org',category:'效率参考',desc:'Web 技术权威文档',free:'免费',created:today()},
+    {id:uid(),name:'DevDocs',url:'https://devdocs.io',category:'效率参考',desc:'多语言 API 文档聚合',free:'免费',created:today()},
+    {id:uid(),name:'Unsplash',url:'https://unsplash.com',category:'免费素材',desc:'高质量免费图库（CC）',free:'免费',created:today()},
+    {id:uid(),name:'Wikimedia Commons',url:'https://commons.wikimedia.org',category:'免费素材',desc:'公共领域 / CC 媒体库',free:'公版/CC',created:today()},
+    {id:uid(),name:'Openverse',url:'https://openverse.org',category:'免费素材',desc:'CC 授权图片 / 音频搜索',free:'CC',created:today()}
+  ],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='名称'; const url=el('input'); url.placeholder='https://…'; const cat=el('input'); cat.placeholder='分类'; const fr=el('input'); fr.placeholder='免费方式'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,url,cat,fr,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const item=el('div','item');
+      const a=el('a','t'); a.href=it.url||'#'; a.target='_blank'; a.rel='noopener'; a.textContent=it.name||it.url||'(资源)'; a.style.flex='0 1 auto';
+      const meta=el('span','meta'); meta.style.flex='1'; meta.style.whiteSpace='normal'; meta.textContent=[it.category||'', it.free||'', it.desc||''].filter(Boolean).join(' · ');
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(idx,1);update(data);}};
+      item.append(a,meta,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!url.value.trim())return; data.unshift({id:uid(),name:ti.value.trim(),url:url.value.trim(),category:cat.value.trim(),desc:'',free:fr.value.trim(),created:today()}); ti.value='';url.value='';cat.value='';fr.value=''; update(data); };
+    draw();
+  }
+});
+
 /* ============ 持久化 ============ */
 const store = {
   get(t){ try{ const v=JSON.parse(localStorage.getItem('wb:'+t)); return Array.isArray(v)?v:REG[t].seed.slice(); }catch(e){ return REG[t].seed.slice(); } },
   set(t,arr){ localStorage.setItem('wb:'+t, JSON.stringify(arr)); }
 };
-function refresh(t){ const slot=document.querySelector('[data-mod="'+t+'"]'); if(slot&&REG[t]) REG[t].render(slot, store.get(t), (a)=>update(t,a)); }
+function refresh(t){ const slot=SLOTS[t]; if(slot&&REG[t]) REG[t].render(slot, store.get(t), (a)=>update(t,a)); }
 function update(t,arr){ store.set(t,arr); refresh(t); if(t!=='dashboard'&&REG.dashboard) refresh('dashboard'); }
 
 /* ============ UI 布局（可插拔模板） ============ */
+let SLOTS = {};   // 当前布局中各模块 slot 的引用，供 refresh 精准定位（避免 querySelector 命中 nav-item / 找不到 cardGrid/masonry 的 mod-body）
 function buildLayout(kind, mods){
   const app=document.getElementById('app'); app.innerHTML='';
   document.body.className='layout-'+kind;
@@ -507,8 +550,8 @@ function buildLayout(kind, mods){
 function renderAll(){
   const mods=CFG.modules.filter(t=>REG[t]).map(t=>({type:t,title:REG[t].title,icon:REG[t].icon}));
   if(!mods.length){ document.getElementById('app').textContent='未选择任何模块'; return; }
-  const slots=buildLayout(CFG.ui, mods);
-  mods.forEach(m=> REG[m.type].render(slots[m.type], store.get(m.type), (a)=>update(m.type,a)) );
+  SLOTS = buildLayout(CFG.ui, mods);
+  mods.forEach(m=> REG[m.type].render(SLOTS[m.type], store.get(m.type), (a)=>update(m.type,a)) );
 }
 
 /* ============ CSV 工具 ============ */
