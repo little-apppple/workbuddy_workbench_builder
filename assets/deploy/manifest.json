@@ -5,66 +5,279 @@
       "name": "todo",
       "title": "工作台·待办",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "done", "config": {"checkbox": false}},
-        {"name": "due", "config": {"date": "2026-08-15"}},
-        {"name": "created", "config": {"date": "2026-08-15"}},
-        {"name": "priority", "config": {"select": {"options": [{"text": "低"}, {"text": "中"}, {"text": "高"}]}}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "done",
+          "config": {
+            "checkbox": false
+          }
+        },
+        {
+          "name": "due",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "created",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "priority",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "低"
+                },
+                {
+                  "text": "中"
+                },
+                {
+                  "text": "高"
+                }
+              ]
+            }
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "title": {"text": "欢迎使用工作台，勾选可标记完成"}, "done": {"checkbox": false}, "due": {"date": "2026-08-20"}, "created": {"date": "2026-08-15"}, "priority": {"select": "中"}},
-        {"id": {"text": "id_seed_2"}, "title": {"text": "右上角「导出CSV」把数据落库到资料库"}, "done": {"checkbox": false}, "due": {"date": "2026-08-18"}, "created": {"date": "2026-08-15"}, "priority": {"select": "高"}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "title": {
+            "text": "欢迎使用工作台，勾选可标记完成"
+          },
+          "done": {
+            "checkbox": false
+          },
+          "due": {
+            "date": "2026-08-20"
+          },
+          "created": {
+            "date": "2026-08-15"
+          },
+          "priority": {
+            "select": "中"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_2"
+          },
+          "title": {
+            "text": "右上角「导出CSV」把数据落库到资料库"
+          },
+          "done": {
+            "checkbox": false
+          },
+          "due": {
+            "date": "2026-08-18"
+          },
+          "created": {
+            "date": "2026-08-15"
+          },
+          "priority": {
+            "select": "高"
+          }
+        }
       ]
     },
     {
       "name": "mem",
       "title": "工作台·速记",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "text", "config": {"text": ""}},
-        {"name": "tags", "config": {"text": ""}},
-        {"name": "created", "config": {"date": "2026-08-15"}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "text",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "tags",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "created",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_m1"}, "text": {"text": "这是个零依赖单文件工作台，双击即可离线打开"}, "tags": {"text": "tips"}, "created": {"date": "2026-08-15"}}
+        {
+          "id": {
+            "text": "id_seed_m1"
+          },
+          "text": {
+            "text": "这是个零依赖单文件工作台，双击即可离线打开"
+          },
+          "tags": {
+            "text": "tips"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        }
       ]
     },
     {
       "name": "notes",
       "title": "工作台·长笔记",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "body", "config": {"text": ""}},
-        {"name": "updated", "config": {"date": "2026-08-15"}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "body",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "updated",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_n1"}, "title": {"text": "示例笔记"}, "body": {"text": "在这里写正文，支持换行。"}, "updated": {"date": "2026-08-15"}}
+        {
+          "id": {
+            "text": "id_seed_n1"
+          },
+          "title": {
+            "text": "示例笔记"
+          },
+          "body": {
+            "text": "在这里写正文，支持换行。"
+          },
+          "updated": {
+            "date": "2026-08-15"
+          }
+        }
       ]
     },
     {
       "name": "links",
       "title": "工作台·收藏",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "url", "config": {"url": {"text": "", "link": ""}}},
-        {"name": "category", "config": {"text": ""}},
-        {"name": "created", "config": {"date": "2026-08-15"}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "url",
+          "config": {
+            "url": {
+              "text": "",
+              "link": ""
+            }
+          }
+        },
+        {
+          "name": "category",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "created",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_l1"}, "title": {"text": "WorkBuddy"}, "url": {"url": {"text": "WorkBuddy", "link": "https://www.workbuddy.cn"}}, "category": {"text": "工具"}, "created": {"date": "2026-08-15"}}
+        {
+          "id": {
+            "text": "id_seed_l1"
+          },
+          "title": {
+            "text": "WorkBuddy"
+          },
+          "url": {
+            "url": {
+              "text": "WorkBuddy",
+              "link": "https://www.workbuddy.cn"
+            }
+          },
+          "category": {
+            "text": "工具"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        }
       ]
     },
     {
       "name": "dashboard",
       "title": "工作台·概览指标",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "name", "config": {"text": ""}},
-        {"name": "value", "config": {"number": 0}},
-        {"name": "unit", "config": {"text": ""}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "value",
+          "config": {
+            "number": 0
+          }
+        },
+        {
+          "name": "unit",
+          "config": {
+            "text": ""
+          }
+        }
       ],
       "seed": []
     },
@@ -72,128 +285,1258 @@
       "name": "kanban",
       "title": "工作台·看板",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "column", "config": {"select": {"options": [{"text": "待办"}, {"text": "进行中"}, {"text": "完成"}]}}},
-        {"name": "order", "config": {"number": 0}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "column",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "待办"
+                },
+                {
+                  "text": "进行中"
+                },
+                {
+                  "text": "完成"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "order",
+          "config": {
+            "number": 0
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "title": {"text": "整理需求文档"}, "column": {"select": "待办"}, "order": {"number": 0}},
-        {"id": {"text": "id_seed_2"}, "title": {"text": "联调接口"}, "column": {"select": "进行中"}, "order": {"number": 1}},
-        {"id": {"text": "id_seed_3"}, "title": {"text": "发布 v1"}, "column": {"select": "完成"}, "order": {"number": 2}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "title": {
+            "text": "整理需求文档"
+          },
+          "column": {
+            "select": "待办"
+          },
+          "order": {
+            "number": 0
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_2"
+          },
+          "title": {
+            "text": "联调接口"
+          },
+          "column": {
+            "select": "进行中"
+          },
+          "order": {
+            "number": 1
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_3"
+          },
+          "title": {
+            "text": "发布 v1"
+          },
+          "column": {
+            "select": "完成"
+          },
+          "order": {
+            "number": 2
+          }
+        }
       ]
     },
     {
       "name": "calendar",
       "title": "工作台·日程",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "date", "config": {"date": "2026-08-15"}},
-        {"name": "note", "config": {"text": ""}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "note",
+          "config": {
+            "text": ""
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "title": {"text": "团队周会"}, "date": {"date": "2026-08-15"}, "note": {"text": "同步进度"}},
-        {"id": {"text": "id_seed_2"}, "title": {"text": "提交周报"}, "date": {"date": "2026-08-15"}, "note": {"text": ""}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "title": {
+            "text": "团队周会"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "note": {
+            "text": "同步进度"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_2"
+          },
+          "title": {
+            "text": "提交周报"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "note": {
+            "text": ""
+          }
+        }
       ]
     },
     {
       "name": "ledger",
       "title": "工作台·流水账",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "item", "config": {"text": ""}},
-        {"name": "amount", "config": {"number": 0}},
-        {"name": "type", "config": {"select": {"options": [{"text": "收入"}, {"text": "支出"}]}}},
-        {"name": "category", "config": {"text": ""}},
-        {"name": "date", "config": {"date": "2026-08-15"}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "item",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "amount",
+          "config": {
+            "number": 0
+          }
+        },
+        {
+          "name": "type",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "收入"
+                },
+                {
+                  "text": "支出"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "category",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "item": {"text": "工资"}, "amount": {"number": 12000}, "type": {"select": "收入"}, "category": {"text": "薪资"}, "date": {"date": "2026-08-15"}},
-        {"id": {"text": "id_seed_2"}, "item": {"text": "午餐"}, "amount": {"number": 35}, "type": {"select": "支出"}, "category": {"text": "餐饮"}, "date": {"date": "2026-08-15"}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "item": {
+            "text": "工资"
+          },
+          "amount": {
+            "number": 12000
+          },
+          "type": {
+            "select": "收入"
+          },
+          "category": {
+            "text": "薪资"
+          },
+          "date": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_2"
+          },
+          "item": {
+            "text": "午餐"
+          },
+          "amount": {
+            "number": 35
+          },
+          "type": {
+            "select": "支出"
+          },
+          "category": {
+            "text": "餐饮"
+          },
+          "date": {
+            "date": "2026-08-15"
+          }
+        }
       ]
     },
     {
       "name": "habits",
       "title": "工作台·习惯",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "name", "config": {"text": ""}},
-        {"name": "date", "config": {"date": "2026-08-15"}},
-        {"name": "done", "config": {"checkbox": false}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "done",
+          "config": {
+            "checkbox": false
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "name": {"text": "读书"}, "date": {"date": "2026-08-15"}, "done": {"checkbox": true}},
-        {"id": {"text": "id_seed_2"}, "name": {"text": "运动"}, "date": {"date": "2026-08-15"}, "done": {"checkbox": false}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "name": {
+            "text": "读书"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "done": {
+            "checkbox": true
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_2"
+          },
+          "name": {
+            "text": "运动"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "done": {
+            "checkbox": false
+          }
+        }
       ]
     },
     {
       "name": "reading",
       "title": "工作台·阅读",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "author", "config": {"text": ""}},
-        {"name": "status", "config": {"select": {"options": [{"text": "想读"}, {"text": "在读"}, {"text": "读完"}]}}},
-        {"name": "rating", "config": {"number": 0}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "author",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "status",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "想读"
+                },
+                {
+                  "text": "在读"
+                },
+                {
+                  "text": "读完"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "rating",
+          "config": {
+            "number": 0
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "title": {"text": "《深度工作》"}, "author": {"text": "Cal Newport"}, "status": {"select": "在读"}, "rating": {"number": 4}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "title": {
+            "text": "《深度工作》"
+          },
+          "author": {
+            "text": "Cal Newport"
+          },
+          "status": {
+            "select": "在读"
+          },
+          "rating": {
+            "number": 4
+          }
+        }
       ]
     },
     {
       "name": "contacts",
       "title": "工作台·联系人",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "name", "config": {"text": ""}},
-        {"name": "phone", "config": {"text": ""}},
-        {"name": "email", "config": {"text": ""}},
-        {"name": "note", "config": {"text": ""}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "phone",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "email",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "note",
+          "config": {
+            "text": ""
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "name": {"text": "张三"}, "phone": {"text": "13800000000"}, "email": {"text": "z@example.com"}, "note": {"text": "合作方"}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "name": {
+            "text": "张三"
+          },
+          "phone": {
+            "text": "13800000000"
+          },
+          "email": {
+            "text": "z@example.com"
+          },
+          "note": {
+            "text": "合作方"
+          }
+        }
       ]
     },
     {
       "name": "inventory",
       "title": "工作台·物品",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "name", "config": {"text": ""}},
-        {"name": "qty", "config": {"number": 0}},
-        {"name": "location", "config": {"text": ""}},
-        {"name": "note", "config": {"text": ""}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "qty",
+          "config": {
+            "number": 0
+          }
+        },
+        {
+          "name": "location",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "note",
+          "config": {
+            "text": ""
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "name": {"text": "显示器"}, "qty": {"number": 2}, "location": {"text": "书房"}, "note": {"text": "27寸"}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "name": {
+            "text": "显示器"
+          },
+          "qty": {
+            "number": 2
+          },
+          "location": {
+            "text": "书房"
+          },
+          "note": {
+            "text": "27寸"
+          }
+        }
       ]
     },
     {
       "name": "journal",
       "title": "工作台·日记",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "date", "config": {"date": "2026-08-15"}},
-        {"name": "mood", "config": {"select": {"options": [{"text": "😀"}, {"text": "😐"}, {"text": "😞"}]}}},
-        {"name": "body", "config": {"text": ""}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "mood",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "😀"
+                },
+                {
+                  "text": "😐"
+                },
+                {
+                  "text": "😞"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "body",
+          "config": {
+            "text": ""
+          }
+        }
       ],
       "seed": [
-        {"id": {"text": "id_seed_1"}, "date": {"date": "2026-08-15"}, "mood": {"select": "😐"}, "body": {"text": "今天开始用工作台。"}}
+        {
+          "id": {
+            "text": "id_seed_1"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "mood": {
+            "select": "😐"
+          },
+          "body": {
+            "text": "今天开始用工作台。"
+          }
+        }
       ]
     },
     {
       "name": "news",
       "title": "工作台·资讯",
       "properties": [
-        {"name": "id", "config": {"text": ""}},
-        {"name": "title", "config": {"text": ""}},
-        {"name": "summary", "config": {"text": ""}},
-        {"name": "source", "config": {"text": ""}},
-        {"name": "url", "config": {"url": {"text": "", "link": ""}}},
-        {"name": "date", "config": {"date": "2026-08-15"}}
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "summary",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "source",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "url",
+          "config": {
+            "url": {
+              "text": "",
+              "link": ""
+            }
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
       ],
       "seed": []
+    },
+    {
+      "name": "resources",
+      "title": "工作台·资源中心",
+      "properties": [
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "url",
+          "config": {
+            "url": {
+              "text": "",
+              "link": ""
+            }
+          }
+        },
+        {
+          "name": "category",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "desc",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "free",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "created",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
+      ],
+      "seed": [
+        {
+          "id": {
+            "text": "id_seed_r1"
+          },
+          "name": {
+            "text": "Open-Meteo"
+          },
+          "url": {
+            "url": {
+              "text": "Open-Meteo",
+              "link": "https://open-meteo.com"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "天气预报与历史数据，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r2"
+          },
+          "name": {
+            "text": "Frankfurter"
+          },
+          "url": {
+            "url": {
+              "text": "Frankfurter",
+              "link": "https://frankfurter.dev"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "欧洲央行汇率，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r3"
+          },
+          "name": {
+            "text": "REST Countries"
+          },
+          "url": {
+            "url": {
+              "text": "REST Countries",
+              "link": "https://restcountries.com"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "国家信息（国旗/货币/语言），免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r4"
+          },
+          "name": {
+            "text": "Nager.Date"
+          },
+          "url": {
+            "url": {
+              "text": "Nager.Date",
+              "link": "https://date.nager.at"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "全球公共节假日，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r5"
+          },
+          "name": {
+            "text": "Open Library"
+          },
+          "url": {
+            "url": {
+              "text": "Open Library",
+              "link": "https://openlibrary.org"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "2000 万+ 图书元数据，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r6"
+          },
+          "name": {
+            "text": "Wikipedia API"
+          },
+          "url": {
+            "url": {
+              "text": "Wikipedia API",
+              "link": "https://www.mediawiki.org/wiki/API:Main_page"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "维基百科内容接口，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r7"
+          },
+          "name": {
+            "text": "Hacker News API"
+          },
+          "url": {
+            "url": {
+              "text": "Hacker News API",
+              "link": "https://github.com/HackerNews/API"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "科技资讯实时接口，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r8"
+          },
+          "name": {
+            "text": "CoinGecko"
+          },
+          "url": {
+            "url": {
+              "text": "CoinGecko",
+              "link": "https://www.coingecko.com/en/api"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "加密货币行情，免密钥（限流）"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r9"
+          },
+          "name": {
+            "text": "NASA Open APIs"
+          },
+          "url": {
+            "url": {
+              "text": "NASA Open APIs",
+              "link": "https://api.nasa.gov"
+            }
+          },
+          "category": {
+            "text": "开放API"
+          },
+          "desc": {
+            "text": "APOD/火星照片等，需免费 Key"
+          },
+          "free": {
+            "text": "免费Key"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r10"
+          },
+          "name": {
+            "text": "World Bank Open Data"
+          },
+          "url": {
+            "url": {
+              "text": "World Bank Open Data",
+              "link": "https://data.worldbank.org"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "全球发展指标，5000+ 免费下载"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r11"
+          },
+          "name": {
+            "text": "Data.gov"
+          },
+          "url": {
+            "url": {
+              "text": "Data.gov",
+              "link": "https://www.data.gov"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "美国政府开放数据门户 20 万+ 数据集"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r12"
+          },
+          "name": {
+            "text": "Our World in Data"
+          },
+          "url": {
+            "url": {
+              "text": "Our World in Data",
+              "link": "https://ourworldindata.org"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "全球趋势数据，图表可下载 CSV"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r13"
+          },
+          "name": {
+            "text": "Kaggle Datasets"
+          },
+          "url": {
+            "url": {
+              "text": "Kaggle Datasets",
+              "link": "https://www.kaggle.com/datasets"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "8 万+ 社区数据集"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r14"
+          },
+          "name": {
+            "text": "Zenodo"
+          },
+          "url": {
+            "url": {
+              "text": "Zenodo",
+              "link": "https://zenodo.org"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "CERN 多学科 archive，带 DOI"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r15"
+          },
+          "name": {
+            "text": "Google Dataset Search"
+          },
+          "url": {
+            "url": {
+              "text": "Google Dataset Search",
+              "link": "https://datasetsearch.research.google.com"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "元搜索引擎，索引 2500 万+ 数据集"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r16"
+          },
+          "name": {
+            "text": "GBIF"
+          },
+          "url": {
+            "url": {
+              "text": "GBIF",
+              "link": "https://www.gbif.org"
+            }
+          },
+          "category": {
+            "text": "开放数据"
+          },
+          "desc": {
+            "text": "全球生物多样性数据"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r17"
+          },
+          "name": {
+            "text": "Project Gutenberg"
+          },
+          "url": {
+            "url": {
+              "text": "Project Gutenberg",
+              "link": "https://www.gutenberg.org"
+            }
+          },
+          "category": {
+            "text": "公共知识"
+          },
+          "desc": {
+            "text": "7 万+ 公版电子书"
+          },
+          "free": {
+            "text": "公版"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r18"
+          },
+          "name": {
+            "text": "arXiv"
+          },
+          "url": {
+            "url": {
+              "text": "arXiv",
+              "link": "https://arxiv.org"
+            }
+          },
+          "category": {
+            "text": "公共知识"
+          },
+          "desc": {
+            "text": "预印本论文库（物理/AI/等）"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r19"
+          },
+          "name": {
+            "text": "OpenAlex"
+          },
+          "url": {
+            "url": {
+              "text": "OpenAlex",
+              "link": "https://openalex.org"
+            }
+          },
+          "category": {
+            "text": "公共知识"
+          },
+          "desc": {
+            "text": "2.5 亿+ 学术文献，免密钥"
+          },
+          "free": {
+            "text": "免密钥"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r20"
+          },
+          "name": {
+            "text": "MDN Web Docs"
+          },
+          "url": {
+            "url": {
+              "text": "MDN Web Docs",
+              "link": "https://developer.mozilla.org"
+            }
+          },
+          "category": {
+            "text": "效率参考"
+          },
+          "desc": {
+            "text": "Web 技术权威文档"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r21"
+          },
+          "name": {
+            "text": "DevDocs"
+          },
+          "url": {
+            "url": {
+              "text": "DevDocs",
+              "link": "https://devdocs.io"
+            }
+          },
+          "category": {
+            "text": "效率参考"
+          },
+          "desc": {
+            "text": "多语言 API 文档聚合"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r22"
+          },
+          "name": {
+            "text": "Unsplash"
+          },
+          "url": {
+            "url": {
+              "text": "Unsplash",
+              "link": "https://unsplash.com"
+            }
+          },
+          "category": {
+            "text": "免费素材"
+          },
+          "desc": {
+            "text": "高质量免费图库（CC）"
+          },
+          "free": {
+            "text": "免费"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r23"
+          },
+          "name": {
+            "text": "Wikimedia Commons"
+          },
+          "url": {
+            "url": {
+              "text": "Wikimedia Commons",
+              "link": "https://commons.wikimedia.org"
+            }
+          },
+          "category": {
+            "text": "免费素材"
+          },
+          "desc": {
+            "text": "公共领域 / CC 媒体库"
+          },
+          "free": {
+            "text": "公版/CC"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "id_seed_r24"
+          },
+          "name": {
+            "text": "Openverse"
+          },
+          "url": {
+            "url": {
+              "text": "Openverse",
+              "link": "https://openverse.org"
+            }
+          },
+          "category": {
+            "text": "免费素材"
+          },
+          "desc": {
+            "text": "CC 授权图片 / 音频搜索"
+          },
+          "free": {
+            "text": "CC"
+          },
+          "created": {
+            "date": "2026-08-15"
+          }
+        }
+      ]
     }
   ]
 }

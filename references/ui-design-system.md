@@ -52,7 +52,7 @@
 
 实现方式：种子文件用 `[data-style="<键>"]` 覆盖同一组 token（`--bg/--surface/--surface-2/--text/--text-dim/--border/--accent/--accent-weak/--radius`），并配套 `[data-style="<键>"][data-theme="dark"]` 深色变体。运行时通过 `applyStyle(id)` 设置 `document.documentElement.setAttribute('data-style', id)` 并持久化到 `localStorage['wb:style']`；所有模块的 Canvas 图表通过 `getComputedStyle(document.documentElement).getPropertyValue('--accent')` 读取当前强调色，**没有硬编码颜色**。
 
-交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 5 套预置风格让用户选择**，并在右上角工具栏提供「🎨 风格」入口。
+交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 5 套预置风格让用户选择**，并在底部右下角工具栏提供「🎨 风格」入口。
 
 参考：
 - 预设预览器：`examples/style-gallery.html`

@@ -27,7 +27,7 @@
 「生活工作台」是官方用本 skill 同款能力搭出来的范例。你可以用本仓库自带的能力，快速生成属于自己（或团队）的工作台：
 
 1. 打开种子文件 `examples/reference-workbench.html`，按需要修改顶部的 `WORKBENCH_CONFIG`：
-   - `modules`：从 `references/module-catalog.md` 的 14 个模块中勾选
+   - `modules`：从 `references/module-catalog.md` 的 15 个模块中勾选
    - `ui`：切换 `sidebar` / `cardGrid` / `topnav` / `masonry` 四套模板
    - `theme`：选择 `light` / `dark` / `auto`
 2. 在浏览器里即可直接交互（新增 / 删除 / 编辑、导出 CSV、切换主题）。

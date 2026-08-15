@@ -20,8 +20,8 @@
 ## P1 · 功能完整
 
 - [ ] 模块按 `WORKBENCH_CONFIG.modules` 渲染，缺一个都不行。
-- [ ] 每个模块可**增 / 改 / 删**，改动即时写入 localStorage。
-- [ ] 工具栏含：**导出 CSV（全部/单模块）**、**导入 CSV**、**主题切换**、**重置**。
+- [ ] 每个模块可**增 / 改 / 删**，改动即时写入资料库 database（直连模式）；本地预览降级时写入 localStorage。
+- [ ] 工具栏含：**导出 CSV（全部/单模块）**、**导入 CSV**、**主题切换**、**风格切换**、**重置**。
 - [ ] CSV 导入导出**往返一致**（导出再导入数据不丢、不串列）。
 - [ ] UI 模板按 `WORKBENCH_CONFIG.ui` 正确切换（sidebar/cardGrid/topnav/masonry）。
 - [ ] 深/浅色与 `theme` 配置一致，且 `auto` 跟随系统。

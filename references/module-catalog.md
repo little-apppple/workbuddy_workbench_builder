@@ -93,6 +93,13 @@
 - **推荐场景**：每日 AI 资讯、行业新闻、指定主题抓取的"工作台自更新"源。
 - **注意**：该模块默认 seed 为空（等待自动化任务写入），UI 会提示"数据由每日自动化任务更新"。
 
+### 15. resources · 资源中心
+- **描述**：预置 24 个优质公共 API / 开放数据集 / 免费素材 / 效率参考站点，带名称、链接、分类、描述、免费方式；支持搜索与分类筛选。
+- **CSV schema**：`id(text), name(text), url(url), category(text), desc(text), free(text), created(date)`
+- **特性**：开箱即用的资源索引；支持增删改与分类筛选；可作为团队的"工具箱"或"数据源目录"。
+- **推荐场景**：开发者工作台、数据团队资源索引、公共 API 速查。
+- **预置 seed**：24 条（含 Open-Meteo / Frankfurter / REST Countries / NASA Open APIs / World Bank Open Data / Kaggle Datasets / arXiv / Project Gutenberg / Unsplash 等，覆盖开放 API、开放数据、公共知识、效率参考、免费素材 5 大类）。
+
 ---
 
 ## 默认推荐组合
@@ -104,6 +111,7 @@
 | 项目协作 | `todo, kanban, calendar, dashboard` |
 | 个人经营 | `todo, ledger, inventory, dashboard` |
 | 自律成长 | `todo, habits, reading, journal, dashboard` |
+| 开发者 / 数据团队 | `todo, mem, links, resources, dashboard` |
 
 ---
 

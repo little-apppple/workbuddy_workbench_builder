@@ -5,7 +5,7 @@
 5 套预置风格（`default` / `macaron` / `ink` / `ocean` / `sunset`）+ 浅/深色模式一键切换。
 
 > 打开方式：双击用浏览器打开即可（`file://` 离线可用，无 CDN、无外链）。
-> 数据：运行态暂存在浏览器 `localStorage`，可经「导出 CSV」落库到 WorkBuddy 资料库。
+> 数据：运行时直连资料库 database 节点自动双向同步；`file://` 预览时降级到 localStorage（仅演示）。
 
 ---
 
@@ -67,9 +67,9 @@
 
 1. 挑一个最贴近目标的模板，复制为你的工作台文件。
 2. 改 `<html data-style="..." data-theme="...">` 选默认风格。
-3. 按 `references/module-catalog.md` 的 14 个模块裁剪 `MODULE_REGISTRY`。
+3. 按 `references/module-catalog.md` 的 15 个模块裁剪 `MODULE_REGISTRY`。
 4. 接 `references/` 的验收 checklist + test-cases 跑一遍六维验收。
-5. 导出 CSV 落到 WorkBuddy 资料库做权威持久化。
+5. 跑 `assets/deploy/deploy_to_library.py` 一键建库灌数并上传 HTML 到资料库「我的文档」。
 
-> 完整权威种子（含全部 14 模块 + 图表 + 验收钩子）见上级目录
+> 完整权威种子（含全部 15 模块 + 图表 + 验收钩子）见上级目录
 > `examples/reference-workbench.html`，模板多为单一布局/场景的精简起点。

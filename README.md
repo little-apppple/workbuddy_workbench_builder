@@ -2,10 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 ![WorkBuddy Skill](https://img.shields.io/badge/WorkBuddy-Skill-brightgreen)
-![Modules](https://img.shields.io/badge/Modules-14-blue)
+![Modules](https://img.shields.io/badge/Modules-15-blue)
 ![UI Templates](https://img.shields.io/badge/UI%20Templates-4-orange)
 ![UI Styles](https://img.shields.io/badge/UI%20Styles-5-pink)
-![Templates](https://img.shields.io/badge/Templates-6%2B-purple)
+![Templates](https://img.shields.io/badge/Templates-8-purple)
 
 基于 **WorkBuddy 资料库** 构建可插拔、单文件交付的个人 / 团队工作台 Skill。
 
@@ -21,12 +21,12 @@
 
 ## 特性
 
-- **14 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news`
+- **15 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news` / `resources`
 - **4 套 UI 模板**：`sidebar`（侧边栏）/`cardGrid`（卡片网格）/`topnav`（顶部导航）/`masonry`（瀑布流），深 / 浅色主题
 - **5 套全局 UI 风格预设**：`default`（云灰蓝）/`macaron`（马卡龙）/`ink`（墨韵）/`ocean`（深海）/`sunset`（晚霞），切换全局生效，图表/模块同步跟随
 - **8 套模板示例**：5 套风格×布局内置组合 + 从 GitHub 优秀项目汲取灵感的导航启动页、玻璃仪表盘、质感起始页（均改写为同一 token 系统、零依赖）
-- **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层（localStorage 暂存），CSV 导入 / 导出做同步；最终交付是资料库「我的文档」里的在线 page + database 节点
-- **在线存储 + 双向同步**：数据以资料库 `CSV(database)` 节点在线保存（跨设备、非本地文件）；工作台与资料库之间可双向同步——本地编辑可「导出 CSV」回写资料库，资料库更新（手动 / 自动化 / API 接入）可「导入 CSV」拉回工作台，并支持自动化定时回写，形成闭环
+- **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层；最终交付是资料库「我的文档」里的在线 page + database 节点
+- **在线存储 + 自动双向同步**：数据以资料库 `CSV(database)` 节点在线保存（跨设备、非本地文件）；工作台运行时直连资料库 database 节点，本地编辑自动 diff 写回，资料库变更经轮询自动刷新前端——无需手动导入导出 CSV。本地 `file://` 预览无 SDK 时优雅降级到 localStorage（仅演示）
 - **每日信息源自动更新**：对 `news` / `links` / 外部驱动的 `dashboard` 等动态模块，自动配置 `automation_update` 每日定时把最新数据写回资料库 CSV（即修改存储、不改视图）
 - **交付前自动化验收**：六维质量门（UI 交互逻辑 / 样式配色 / 布局完整度 / 数据结构 / 设计一致性 / 自动化任务符合预期），配套 Check List 与 Test Case
 
@@ -66,15 +66,15 @@ Skill 会按五步流程执行：
 
 > 交付终态 = 资料库节点：单文件内联 HTML 作为在线 **page** 节点、各模块数据作为 **CSV(database)** 节点，二者默认都落「我的文档」。本地 HTML 仅作为生成中间产物。
 
-## 数据存储与双向同步
+## 数据存储与自动双向同步
 
-工作台的数据**不是在本地文件里**，而是**在线存储在 WorkBuddy 资料库**，并与工作台保持**双向同步**：
+工作台的数据**不是在本地文件里**，而是**在线存储在 WorkBuddy 资料库**，并与工作台保持**自动双向同步**：
 
 - **在线存储**：每个模块的数据都是一个资料库 `CSV(database)` 节点（云端）。交付的在线 `page`（单文件 HTML）只是视图，真正的「真相源」是资料库里的 CSV——换设备、重开对话，数据都在。
-- **工作台 → 资料库（回写）**：在 HTML 工作台里增删改后，点工具栏「⬇ 导出 CSV」，把最新数据写回对应 database 节点（覆盖式）。
-- **资料库 → 工作台（拉取）**：资料库里的数据发生变化（你手动改、或被自动化任务 / API 接入 / 其他服务更新）后，在工作台点「⬆ 导入 CSV」即可拉回；若已配置自动化，也可定时把最新数据推回，刷新即见。
-- **自动化任务：改的是存储，不是视图**：每日信息源更新、API 接入等自动化任务，只往资料库 `CSV(database)` 节点**写数据（即修改存储）**，**从不直接改动 HTML 工作台本身**。工作台是存储的「只读投影」——下次打开 / 导入 / 自动刷新时，视图自然反映存储里的最新值。自动化与界面由此解耦：无论谁改了存储，视图都保持一致。
-- **本地缓存只是中转**：浏览器 `localStorage` 是运行时暂存，首次打开从资料库载入、编辑后导出回写，形成「资料库 ⇄ 工作台」闭环。
+- **工作台 → 资料库（自动写回）**：在 HTML 工作台里增删改后，前端自动 diff 为 add/update/delete 写回对应 database 节点，**无需手动导出 CSV**。
+- **资料库 → 工作台（自动拉取）**：资料库里的数据发生变化（你手动改、或被自动化任务 / API 接入 / 其他服务更新）后，前端经定时轮询自动刷新，**无需手动导入 CSV**。
+- **自动化任务：改的是存储，不是视图**：每日信息源更新、API 接入等自动化任务，只往资料库 `CSV(database)` 节点**写数据（即修改存储）**，**从不直接改动 HTML 工作台本身**。工作台是存储的「只读投影」——下次打开 / 自动刷新时，视图自然反映存储里的最新值。自动化与界面由此解耦：无论谁改了存储，视图都保持一致。
+- **本地降级**：`file://` 预览无平台 SDK 时，自动降级到 localStorage（仅演示用途，不持久化到云端）。
 
 > 这样既能享受单文件 HTML 的离线查看 / 分享便利，又不必担心数据散落在各自电脑的本地文件里——所有人 / 所有设备看到的都是资料库里的同一份在线数据。
 
@@ -84,7 +84,7 @@ Skill 会按五步流程执行：
 workbench-builder/
 ├── SKILL.md                      # 主流程与约束（权威说明）
 ├── examples/
-│   ├── reference-workbench.html     # 权威交付种子（已内联 14 模块 + 4 模板 + 5 风格）
+│   ├── reference-workbench.html     # 权威交付种子（已内联 15 模块 + 4 模板 + 5 风格）
 │   ├── style-gallery.html           # 5 套 UI 风格预设预览器
 │   ├── templates/                   # 完整模板示例（预设/布局组合 + 外部灵感改写）
 │   │   ├── README.md                # 模板索引：清单 + 配色速览 + 风格切换 + 起点指引
@@ -110,7 +110,7 @@ workbench-builder/
 │       ├── topnav-tabs.html
 │       └── masonry.html
 ├── references/
-│   ├── module-catalog.md         # 14 模块字段定义
+│   ├── module-catalog.md         # 15 模块字段定义
 │   ├── ui-design-system.md       # UI 模板 + 风格预设规范
 │   ├── checklist.md              # 交付前 Check List（P0/P1/P2）
 │   └── test-cases.md             # 六维验收 Test Case + 报告模板
@@ -124,7 +124,7 @@ workbench-builder/
 
 ## 接入其他服务（通过 API 文档）
 
-除了内置的 14 个模块，本 Skill 支持**你提供任意第三方服务的 API 文档（OpenAPI / Swagger / 接口说明），据此把该服务接入为工作台的一个新模块**。接入后数据定期拉取并落到资料库 CSV，由 HTML 工作台统一展示，体验与内置模块一致。
+除了内置的 15 个模块，本 Skill 支持**你提供任意第三方服务的 API 文档（OpenAPI / Swagger / 接口说明），据此把该服务接入为工作台的一个新模块**。接入后数据定期拉取并落到资料库 CSV，由 HTML 工作台统一展示，体验与内置模块一致。
 
 典型流程：
 

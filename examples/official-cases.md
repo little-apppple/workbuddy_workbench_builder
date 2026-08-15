@@ -70,4 +70,4 @@
 > 注：以上链接为资料库官方在线节点，点击即可查看真实运行效果；
 > 本 skill 不复制其页面代码，仅提供"风格 → 模块 → UI 模板"的映射，供生成时参考。
 
-> **补充（模块已全量实现）**：本 skill 的 `examples/reference-workbench.html` 已**内置全部 14 个模块**——上表用到的 `todo`/`mem`/`dashboard`/`notes`/`links`/`kanban`/`calendar`/`ledger`/`habits`/`reading`/`contacts`/`inventory`/`journal`，以及第 5 步每日自动更新所需的 `news`，均开箱即用。因此任意官方案例的「模块组合」都能直接写进 `WORKBENCH_CONFIG.modules` 由种子一键生成，无需从零写模块代码。
+> **补充（模块已全量实现）**：本 skill 的 `examples/reference-workbench.html` 已**内置全部 15 个模块**——上表用到的 `todo`/`mem`/`dashboard`/`notes`/`links`/`kanban`/`calendar`/`ledger`/`habits`/`reading`/`contacts`/`inventory`/`journal`，第 5 步每日自动更新所需的 `news`，以及预置 24 条优质资源的 `resources`，均开箱即用。因此任意官方案例的「模块组合」都能直接写进 `WORKBENCH_CONFIG.modules` 由种子一键生成，无需从零写模块代码。
