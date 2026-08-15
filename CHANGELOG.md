@@ -10,6 +10,19 @@
 
 ---
 
+## [1.4.2] — 2026-08-16
+
+> 鉴权文档措辞优化：消除「需配置 API Key」误标。
+
+### 变更
+- SKILL.md / usage-example.md / deploy_to_library.py 文档注释：删除 `WB_TOKEN=<token>` 环境变量式传参示例，统一为 `--token-stdin` 标准输入注入（功能不变，脚本内环境变量回退保留）。
+- usage-example.md 模块计数 15→19。
+
+### 动机
+- SkillHub 详情页因文档中出现环境变量式密钥传参写法被自动打上「需配置 API Key」标签；实际本 skill 的鉴权票据由 Agent 运行时经 `connect_open_platform` 自动换取，用户无需配置任何密钥。
+
+---
+
 ## [1.4.0] — 2026-08-15
 
 > 借鉴「缮语·企业 Claw 工作台」，模块 15→19，风格 12→13，配方 10→11。

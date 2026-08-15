@@ -3,12 +3,11 @@
 """
 deploy_to_library.py — 把工作台一键落地到资料库「我的文档」。
 
-用法（client 模式，token 二选一）：
+用法（client 模式，票据经标准输入注入，不落地、不回显）：
     printf '%s' "<token>" | python deploy_to_library.py --token-stdin
-    WB_TOKEN=<token> python deploy_to_library.py
-    WB_TOKEN=<token> python deploy_to_library.py --manifest custom.json --space-id <id>
+    printf '%s' "<token>" | python deploy_to_library.py --manifest custom.json --space-id <id>
 
-- token 优先级：--token-stdin（读 stdin 首行/全文）> 环境变量 WB_TOKEN（由 connect_open_platform 取得），不写文件、不回显。
+- token 来源：connect_open_platform 换取后经 stdin 首行传入。
 - 省略 --space-id 时，建库与上传都默认落「我的文档」。
 - 依赖 library 技能脚本（database/create_database.py, batch_add_database_records.py,
   page/import_html.py）；脚本目录自动探测（CODEBUDDY_PLUGIN_ROOT 或插件缓存）。
