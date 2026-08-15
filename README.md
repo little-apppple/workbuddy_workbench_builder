@@ -9,9 +9,9 @@
 
 把用户的零散数据（待办、记忆、指标、笔记、链接、看板、账本、习惯……）聚合为一个**零依赖、单文件、可离线、可分享**的 HTML 工作台，并把所有持久化数据落到 WorkBuddy **资料库**的 CSV(database) 节点里。
 
-![工作台动态演示](examples/demo.gif)
+![工作台动态演示（官方示例 · 生活工作台）](examples/demo.gif)
 
-> 上图演示了 4 套 UI 模板（sidebar / cardGrid / topnav / masonry）与深色主题切换。更多截图与分步说明见 [`examples/usage-example.md`](./examples/usage-example.md)。
+> 演示动画来自 WorkBuddy 资料库官方示例工作台「生活工作台」（生活全能），自上而下滚动浏览。更多说明见 [`examples/usage-example.md`](./examples/usage-example.md)。
 
 ---
 
