@@ -29,13 +29,13 @@
 - **每日信息源自动更新**：对 `news` / `links` / 外部驱动的 `dashboard` 等动态模块，自动配置 `automation_update` 每日定时把最新数据写回资料库 CSV
 - **交付前自动化验收**：六维质量门（UI 交互逻辑 / 样式配色 / 布局完整度 / 数据结构 / 设计一致性 / 自动化任务符合预期），配套 Check List 与 Test Case
 
-## 一句话接入（复制即用）
+## 一句话安装（复制即用）
 
-在 WorkBuddy 对话里**直接发这条消息**即可唤起本 Skill，并按默认五步流程跑起来：
+在 WorkBuddy 对话里**直接发这条消息**，即可把本 Skill 安装到你的环境：
 
-> 用 workbench-builder 帮我搭一个个人工作台，模块选 `todo` / `mem` / `dashboard` / `links`，UI 用 `macaron` 风格 + `sidebar` 布局，最后把数据落库到资料库。
+> 安装 workbench-builder 这个 Skill，从 GitHub 仓库 `https://github.com/little-apppple/workbuddy_workbench_builder` 克隆到用户级 skills 目录（`~/.workbuddy/skills/workbench-builder`），跨项目复用。
 
-想自定义时，把其中「模块 / 风格 / 布局 / 是否每日自动更新」换成你的要求即可；也可以更简版只说「搭个工作台」，由 Skill 反问补全需求。
+如果你的 WorkBuddy 已接好技能市场，也可以更简版只说「安装 workbench-builder skill」，由技能市场自动定位并安装。装好后再用「搭个工作台」之类的自然语言即可唤起它。
 
 ## 安装
 
