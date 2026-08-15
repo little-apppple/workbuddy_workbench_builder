@@ -22,7 +22,7 @@
 - **14 个开箱即用模块**（按需勾选）：`todo` / `mem` / `dashboard` / `notes` / `links` / `kanban` / `calendar` / `ledger` / `habits` / `reading` / `contacts` / `inventory` / `journal` / `news`
 - **4 套 UI 模板**：`sidebar`（侧边栏）/`cardGrid`（卡片网格）/`topnav`（顶部导航）/`masonry`（瀑布流），深 / 浅色主题
 - **5 套全局 UI 风格预设**：`default`（云灰蓝）/`macaron`（马卡龙）/`ink`（墨韵）/`ocean`（深海）/`sunset`（晚霞），切换全局生效，图表/模块同步跟随
-- **6+ 模板示例**：内置组合 + 从 GitHub 优秀项目汲取灵感的导航启动页、玻璃仪表盘、质感起始页等（均改写为同一 token 系统、零依赖）
+- **8 套模板示例**：5 套风格×布局内置组合 + 从 GitHub 优秀项目汲取灵感的导航启动页、玻璃仪表盘、质感起始页（均改写为同一 token 系统、零依赖）
 - **强制资料库 CSV 落库**：工作台 HTML 是视图 + 运行时编辑层（localStorage 暂存），CSV 导入 / 导出做同步；最终交付是资料库「我的文档」里的在线 page + database 节点
 - **每日信息源自动更新**：对 `news` / `links` / 外部驱动的 `dashboard` 等动态模块，自动配置 `automation_update` 每日定时把最新数据写回资料库 CSV
 - **交付前自动化验收**：六维质量门（UI 交互逻辑 / 样式配色 / 布局完整度 / 数据结构 / 设计一致性 / 自动化任务符合预期），配套 Check List 与 Test Case
@@ -64,10 +64,12 @@ workbench-builder/
 │   ├── reference-workbench.html     # 权威交付种子（已内联 14 模块 + 4 模板 + 5 风格）
 │   ├── style-gallery.html           # 5 套 UI 风格预设预览器
 │   ├── templates/                   # 完整模板示例（预设/布局组合 + 外部灵感改写）
-│   │   ├── README.md                # 模板索引：清单 + 风格切换 + 起点指引
-│   │   ├── macaron-masonry.html
-│   │   ├── ocean-sidebar.html
-│   │   ├── ink-topnav.html
+│   │   ├── README.md                # 模板索引：清单 + 配色速览 + 风格切换 + 起点指引
+│   │   ├── macaron-masonry.html     # 马卡龙 + 瀑布流
+│   │   ├── ocean-sidebar.html       # 深海 + 侧边栏
+│   │   ├── ink-topnav.html          # 墨韵 + 顶部导航
+│   │   ├── default-sidebar.html     # 默认 + 侧边栏（出厂基线）
+│   │   ├── sunset-cardgrid.html     # 晚霞 + 卡片网格
 │   │   ├── launchpad.html           # 导航型工作台（灵感：NavHub）
 │   │   ├── glass-dashboard.html     # 玻璃拟态仪表盘（灵感：ZASENJC/dashboard）
 │   │   └── textured-startpage.html  # 质感可换起始页（灵感：snownico0722/index-main）

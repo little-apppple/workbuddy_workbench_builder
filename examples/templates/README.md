@@ -16,12 +16,36 @@
 | `macaron-masonry.html` | workbench-builder 内置 | 马卡龙 + 瀑布流 | 粉彩卡片、错落流式排版 | 灵感墙 / 轻记录 |
 | `ocean-sidebar.html` | workbench-builder 内置 | 深海 + 侧边栏 | 左侧导航 + 主区数据 | 效率 / 数据向 |
 | `ink-topnav.html` | workbench-builder 内置 | 墨韵 + 顶部导航 | 极简顶栏、留白阅读 | 极简文档 / 阅读 |
+| `default-sidebar.html` | workbench-builder 内置 | 默认 + 侧边栏 | 中性蓝灰、出厂基线、全功能导航 | 通用 / 个人总台 |
+| `sunset-cardgrid.html` | workbench-builder 内置 | 晚霞 + 卡片网格 | 暖橙活力、卡片化模块平铺 | 创作 / 灵感聚合 |
 | `launchpad.html` | 灵感来自 [NavHub](https://github.com/1718638143/NavHub) (MIT) | 玻璃侧边栏 | 分类 Tab + 聚合搜索 + 书签网格 | 链接 / 导航型工作台 |
 | `glass-dashboard.html` | 灵感来自 [ZASENJC/dashboard](https://github.com/ZASENJC/dashboard) (MIT) | 玻璃拟态 Hero | 实时时钟 / 运行时间 / 加载耗时 + 书签统计 | 个人仪表盘首页 |
 | `textured-startpage.html` | 灵感来自 [snownico0722/index-main](https://github.com/snowico0722/index-main) | 中央搜索 + 质感 | 站点分组 + 8 种质感切换 | 质感可换起始页 |
 
+> 现已覆盖**全部 5 套风格**（default / macaron / ink / ocean / sunset）× **4 种布局**（sidebar / cardGrid / topnav / masonry）的代表性组合。
 > 所有外部灵感模板均已**重写为零依赖单文件**，统一使用本 skill 的 token 系统，
 > 禁止外链图标字体 / CDN。对应设计模式与署名见 `references/ui-design-system.md`。
+
+---
+
+## 风格配色速览（开文件前先挑）
+
+浅色模式下的代表 token；深色模式由 `[data-theme="dark"]` 自动派生，不另列。
+
+| 风格 | 名称 | 主色 accent | 背景 bg | 表面 surface | 气质 |
+|---|---|---|---|---|---|
+| `default` | 云灰蓝 | `#3b6cff` | `#f5f6f8` | `#fff` | 中性专业、克制 |
+| `macaron` | 马卡龙 | `#b48ad4` | `#fbf7fc` | `#fff` | 粉彩柔润、轻盈治愈 |
+| `ink` | 墨韵 | `#33334d` | `#fafafa` | `#fff` | 极简黑白、锋利高级 |
+| `ocean` | 深海 | `#0f8b8f` | `#f1f8f9` | `#fff` | 青蓝静谧、清爽专注 |
+| `sunset` | 晚霞 | `#f0735f` | `#fff6f2` | `#fff` | 暖橙活力、亲和明快 |
+
+> 色块示例（主色 / 背景 / 表面）：
+> <span style="display:inline-block;width:14px;height:14px;background:#3b6cff;border-radius:3px;vertical-align:middle"></span>
+> <span style="display:inline-block;width:14px;height:14px;background:#b48ad4;border-radius:3px;vertical-align:middle"></span>
+> <span style="display:inline-block;width:14px;height:14px;background:#33334d;border-radius:3px;vertical-align:middle"></span>
+> <span style="display:inline-block;width:14px;height:14px;background:#0f8b8f;border-radius:3px;vertical-align:middle"></span>
+> <span style="display:inline-block;width:14px;height:14px;background:#f0735f;border-radius:3px;vertical-align:middle"></span>
 
 ---
 

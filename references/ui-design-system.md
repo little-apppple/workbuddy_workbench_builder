@@ -111,10 +111,13 @@
 | `macaron-masonry.html` | workbench-builder 内置 | 马卡龙预设 + 瀑布流 | 灵感墙 / 轻记录 |
 | `ocean-sidebar.html` | workbench-builder 内置 | 深海预设 + 侧边栏 | 效率 / 数据向 |
 | `ink-topnav.html` | workbench-builder 内置 | 墨韵预设 + 顶部导航 | 极简文档 / 阅读 |
+| `default-sidebar.html` | workbench-builder 内置 | 默认预设 + 侧边栏 | 通用 / 个人总台 |
+| `sunset-cardgrid.html` | workbench-builder 内置 | 晚霞预设 + 卡片网格 | 创作 / 灵感聚合 |
 | `launchpad.html` | 灵感来自 [NavHub](https://github.com/1718638143/NavHub) (MIT) | 玻璃侧边栏 + 分类 Tab + 聚合搜索 + 书签网格 | 链接/导航型工作台 |
 | `glass-dashboard.html` | 灵感来自 [ZASENJC/dashboard](https://github.com/ZASENJC/dashboard) (MIT) | 玻璃拟态 Hero + 实时时钟/运行时间/加载耗时 + 书签统计 | 个人仪表盘首页 |
-| `textured-startpage.html` | 灵感来自 [snownico0722/index-main](https://github.com/snownico0722/index-main) | 中央搜索 + 站点分组 + 8 种质感切换（毛玻璃/液态/亚克力/云母/纸纹/黑曜石/霓虹/像素） | 质感可换起始页 |
+| `textured-startpage.html` | 灵感来自 [snownico0722/index-main](https://github.com/snowico0722/index-main) | 中央搜索 + 站点分组 + 8 种质感切换（毛玻璃/液态/亚克力/云母/纸纹/黑曜石/霓虹/像素） | 质感可换起始页 |
 
+> 现已覆盖全部 5 套风格（default/macaron/ink/ocean/sunset）× 4 种布局（sidebar/cardGrid/topnav/masonry）的代表性组合。
 > 所有外部灵感模板均已重写为零依赖单文件，并统一使用本 skill 的 token 系统（含 5 套预置风格与深色模式），禁止外链图标字体/CDN。
 
 ---

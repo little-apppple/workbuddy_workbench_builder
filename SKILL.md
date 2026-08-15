@@ -172,7 +172,7 @@ metadata:
 - **UI 风格预设系统**：种子内置 5 套风格（`default / macaron / ink / ocean / sunset`），共享同一组 CSS 设计 token；右上角工具栏有「🎨 风格」按钮，点击弹出预设列表供用户选择，切换全局生效并持久化到 `localStorage['wb:style']`。
 - 工具栏：导出全部 CSV（打包下载）、导入 CSV、主题切换、风格切换、重置。
 - 持久化：localStorage 运行时暂存；CSV 导入/导出与资料库 CSV 对齐。
-- 更多模板示例见 `examples/templates/`（6 套完整模板：3 套预设+布局组合 + 3 套从 GitHub 优秀项目汲取灵感并改写为零依赖/同一 token 系统的导航启动页/玻璃仪表盘/质感起始页）和 `examples/style-gallery.html`（预设预览器）。
+- 更多模板示例见 `examples/templates/`（8 套完整模板：5 套预设+布局组合 + 3 套从 GitHub 优秀项目汲取灵感并改写为零依赖/同一 token 系统的导航启动页/玻璃仪表盘/质感起始页）和 `examples/style-gallery.html`（预设预览器）。
 
 > **权威种子 vs 视觉骨架（重要）**：`examples/reference-workbench.html` 是**唯一的权威交付种子**——它已实现全部 14 个模块与 4 套 UI 主题，可直接改成任意工作台交付。**`assets/ui/<模板>.html` 仅是「布局/视觉骨架参考」，不是交付种子**（模块不全、仅展示布局），生成时一律以 `reference-workbench.html` 为准，切勿拿 `assets/ui/*.html` 当成品交付。
 

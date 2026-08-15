@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-style="default">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的工作台 · 默认</title>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  Workbench Builder · 单文件工作台种子                          ║
+  ║  用法：修改下方 WORKBENCH_CONFIG 即可切换模块与 UI 模板。        ║
+  ║  - modules: 从 [todo,mem,dashboard,notes,links,kanban,calendar, ║
+  ║            ledger,habits,reading,contacts,inventory,journal,news] 中挑选 ║
+  ║  - ui:       sidebar | cardGrid | topnav | masonry             ║
+  ║  - theme:    light | dark | auto                               ║
+  ║  - style:    default | macaron | ink | ocean | sunset         ║
+  ║  数据：运行时存 localStorage；「导出CSV」产物回写资料库 CSV。     ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;
+--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;
+--radius:14px;--shadow:0 4px 18px rgba(20,30,60,.08);--gap:16px}
+[data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;
+--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740;--shadow:0 4px 18px rgba(0,0,0,.45)}
+/* ============ UI 风格预设（全局一致，仅覆盖同一组 token）============ */
+/* default · 云灰蓝 */
+[data-style="default"]{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--radius:14px}
+[data-style="default"][data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;--text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740}
+/* macaron · 马卡龙粉彩 */
+[data-style="macaron"]{--bg:#fbf7fc;--surface:#fff;--surface-2:#f4edf8;--text:#4a4258;--text-dim:#9b8fae;--border:#ece2f3;--accent:#b48ad4;--accent-weak:#f1e9fb;--radius:18px}
+[data-style="macaron"][data-theme="dark"]{--bg:#171320;--surface:#211a2c;--surface-2:#2a2236;--text:#efeaf6;--text-dim:#b3a6c4;--border:#352b45;--accent:#c9a3e6;--accent-weak:#2e2440}
+/* ink · 墨韵极简 */
+[data-style="ink"]{--bg:#fafafa;--surface:#fff;--surface-2:#f0f0f3;--text:#18181b;--text-dim:#71717a;--border:#e4e4e7;--accent:#33334d;--accent-weak:#eaeaef;--radius:8px}
+[data-style="ink"][data-theme="dark"]{--bg:#0a0a0b;--surface:#161618;--surface-2:#232326;--text:#fafafa;--text-dim:#a1a1aa;--border:#2e2e32;--accent:#a0a0c8;--accent-weak:#26263a}
+/* ocean · 深海青蓝 */
+[data-style="ocean"]{--bg:#f1f8f9;--surface:#fff;--surface-2:#e3f1f2;--text:#1c3a3d;--text-dim:#5b858a;--border:#d3e8ea;--accent:#0f8b8f;--accent-weak:#d8f0f1;--radius:12px}
+[data-style="ocean"][data-theme="dark"]{--bg:#0b1719;--surface:#132225;--surface-2:#1b2e31;--text:#e2f1f2;--text-dim:#7fafb1;--border:#224044;--accent:#2bc4c0;--accent-weak:#16383a}
+/* sunset · 晚霞暖橙 */
+[data-style="sunset"]{--bg:#fff6f2;--surface:#fff;--surface-2:#fdeae2;--text:#4a2e26;--text-dim:#a9786a;--border:#f6dccf;--accent:#f0735f;--accent-weak:#ffe2d8;--radius:16px}
+[data-style="sunset"][data-theme="dark"]{--bg:#1c1012;--surface:#281a1c;--surface-2:#332225;--text:#fbeae4;--text-dim:#c39a8e;--border:#43292b;--accent:#ff8a72;--accent-weak:#3a2220}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+background:var(--bg);color:var(--text);transition:background .2s,color .2s}
+*{box-sizing:border-box}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--surface-2);border:1px solid var(--border);
+border-radius:10px;padding:8px 10px;outline:none}
+input:focus,textarea:focus{border-color:var(--accent)}
+button{cursor:pointer;border:none;border-radius:10px;padding:8px 14px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-del{background:transparent;color:var(--danger);padding:4px 8px}
+.btn-edit{background:transparent;color:var(--text-dim);padding:4px 8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row input{flex:1;min-width:120px}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:10px;background:var(--surface-2);
+border:1px solid var(--border);border-radius:10px;padding:8px 10px}
+.item .t{flex:1;word-break:break-all}
+.item.done .t{text-decoration:line-through;color:var(--text-dim)}
+.item a.t{color:var(--accent);text-decoration:none}
+.meta{color:var(--text-dim);font-size:12px;white-space:nowrap}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.kpi-v{font-size:24px;font-weight:700;color:var(--accent)}
+.kpi-l{color:var(--text-dim);font-size:12px;margin-top:2px}
+.chart{width:100%;max-width:560px;background:var(--surface-2);border:1px solid var(--border);
+border-radius:12px;margin-bottom:14px}
+h4{margin:14px 0 8px}
+.note-list{display:flex;flex-direction:column;gap:10px}
+.note-card{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px}
+.note-h{font-weight:600;margin-bottom:4px}
+.note-b{color:var(--text-dim);white-space:pre-wrap}
+.note-card .meta{margin:6px 0}
+.note-card>button{float:right;margin-left:4px}
+/* 布局：sidebar */
+body.layout-sidebar{display:flex;min-height:100vh}
+.layout-sidebar .sidebar{width:220px;flex:0 0 220px;background:var(--surface);
+border-right:1px solid var(--border);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.layout-sidebar .brand{font-weight:700;font-size:16px;padding:6px 10px 14px}
+.layout-sidebar .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;
+border-radius:10px;cursor:pointer;color:var(--text-dim)}
+.layout-sidebar .nav-item.active{background:var(--accent-weak);color:var(--accent);font-weight:600}
+.layout-sidebar .main{flex:1;padding:24px;overflow:auto}
+.layout-sidebar .panel{display:none}.layout-sidebar .panel.active{display:block}
+/* 布局：cardGrid / masonry 共用 topbar */
+.topbar{padding:18px 24px;font-weight:700;font-size:18px;background:var(--surface);
+border-bottom:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--gap);padding:0 24px 24px;margin-top:16px}
+.grid .card,.masonry .card{background:var(--surface);border:1px solid var(--border);
+border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;min-height:220px}
+.card h3{margin:0 0 12px;font-size:15px;display:flex;align-items:center;gap:8px}
+/* 布局：topnav */
+.layout-topnav .topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;padding:12px 20px}
+.layout-topnav .brand{font-weight:700;margin-right:14px}
+.layout-topnav .tab{padding:8px 14px;border-radius:10px;cursor:pointer;color:var(--text-dim)}
+.layout-topnav .tab.active{background:var(--accent-weak);color:var(--accent);font-weight:600}
+.layout-topnav .main{padding:24px}
+.layout-topnav .panel{display:none}.layout-topnav .panel.active{display:block}
+/* 布局：masonry */
+.masonry{column-count:3;column-gap:var(--gap);padding:0 24px 24px;margin-top:16px}
+.masonry .card{break-inside:avoid;margin-bottom:var(--gap)}
+@media(max-width:1024px){.masonry{column-count:2}}
+@media(max-width:720px){body.layout-sidebar{flex-direction:column}.layout-sidebar .sidebar{width:100%;flex:none;flex-direction:row;overflow:auto}
+.layout-sidebar .main{padding:16px}.grid{grid-template-columns:1fr;padding:0 16px 16px}.masonry{column-count:1;padding:0 16px 16px}
+.layout-topnav .main{padding:16px}.topbar{padding:14px 16px}}
+/* 工具栏 */
+.toolbar{position:fixed;right:16px;top:14px;display:flex;gap:6px;z-index:20;
+background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:6px;box-shadow:var(--shadow)}
+.toolbar button{background:var(--surface-2);padding:6px 10px;font-size:13px}
+.toolbar button:hover{background:var(--accent-weak);color:var(--accent)}
+/* toast */
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;opacity:0;
+transition:.25s;z-index:30;pointer-events:none;font-size:13px}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 风格选择弹层（token 驱动，与全站一致） */
+.modal-mask{position:fixed;inset:0;background:rgba(15,18,24,.42);display:none;align-items:center;justify-content:center;z-index:40}
+.modal-mask.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;width:min(720px,92vw);max-height:86vh;overflow:auto}
+.modal h3{margin:0 0 4px;font-size:17px}
+.modal .sub{color:var(--text-dim);font-size:13px;margin-bottom:14px}
+.style-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.style-card{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.style-card:hover{border-color:var(--accent)}
+.style-card.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-weak)}
+.style-swatch{height:64px;border-radius:8px;overflow:hidden;display:flex;gap:4px;padding:8px}
+.style-swatch i{flex:1;border-radius:4px;display:block}
+.style-name{font-weight:600;margin-top:8px;font-size:14px}
+.style-desc{color:var(--text-dim);font-size:12px;margin-top:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ============ 配置（改这里即可选模块 / UI 模板） ============ */
+const WORKBENCH_CONFIG = {
+  title: "我的工作台",
+  ui: "sidebar",           // sidebar | cardGrid | topnav | masonry
+  theme: "auto",            // light | dark | auto
+  style: "default",         // default | macaron | ink | ocean | sunset
+  accent: "#3b6cff",
+  modules: ["todo","mem","dashboard","notes","links","calendar"]
+};
+const CFG = WORKBENCH_CONFIG;
+
+/* ============ 工具函数 ============ */
+function el(tag,cls){const e=document.createElement(tag); if(cls)e.className=cls; return e;}
+function uid(){return 'id'+Math.random().toString(36).slice(2,9);}
+function pad(n){return String(n).padStart(2,'0');}
+function today(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function localISO(y,m,d){return y+'-'+pad(m+1)+'-'+pad(d);}
+
+/* ============ 模块注册表（可插拔） ============ */
+const REG = {};
+function register(def){ REG[def.type]=def; }
+
+register({
+  type:'todo', title:'待办', icon:'✅',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'done',type:'checkbox'},
+          {name:'due',type:'date'},{name:'created',type:'date'},{name:'priority',type:'select'}],
+  seed:[{id:uid(),title:'欢迎使用工作台，勾选可标记完成',done:false,due:'',created:today(),priority:'中'},
+        {id:uid(),title:'右上角「导出CSV」把数据落库到资料库',done:false,due:'',created:today(),priority:'高'}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const inp=el('input'); inp.placeholder='添加任务…';
+    const sel=el('select'); ['低','中','高'].forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+    const add=el('button','btn-primary'); add.textContent='添加';
+    row.append(inp,sel,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const item=el('div','item'+(it.done?' done':''));
+      const cb=el('input'); cb.type='checkbox'; cb.checked=!!it.done; cb.onchange=()=>{data[idx].done=cb.checked;update(data);};
+      const span=el('span','t'); span.textContent=it.title;
+      const meta=el('span','meta'); meta.textContent=(it.priority?it.priority+' · ':'')+(it.due||'');
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除该任务？')){data.splice(idx,1);update(data);}};
+      item.append(cb,span,meta,del); list.appendChild(item); }); }
+    add.onclick=()=>{ const v=inp.value.trim(); if(!v)return; data.unshift({id:uid(),title:v,done:false,due:'',created:today(),priority:sel.value}); inp.value=''; update(data); };
+    inp.onkeydown=e=>{if(e.key==='Enter')add.onclick();};
+    draw();
+  }
+});
+
+register({
+  type:'mem', title:'速记', icon:'💡',
+  schema:[{name:'id',type:'text'},{name:'text',type:'text'},{name:'tags',type:'text'},{name:'created',type:'date'}],
+  seed:[{id:uid(),text:'这是个零依赖单文件工作台，双击即可离线打开',tags:'tips',created:today()}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const inp=el('input'); inp.placeholder='记点什么…'; const tag=el('input'); tag.placeholder='标签(逗号分隔)';
+    const add=el('button','btn-primary'); add.textContent='记'; row.append(inp,tag,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().reverse().forEach((it,ri)=>{ const real=data.length-1-ri;
+      const item=el('div','item'); const s=el('span','t'); s.textContent=it.text;
+      const meta=el('span','meta'); meta.textContent=(it.tags?('#'+it.tags.split(',').map(t=>t.trim()).filter(Boolean).join(' #')):'')+'  '+it.created;
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(real,1);update(data);}};
+      item.append(s,meta,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!inp.value.trim())return; data.unshift({id:uid(),text:inp.value.trim(),tags:tag.value.trim(),created:today()}); inp.value='';tag.value=''; update(data); };
+    inp.onkeydown=e=>{if(e.key==='Enter')add.onclick();};
+    draw();
+  }
+});
+
+register({
+  type:'dashboard', title:'概览', icon:'📊',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'value',type:'number'},{name:'unit',type:'text'}],
+  seed:[],
+  render(slot,data,update){ slot.innerHTML='';
+    const mods=CFG.modules.filter(t=>t!=='dashboard');
+    const counts=mods.map(t=>({name:REG[t].title,n:store.get(t).length}));
+    const todoData=store.get('todo'); const done=todoData.filter(x=>x.done).length; const total=todoData.length;
+    const kpiWrap=el('div','kpi-grid');
+    counts.forEach(c=>{ const k=el('div','kpi'); k.innerHTML='<div class="kpi-v">'+c.n+'</div><div class="kpi-l">'+c.name+'</div>'; kpiWrap.appendChild(k); });
+    const k2=el('div','kpi'); k2.innerHTML='<div class="kpi-v">'+(total?Math.round(done/total*100):0)+'%</div><div class="kpi-l">待办完成率</div>'; kpiWrap.appendChild(k2);
+    slot.appendChild(kpiWrap);
+    const cv=document.createElement('canvas'); cv.width=560; cv.height=160; cv.className='chart'; slot.appendChild(cv);
+    drawBar(cv, counts.map(c=>c.n), counts.map(c=>c.name));
+    const h=el('h4'); h.textContent='自定义指标'; slot.appendChild(h);
+    const row=el('div','row'); const ni=el('input'); ni.placeholder='指标名'; const nv=el('input'); nv.type='number'; nv.placeholder='数值'; const nu=el('input'); nu.placeholder='单位';
+    const add=el('button','btn-primary'); add.textContent='添加'; row.append(ni,nv,nu,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const item=el('div','item');
+      const s=el('span','t'); s.textContent=it.name+'：'+(it.value??0)+(it.unit||'');
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(idx,1);update(data);}};
+      item.append(s,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!ni.value.trim())return; data.push({id:uid(),name:ni.value.trim(),value:Number(nv.value||0),unit:nu.value.trim()}); ni.value='';nv.value='';nu.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'notes', title:'长笔记', icon:'📝',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'body',type:'text'},{name:'updated',type:'date'}],
+  seed:[{id:uid(),title:'示例笔记',body:'在这里写正文，支持换行。',updated:today()}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='标题'; const bd=el('textarea'); bd.placeholder='内容…'; bd.rows=2;
+    const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,bd,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().reverse().forEach((it,ri)=>{ const real=data.length-1-ri;
+      const c=el('div','note-card'); const h=el('div','note-h'); h.textContent=it.title||'(无标题)';
+      const p=el('div','note-b'); p.textContent=it.body||''; const m=el('div','meta'); m.textContent=it.updated||'';
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(real,1);update(data);}};
+      const edit=el('button','btn-edit'); edit.textContent='✎'; edit.onclick=()=>{ const nt=prompt('标题',it.title)||it.title; const nb=prompt('内容',it.body)||it.body; data[real]={...it,title:nt,body:nb,updated:today()}; update(data); };
+      c.append(edit,del,h,p,m); list.appendChild(c); }); }
+    add.onclick=()=>{ if(!ti.value.trim()&&!bd.value.trim())return; data.unshift({id:uid(),title:ti.value.trim(),body:bd.value.trim(),updated:today()}); ti.value='';bd.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'links', title:'收藏', icon:'🔗',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'url',type:'url'},{name:'category',type:'text'},{name:'created',type:'date'}],
+  seed:[{id:uid(),title:'WorkBuddy',url:'https://www.workbuddy.cn',category:'工具',created:today()}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='名称'; const url=el('input'); url.placeholder='https://…'; const cat=el('input'); cat.placeholder='分类';
+    const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,url,cat,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const item=el('div','item');
+      const a=el('a','t'); a.href=it.url||'#'; a.target='_blank'; a.rel='noopener'; a.textContent=it.title||it.url||'(链接)';
+      const meta=el('span','meta'); meta.textContent=it.category||'';
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(idx,1);update(data);}};
+      item.append(a,meta,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!url.value.trim())return; data.unshift({id:uid(),title:ti.value.trim(),url:url.value.trim(),category:cat.value.trim(),created:today()}); ti.value='';url.value='';cat.value=''; update(data); };
+    draw();
+  }
+});
+
+/* ============ 新增模块：看板/日历/流水账/习惯/阅读/联系人/物品/日记/资讯 ============ */
+
+register({
+  type:'kanban', title:'看板', icon:'🗂',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'column',type:'select'},{name:'order',type:'number'}],
+  seed:[{id:uid(),title:'整理需求文档',column:'待办',order:0},{id:uid(),title:'联调接口',column:'进行中',order:1},{id:uid(),title:'发布 v1',column:'完成',order:2}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const inp=el('input'); inp.placeholder='卡片内容…';
+    const sel=el('select'); ['待办','进行中','完成'].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+    const add=el('button','btn-primary'); add.textContent='添加'; row.append(inp,sel,add); slot.appendChild(row);
+    const cols=el('div'); cols.style.display='flex'; cols.style.gap='12px'; cols.style.flexWrap='wrap'; slot.appendChild(cols);
+    const COLS=['待办','进行中','完成'];
+    COLS.forEach(col=>{ const box=el('div'); box.style.flex='1'; box.style.minWidth='150px'; box.style.background='var(--surface-2)'; box.style.border='1px solid var(--border)'; box.style.borderRadius='10px'; box.style.padding='10px';
+      const h=el('h4'); h.textContent=col+' ('+data.filter(d=>d.column===col).length+')'; box.appendChild(h);
+      data.filter(d=>d.column===col).forEach(it=>{ const item=el('div','item'); const s=el('span','t'); s.textContent=it.title;
+        const ctrl=el('div'); ctrl.style.display='flex'; ctrl.style.gap='4px';
+        const li=el('button','btn-edit'); li.textContent='◀'; li.onclick=()=>{ const i=data.indexOf(it); const ci=COLS.indexOf(it.column); if(ci>0){data[i].column=COLS[ci-1]; update(data);} };
+        const ri=el('button','btn-edit'); ri.textContent='▶'; ri.onclick=()=>{ const i=data.indexOf(it); const ci=COLS.indexOf(it.column); if(ci<COLS.length-1){data[i].column=COLS[ci+1]; update(data);} };
+        const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{ if(confirm('删除卡片？')){data.splice(data.indexOf(it),1);update(data);} };
+        ctrl.append(li,ri,del); item.append(s,ctrl); box.appendChild(item); });
+      cols.appendChild(box); });
+    add.onclick=()=>{ const v=inp.value.trim(); if(!v)return; data.push({id:uid(),title:v,column:sel.value,order:data.length}); inp.value=''; update(data); };
+  }
+});
+
+register({
+  type:'calendar', title:'日程', icon:'📅',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'date',type:'date'},{name:'note',type:'text'}],
+  seed:[{id:uid(),title:'团队周会',date:today(),note:'同步进度'},{id:uid(),title:'提交周报',date:today(),note:''}],
+  render(slot,data,update){ slot.innerHTML='';
+    const now=new Date(); const st={y:now.getFullYear(),m:now.getMonth(),sel:today()};
+    const head=el('div','row');
+    const prev=el('button','btn-edit'); prev.textContent='‹';
+    const label=el('span'); label.style.minWidth='150px'; label.style.textAlign='center'; label.style.fontWeight='600';
+    const next=el('button','btn-edit'); next.textContent='›';
+    head.append(prev,label,next); slot.appendChild(head);
+    const grid=el('div'); grid.style.display='grid'; grid.style.gridTemplateColumns='repeat(7,1fr)'; grid.style.gap='4px'; slot.appendChild(grid);
+    ['日','一','二','三','四','五','六'].forEach(d=>{ const c=el('div'); c.textContent=d; c.style.textAlign='center'; c.style.color='var(--text-dim)'; c.style.fontSize='12px'; c.style.padding='4px'; grid.appendChild(c); });
+    function drawGrid(){ const first=new Date(st.y,st.m,1); const start=first.getDay(); const days=new Date(st.y,st.m+1,0).getDate();
+      label.textContent=st.y+'年'+(st.m+1)+'月';
+      while(grid.children.length>7) grid.removeChild(grid.lastChild);
+      for(let i=0;i<start;i++){ const e=el('div'); e.style.padding='6px'; grid.appendChild(e); }
+      for(let d=1;d<=days;d++){ const iso=localISO(st.y,st.m,d); const cell=el('div'); cell.style.padding='6px'; cell.style.textAlign='center'; cell.style.borderRadius='8px'; cell.style.cursor='pointer';
+        const has=data.some(x=>x.date===iso); cell.textContent=d+(has?' •':'');
+        if(iso===st.sel){cell.style.background='var(--accent)';cell.style.color='#fff';}
+        cell.onclick=()=>{st.sel=iso;drawGrid();drawList();}; grid.appendChild(cell); } }
+    const listWrap=el('div'); slot.appendChild(listWrap);
+    function drawList(){ listWrap.innerHTML=''; const dayData=data.filter(x=>x.date===st.sel);
+      const h=el('h4'); h.textContent='📌 '+st.sel+'（'+dayData.length+'）'; listWrap.appendChild(h);
+      const row=el('div','row'); const ti=el('input'); ti.placeholder='事项'; const no=el('input'); no.placeholder='备注'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,no,add); listWrap.appendChild(row);
+      const list=el('div','list'); listWrap.appendChild(list);
+      dayData.forEach(it=>{ const item=el('div','item'); const s=el('span','t'); s.textContent=it.title+(it.note?' · '+it.note:'');
+        const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{ if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);} }; item.append(s,del); list.appendChild(item); });
+      add.onclick=()=>{ if(!ti.value.trim())return; data.push({id:uid(),title:ti.value.trim(),date:st.sel,note:no.value.trim()}); ti.value='';no.value=''; update(data); }; }
+    prev.onclick=()=>{ st.m--; if(st.m<0){st.m=11;st.y--;} drawGrid();drawList(); };
+    next.onclick=()=>{ st.m++; if(st.m>11){st.m=0;st.y++;} drawGrid();drawList(); };
+    drawGrid(); drawList();
+  }
+});
+
+register({
+  type:'ledger', title:'流水账', icon:'💰',
+  schema:[{name:'id',type:'text'},{name:'item',type:'text'},{name:'amount',type:'number'},{name:'type',type:'select'},{name:'category',type:'text'},{name:'date',type:'date'}],
+  seed:[{id:uid(),item:'工资',amount:12000,type:'收入',category:'薪资',date:today()},{id:uid(),item:'午餐',amount:35,type:'支出',category:'餐饮',date:today()}],
+  render(slot,data,update){ slot.innerHTML='';
+    const inc=data.filter(d=>d.type==='收入').reduce((s,d)=>s+Number(d.amount||0),0);
+    const exp=data.filter(d=>d.type==='支出').reduce((s,d)=>s+Number(d.amount||0),0);
+    const sum=el('div','kpi-grid');
+    [{l:'收入',v:inc},{l:'支出',v:exp},{l:'结余',v:inc-exp}].forEach(k=>{const c=el('div','kpi');c.innerHTML='<div class="kpi-v">'+k.v+'</div><div class="kpi-l">'+k.l+'</div>';sum.appendChild(c);});
+    slot.appendChild(sum);
+    const row=el('div','row'); const ii=el('input'); ii.placeholder='项目'; const am=el('input'); am.type='number'; am.placeholder='金额';
+    const tp=el('select'); ['收入','支出'].forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;tp.appendChild(o);});
+    const ct=el('input'); ct.placeholder='分类'; const dt=el('input'); dt.type='date'; dt.value=today();
+    const add=el('button','btn-primary'); add.textContent='记一笔'; row.append(ii,am,tp,ct,dt,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().reverse().forEach((it,ri)=>{ const real=data.length-1-ri; const item=el('div','item');
+      const s=el('span','t'); s.textContent=(it.type==='收入'?'＋':'－')+it.item+' '+Number(it.amount||0)+' ('+(it.category||'')+')';
+      const meta=el('span','meta'); meta.textContent=it.date||'';
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(real,1);update(data);}};
+      item.append(s,meta,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!ii.value.trim()||am.value==='')return; data.push({id:uid(),item:ii.value.trim(),amount:Number(am.value||0),type:tp.value,category:ct.value.trim(),date:dt.value||today()}); ii.value='';am.value='';ct.value='';dt.value=today(); update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'habits', title:'习惯', icon:'🌱',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'date',type:'date'},{name:'done',type:'checkbox'}],
+  seed:[{id:uid(),name:'读书',date:today(),done:true},{id:uid(),name:'运动',date:today(),done:false}],
+  render(slot,data,update){ slot.innerHTML='';
+    const t=today(); const names=[...new Set(data.map(d=>d.name))];
+    const row=el('div','row'); const inp=el('input'); inp.placeholder='习惯名称…'; const add=el('button','btn-primary'); add.textContent='添加习惯'; row.append(inp,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; names.forEach(nm=>{ const item=el('div','item'); const s=el('span','t'); s.textContent=nm;
+      const cb=el('input'); cb.type='checkbox'; const rec=data.find(d=>d.name===nm&&d.date===t); cb.checked=!!(rec&&rec.done);
+      cb.onchange=()=>{ const i=data.findIndex(d=>d.name===nm&&d.date===t); if(i>=0){data[i].done=cb.checked;}else{data.push({id:uid(),name:nm,date:t,done:cb.checked});} update(data); };
+      const dots=el('span'); dots.style.display='inline-flex'; dots.style.gap='3px';
+      for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const iso=localISO(d.getFullYear(),d.getMonth(),d.getDate()); const hit=data.some(x=>x.name===nm&&x.date===iso&&x.done); const dot=el('span'); dot.style.width='10px';dot.style.height='10px';dot.style.borderRadius='50%';dot.style.background=hit?'var(--ok)':'var(--border)'; dots.appendChild(dot); }
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{ if(confirm('删除习惯「'+nm+'」及全部记录？')){ for(let i=data.length-1;i>=0;i--) if(data[i].name===nm)data.splice(i,1); update(data);} };
+      item.append(cb,dots,del); list.appendChild(item); }); }
+    add.onclick=()=>{ const v=inp.value.trim(); if(!v||names.includes(v))return; data.push({id:uid(),name:v,date:t,done:false}); inp.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'reading', title:'阅读', icon:'📚',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'author',type:'text'},{name:'status',type:'select'},{name:'rating',type:'number'}],
+  seed:[{id:uid(),title:'《深度工作》',author:'Cal Newport',status:'在读',rating:4}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='书名'; const au=el('input'); au.placeholder='作者';
+    const st=el('select'); ['想读','在读','读完'].forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;st.appendChild(o);});
+    const rt=el('input'); rt.type='number'; rt.placeholder='评分1-5'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,au,st,rt,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().reverse().forEach((it,ri)=>{ const real=data.length-1-ri; const c=el('div','note-card');
+      const h=el('div','note-h'); h.textContent=it.title+' · '+(it.author||'');
+      const p=el('div','note-b'); p.textContent=(it.status||'')+(it.rating?(' ★'.repeat(Math.max(0,Math.min(5,Number(it.rating))))):'');
+      const edit=el('button','btn-edit'); edit.textContent='✎'; edit.onclick=()=>{ const ns=prompt('状态(想读/在读/读完)',it.status)||it.status; const nr=prompt('评分(1-5)',it.rating)||it.rating; data[real]={...it,status:ns,rating:Number(nr)||0}; update(data); };
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(real,1);update(data);}};
+      c.append(edit,del,h,p); list.appendChild(c); }); }
+    add.onclick=()=>{ if(!ti.value.trim())return; data.unshift({id:uid(),title:ti.value.trim(),author:au.value.trim(),status:st.value,rating:Number(rt.value||0)}); ti.value='';au.value='';rt.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'contacts', title:'联系人', icon:'👥',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'phone',type:'text'},{name:'email',type:'text'},{name:'note',type:'text'}],
+  seed:[{id:uid(),name:'张三',phone:'13800000000',email:'z@example.com',note:'合作方'}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const nm=el('input'); nm.placeholder='姓名'; const ph=el('input'); ph.placeholder='电话'; const em=el('input'); em.placeholder='邮箱'; const nt=el('input'); nt.placeholder='备注'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(nm,ph,em,nt,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const c=el('div','note-card');
+      const h=el('div','note-h'); h.textContent=it.name||'(无姓名)';
+      const p=el('div','note-b'); p.textContent=[it.phone,it.email,it.note].filter(Boolean).join(' · ');
+      const edit=el('button','btn-edit'); edit.textContent='✎'; edit.onclick=()=>{ const nn=prompt('姓名',it.name)||it.name; const np=prompt('电话',it.phone)||it.phone; const ne=prompt('邮箱',it.email)||it.email; const nk=prompt('备注',it.note)||it.note; data[idx]={...it,name:nn,phone:np,email:ne,note:nk}; update(data); };
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(idx,1);update(data);}};
+      c.append(edit,del,h,p); list.appendChild(c); }); }
+    add.onclick=()=>{ if(!nm.value.trim())return; data.unshift({id:uid(),name:nm.value.trim(),phone:ph.value.trim(),email:em.value.trim(),note:nt.value.trim()}); nm.value='';ph.value='';em.value='';nt.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'inventory', title:'物品', icon:'📦',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'qty',type:'number'},{name:'location',type:'text'},{name:'note',type:'text'}],
+  seed:[{id:uid(),name:'显示器',qty:2,location:'书房',note:'27寸'}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const nm=el('input'); nm.placeholder='名称'; const qy=el('input'); qy.type='number'; qy.placeholder='数量'; const lc=el('input'); lc.placeholder='位置'; const nt=el('input'); nt.placeholder='备注'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(nm,qy,lc,nt,add); slot.appendChild(row);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach((it,idx)=>{ const item=el('div','item'); const s=el('span','t'); s.textContent=it.name+' ×'+(it.qty??0)+(it.location?(' @'+it.location):'')+(it.note?(' · '+it.note):'');
+      const inc=el('button','btn-edit'); inc.textContent='＋'; inc.onclick=()=>{it.qty=(Number(it.qty||0)+1); update(data);};
+      const dec=el('button','btn-edit'); dec.textContent='－'; dec.onclick=()=>{it.qty=Math.max(0,Number(it.qty||0)-1); update(data);};
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(idx,1);update(data);}};
+      item.append(s,dec,inc,del); list.appendChild(item); }); }
+    add.onclick=()=>{ if(!nm.value.trim())return; data.unshift({id:uid(),name:nm.value.trim(),qty:Number(qy.value||1),location:lc.value.trim(),note:nt.value.trim()}); nm.value='';qy.value='';lc.value='';nt.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'journal', title:'日记', icon:'📔',
+  schema:[{name:'id',type:'text'},{name:'date',type:'date'},{name:'mood',type:'select'},{name:'body',type:'text'}],
+  seed:[{id:uid(),date:today(),mood:'😐',body:'今天开始用工作台。'}],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const dt=el('input'); dt.type='date'; dt.value=today(); const mo=el('select'); ['😀','😐','😞'].forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;mo.appendChild(o);}); const bd=el('textarea'); bd.placeholder='今天怎样？'; bd.rows=2; const add=el('button','btn-primary'); add.textContent='写一条'; row.append(dt,mo,bd,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(it=>{ const c=el('div','note-card');
+      const h=el('div','note-h'); h.textContent=(it.date||'')+' '+(it.mood||'');
+      const p=el('div','note-b'); p.textContent=it.body||'';
+      const edit=el('button','btn-edit'); edit.textContent='✎'; edit.onclick=()=>{ const nb=prompt('内容',it.body)||it.body; data[data.indexOf(it)]={...it,body:nb}; update(data); };
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);}};
+      c.append(edit,del,h,p); list.appendChild(c); }); }
+    add.onclick=()=>{ if(!bd.value.trim())return; data.unshift({id:uid(),date:dt.value||today(),mood:mo.value,body:bd.value.trim()}); bd.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'news', title:'资讯', icon:'📰',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'summary',type:'text'},{name:'source',type:'text'},{name:'url',type:'url'},{name:'date',type:'date'}],
+  seed:[],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='标题'; const su=el('input'); su.placeholder='摘要'; const sr=el('input'); sr.placeholder='来源'; const ur=el('input'); ur.placeholder='https://…'; const dt=el('input'); dt.type='date'; dt.value=today(); const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,su,sr,ur,dt,add); slot.appendChild(row);
+    if(!data.length){ const e=el('div'); e.style.color='var(--text-dim)'; e.style.padding='12px 0'; e.textContent='暂无资讯。可配置「每日信息源自动更新」（见 skill 第 5 步）自动写入。'; slot.appendChild(e); }
+    const list=el('div','note-list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(it=>{ const c=el('div','note-card');
+      const h=el('div','note-h'); const a=el('a'); a.href=it.url||'#'; a.target='_blank'; a.rel='noopener'; a.textContent=it.title||'(无标题)'; a.style.color='var(--accent)'; a.style.textDecoration='none'; h.appendChild(a);
+      const p=el('div','note-b'); p.textContent=it.summary||'';
+      const m=el('div','meta'); m.textContent=(it.source||'')+(it.date?' · '+it.date:'');
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=()=>{if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);}};
+      c.append(del,h,p,m); list.appendChild(c); }); }
+    add.onclick=()=>{ if(!ti.value.trim())return; data.unshift({id:uid(),title:ti.value.trim(),summary:su.value.trim(),source:sr.value.trim(),url:ur.value.trim(),date:dt.value||today()}); ti.value='';su.value='';sr.value='';ur.value='';dt.value=today(); update(data); };
+    draw();
+  }
+});
+
+/* ============ 持久化 ============ */
+const store = {
+  get(t){ try{ const v=JSON.parse(localStorage.getItem('wb:'+t)); return Array.isArray(v)?v:REG[t].seed.slice(); }catch(e){ return REG[t].seed.slice(); } },
+  set(t,arr){ localStorage.setItem('wb:'+t, JSON.stringify(arr)); }
+};
+function refresh(t){ const slot=document.querySelector('[data-mod="'+t+'"]'); if(slot&&REG[t]) REG[t].render(slot, store.get(t), (a)=>update(t,a)); }
+function update(t,arr){ store.set(t,arr); refresh(t); if(t!=='dashboard'&&REG.dashboard) refresh('dashboard'); }
+
+/* ============ UI 布局（可插拔模板） ============ */
+function buildLayout(kind, mods){
+  const app=document.getElementById('app'); app.innerHTML='';
+  document.body.className='layout-'+kind;
+  const slots={};
+  if(kind==='sidebar'){
+    const side=el('aside','sidebar'); const brand=el('div','brand'); brand.textContent='🧰 '+CFG.title; side.appendChild(brand);
+    const main=el('main','main');
+    mods.forEach((m,i)=>{
+      const ni=el('div','nav-item'+(i===0?' active':'')); ni.dataset.mod=m.type; ni.innerHTML=m.icon+' '+m.title;
+      ni.onclick=()=>{document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); ni.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active')); slots[m.type].classList.add('active');};
+      side.appendChild(ni);
+      const p=el('section','panel'+(i===0?' active':'')); p.dataset.mod=m.type; main.appendChild(p); slots[m.type]=p;
+    });
+    app.append(side,main);
+  } else if(kind==='cardGrid'){
+    const tb=el('div','topbar'); tb.textContent='🧰 '+CFG.title; app.appendChild(tb);
+    const grid=el('div','grid'); app.appendChild(grid);
+    mods.forEach(m=>{const c=el('div','card'); const h=el('h3'); h.innerHTML=m.icon+' '+m.title; c.appendChild(h);
+      const body=el('div','mod-body'); c.appendChild(body); grid.appendChild(c); slots[m.type]=body;});
+  } else if(kind==='topnav'){
+    const bar=el('div','topbar'); const brand=el('span','brand'); brand.textContent='🧰 '+CFG.title; bar.appendChild(brand);
+    mods.forEach((m,i)=>{const t=el('span','tab'+(i===0?' active':'')); t.dataset.mod=m.type; t.innerHTML=m.icon+' '+m.title;
+      t.onclick=()=>{document.querySelectorAll('.tab').forEach(n=>n.classList.remove('active')); t.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active')); slots[m.type].classList.add('active');};
+      bar.appendChild(t);});
+    app.appendChild(bar);
+    const main=el('main','main'); mods.forEach((m,i)=>{const p=el('section','panel'+(i===0?' active':'')); p.dataset.mod=m.type; main.appendChild(p); slots[m.type]=p;});
+    app.appendChild(main);
+  } else { // masonry
+    const tb=el('div','topbar'); tb.textContent='🧰 '+CFG.title; app.appendChild(tb);
+    const m=el('div','masonry'); app.appendChild(m);
+    mods.forEach(mod=>{const c=el('div','card'); const h=el('h3'); h.innerHTML=mod.icon+' '+mod.title; c.appendChild(h);
+      const body=el('div','mod-body'); c.appendChild(body); m.appendChild(c); slots[mod.type]=body;});
+  }
+  return slots;
+}
+function renderAll(){
+  const mods=CFG.modules.filter(t=>REG[t]).map(t=>({type:t,title:REG[t].title,icon:REG[t].icon}));
+  if(!mods.length){ document.getElementById('app').textContent='未选择任何模块'; return; }
+  const slots=buildLayout(CFG.ui, mods);
+  mods.forEach(m=> REG[m.type].render(slots[m.type], store.get(m.type), (a)=>update(m.type,a)) );
+}
+
+/* ============ CSV 工具 ============ */
+function csvEscape(v){ if(v==null)return ''; v=String(v); if(/[",\n]/.test(v)) return '"'+v.replace(/"/g,'""')+'"'; return v; }
+function toCSV(rows, schema){ return [schema.map(c=>csvEscape(c.name)).join(','),
+  ...rows.map(r=>schema.map(c=>csvEscape(r[c.name])).join(','))].join('\n'); }
+function parseCSV(text){ const rows=[]; let i=0,field='',row=[],inq=false;
+  while(i<text.length){ const ch=text[i];
+    if(inq){ if(ch==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inq=false; } else field+=ch; }
+    else { if(ch==='"')inq=true; else if(ch===','){row.push(field);field='';} else if(ch==='\n'){row.push(field);rows.push(row);field='';row=[];} else if(ch!=='\r')field+=ch; }
+    i++; }
+  if(field!==''||row.length){row.push(field);rows.push(row);} return rows; }
+function fromCSV(text, schema){ const rows=parseCSV(text); if(rows.length<1)return [];
+  const head=rows[0].map(h=>h.trim()); const idx={};
+  schema.forEach(c=>{ idx[c.name]=head.findIndex(h=>h.toLowerCase()===c.name.toLowerCase()); });
+  return rows.slice(1).map(r=>{ const o={}; schema.forEach(c=>{ let v=idx[c.name]>=0?(r[idx[c.name]]??''):''; if(c.type==='checkbox')v=(v==='true'||v==='1'||v==='✓'); o[c.name]=v; }); return o; }); }
+function download(name,text){ const blob=new Blob(['\ufeff'+text],{type:'text/csv;charset=utf-8'}); const a=el('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
+function exportAll(){ CFG.modules.filter(t=>REG[t]).forEach(t=> download(t+'.csv', toCSV(store.get(t), REG[t].schema))); toast('已导出 '+CFG.modules.filter(t=>REG[t]).length+' 个 CSV'); }
+function importFile(file){ const r=new FileReader(); r.onload=()=>{ const text=r.result;
+  let matched=null; for(const t of CFG.modules.filter(x=>REG[x])){ const head=(parseCSV(text)[0]||[]).map(h=>h.trim().toLowerCase()); if(head.some(h=>REG[t].schema.some(c=>c.name.toLowerCase()===h))){matched=t;break;} }
+  if(!matched) matched=CFG.modules.find(t=>file.name.toLowerCase().includes(t))||null;
+  if(!matched){ toast('无法匹配到模块'); return; }
+  const arr=fromCSV(text, REG[matched].schema); update(matched, arr); toast('已导入到 '+REG[matched].title+'（'+arr.length+' 条）'); }; r.readAsText(file); }
+
+/* ============ 主题 ============ */
+function applyTheme(){ const saved=localStorage.getItem('wb:theme'); if(saved)CFG.theme=saved;
+  const sys=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  const use=CFG.theme==='auto'?sys:CFG.theme; document.documentElement.setAttribute('data-theme',use);
+  if(REG.dashboard) refresh('dashboard'); }
+function toggleTheme(){ const cur=document.documentElement.getAttribute('data-theme'); const next=cur==='dark'?'light':'dark';
+  CFG.theme=next; localStorage.setItem('wb:theme',next); applyTheme(); }
+
+/* ============ UI 风格预设（全局换肤，仅切同一组 token） ============ */
+const STYLES=[
+  {id:'default',name:'云灰蓝',desc:'中性蓝灰，专业克制',sw:['#3b6cff','#e8efff','#f5f6f8','#1f2430']},
+  {id:'macaron',name:'马卡龙',desc:'粉彩柔润，轻盈治愈',sw:['#b48ad4','#f1e9fb','#fbf7fc','#4a4258']},
+  {id:'ink',   name:'墨韵',  desc:'极简黑白，锋利高级',sw:['#33334d','#eaeaef','#fafafa','#18181b']},
+  {id:'ocean', name:'深海',  desc:'青蓝静谧，清爽专注',sw:['#0f8b8f','#d8f0f1','#f1f8f9','#1c3a3d']},
+  {id:'sunset',name:'晚霞',  desc:'暖橙活力，亲和明快',sw:['#f0735f','#ffe2d8','#fff6f2','#4a2e26']}
+];
+function applyStyle(id){
+  if(!id) id=localStorage.getItem('wb:style')||CFG.style||'default';
+  CFG.style=id;
+  document.documentElement.setAttribute('data-style', id);
+  localStorage.setItem('wb:style', id);
+  // accent 处理：default 风格允许自定义 accent；预置风格用其自带 accent
+  if(id==='default'){ document.documentElement.style.setProperty('--accent', CFG.accent); }
+  else { document.documentElement.style.removeProperty('--accent'); }
+  if(REG.dashboard) refresh('dashboard');   // 图表等硬编码色需按新 token 重绘
+  document.querySelectorAll('.style-card').forEach(c=>c.classList.toggle('active', c.dataset.style===id));
+}
+function openStylePicker(){
+  let mask=document.getElementById('styleMask');
+  if(mask){ mask.classList.add('show'); return; }
+  mask=el('div','modal-mask'); mask.id='styleMask';
+  const modal=el('div','modal');
+  const h=el('h3'); h.textContent='🎨 选择 UI 风格';
+  const sub=el('div','sub'); sub.textContent='切换全局生效：所有布局、模块、图表同步换肤。';
+  const grid=el('div','style-grid');
+  STYLES.forEach(s=>{
+    const card=el('div','style-card'); card.dataset.style=s.id;
+    if(s.id===(CFG.style||'default')) card.classList.add('active');
+    const sw=el('div','style-swatch'); sw.style.background=s.sw[2];
+    s.sw.forEach((c,i)=>{ const i2=el('i'); i2.style.background=c; if(i===0)i2.style.flex='1.8'; sw.appendChild(i2); });
+    const nm=el('div','style-name'); nm.textContent=s.name;
+    const ds=el('div','style-desc'); ds.textContent=s.desc;
+    card.append(sw,nm,ds);
+    card.onclick=()=>{ applyStyle(s.id); };
+    grid.appendChild(card);
+  });
+  const close=el('button','btn-primary'); close.textContent='完成'; close.style.marginTop='14px';
+  close.onclick=()=>mask.classList.remove('show');
+  mask.onclick=e=>{ if(e.target===mask)mask.classList.remove('show'); };
+  modal.append(h,sub,grid,close); mask.appendChild(modal); document.body.appendChild(mask);
+  mask.classList.add('show');
+}
+
+/* ============ 工具栏 ============ */
+function buildToolbar(){ const bar=el('div','toolbar');
+  const bExp=el('button'); bExp.textContent='⬇ 导出CSV'; bExp.onclick=exportAll;
+  const bImp=el('button'); bImp.textContent='⬆ 导入CSV'; const fi=el('input'); fi.type='file'; fi.accept='.csv'; fi.style.display='none';
+  bImp.onclick=()=>fi.click(); fi.onchange=()=>{ if(fi.files[0])importFile(fi.files[0]); fi.value=''; };
+  const bTh=el('button'); bTh.textContent='🌓 主题'; bTh.onclick=toggleTheme;
+  const bSt=el('button'); bSt.textContent='🎨 风格'; bSt.onclick=openStylePicker;
+  const bRe=el('button'); bRe.textContent='↺ 重置'; bRe.onclick=()=>{ if(confirm('重置所有模块为示例数据？此操作清空本地改动。')){ CFG.modules.filter(t=>REG[t]).forEach(t=>store.set(t,REG[t].seed.slice())); renderAll(); toast('已重置'); } };
+  bar.append(bExp,bImp,bTh,bSt,bRe,fi); document.body.appendChild(bar); }
+
+/* ============ 图表 ============ */
+function drawBar(cv, vals, labels){ const ctx=cv.getContext('2d'); const W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H); const pad=28; const max=Math.max(1,...vals); const n=vals.length||1;
+  const gap=(W-pad*2)/n; const bw=Math.min(56,gap*0.6); const base=H-22;
+  const css=getComputedStyle(document.documentElement);
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  const axis=css.getPropertyValue('--text-dim').trim()||(dark?'#94a0b3':'#6b7280');
+  const bar=css.getPropertyValue('--accent').trim()||(dark?'#5b8cff':'#3b6cff');
+  ctx.strokeStyle=axis; ctx.beginPath(); ctx.moveTo(pad,base); ctx.lineTo(W-pad,base); ctx.stroke();
+  vals.forEach((v,i)=>{ const x=pad+gap*i+(gap-bw)/2; const h=(v/max)*(base-pad);
+    ctx.fillStyle=bar; ctx.fillRect(x,base-h,bw,h); ctx.fillStyle=axis; ctx.font='11px system-ui'; ctx.textAlign='center';
+    ctx.fillText(String(v),x+bw/2,base-h-4); if(labels[i])ctx.fillText(labels[i],x+bw/2,H-6); }); }
+
+/* ============ toast ============ */
+function toast(msg){ let t=document.getElementById('toast'); if(!t){t=el('div');t.id='toast';document.body.appendChild(t);}
+  t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
+
+/* ============ 启动 ============ */
+applyStyle();          // 应用风格预设（含 default 下的自定义 accent）
+applyTheme();
+renderAll();
+buildToolbar();
+</script>
+</body>
+</html>
