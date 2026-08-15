@@ -5,6 +5,7 @@
 ![Modules](https://img.shields.io/badge/Modules-14-blue)
 ![UI Templates](https://img.shields.io/badge/UI%20Templates-4-orange)
 ![UI Styles](https://img.shields.io/badge/UI%20Styles-5-pink)
+![Templates](https://img.shields.io/badge/Templates-6%2B-purple)
 
 基于 **WorkBuddy 资料库** 构建可插拔、单文件交付的个人 / 团队工作台 Skill。
 
@@ -84,7 +85,7 @@ workbench-builder/
 │       └── masonry.html
 ├── references/
 │   ├── module-catalog.md         # 14 模块字段定义
-│   ├── ui-design-system.md       # 4 套 UI 模板规范
+│   ├── ui-design-system.md       # UI 模板 + 风格预设规范
 │   ├── checklist.md              # 交付前 Check List（P0/P1/P2）
 │   └── test-cases.md             # 六维验收 Test Case + 报告模板
 └── LICENSE
