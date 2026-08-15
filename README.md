@@ -64,6 +64,7 @@ workbench-builder/
 │   ├── reference-workbench.html     # 权威交付种子（已内联 14 模块 + 4 模板 + 5 风格）
 │   ├── style-gallery.html           # 5 套 UI 风格预设预览器
 │   ├── templates/                   # 完整模板示例（预设/布局组合 + 外部灵感改写）
+│   │   ├── README.md                # 模板索引：清单 + 风格切换 + 起点指引
 │   │   ├── macaron-masonry.html
 │   │   ├── ocean-sidebar.html
 │   │   ├── ink-topnav.html
