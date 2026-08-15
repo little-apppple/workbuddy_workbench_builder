@@ -3,7 +3,7 @@ name: workbench-builder
 slug: workbuddy-workbench-builder
 displayName: Workbench Builder（工作台构建器）
 description: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台。把用户的待办/记忆/指标聚合为一个可离线 HTML 工作台，数据自动落到资料库 CSV 并托管为在线 page、自动双向同步。内置 19 模块、4 布局、13 风格预设、11 角色配方；存储层已封装在种子，选模块即自动确定页面元素与数据库字段。当用户说"搭个工作台/做个个人面板/用资料库建仪表盘/给我一个本地可运行的看板/每天自动更新工作台数据"时使用。
-version: 1.4.0
+version: 1.4.1
 summary: 零依赖单文件工作台构建器；内置 19 模块/4 布局/13 风格/11 角色配方；数据落资料库 CSV 并托管在线 page，自动双向同步；存储层已封装，改 WORKBENCH_CONFIG 即可装配，选模块即自动适配页面元素与数据结构。v1.4.0：借鉴「缮语·企业 Claw」经营工作台——新增 briefing 今日简报/insight 外部洞察/approvals 审批中心/cron 定时任务 4 模块与 claw 企业蓝风格（含绿/橙/红状态色 --warn token），新增企业经营配方。
 author: Remo
 level: personal
