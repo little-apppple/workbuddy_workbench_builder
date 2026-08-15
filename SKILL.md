@@ -3,8 +3,8 @@ name: workbench-builder
 slug: workbuddy-workbench-builder
 displayName: Workbench Builder（工作台构建器）
 description: 基于 WorkBuddy 资料库构建可插拔、单文件交付的个人/团队工作台。覆盖：①存量数据确认与导入(SQL/微信文档/飞书/Notion/多维表) ②可插拔模块选择(todo/mem/dashboard 等，含官方案例映射) ③多套 UI 模板选择 ④强制 CSV 存储 + 单文件内联 HTML 交付 ⑤每日信息源自动更新(新闻/行情等 automation 自动配置) ⑥可选跨平台备份(飞书/ima/github 定时任务)；并在交付前执行**自动化验收**(构建 checklist + 验收 test case)保证 UI 交互逻辑/样式配色/布局完整度与合理性/数据结构完整性/设计一致性/自动化任务符合预期的完整与合理。**本 skill 的交付终态是资料库「我的文档」里的在线内容：单文件内联 HTML 作为资料库 page 节点、各模块数据作为 CSV(database) 节点（同样默认落「我的文档」）；本地 HTML 仅为生成过程中的中间产物，不作为最终交付。** 当用户说"搭个工作台/做个个人面板/用资料库建仪表盘/给我一个本地可运行的看板/每天自动更新工作台数据"时使用。
-version: 1.2.0
-summary: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台；内置 15 模块、4 布局、5 风格预设；运行时直连资料库 database 节点、自动双向同步（去 localStorage 数据源，本地预览优雅降级），并含自动化验收。
+version: 1.2.1
+summary: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台；内置 15 模块、4 布局、5 风格预设；运行时直连资料库 database 节点、自动双向同步（去 localStorage 数据源，本地预览优雅降级），并含自动化验收。5 套 UI 预置模板（default/ocean/ink/macaron/sunset）已与 reference-workbench 同步至存储 v1.2 + 资源中心 + 密度打磨。
 author: Remo
 level: personal
 license: MIT
