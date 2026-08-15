@@ -9,10 +9,11 @@
   ║  Workbench Builder · 单文件工作台种子                          ║
   ║  用法：修改下方 WORKBENCH_CONFIG 即可切换模块与 UI 模板。        ║
   ║  - modules: 从 [todo,mem,dashboard,notes,links,kanban,calendar, ║
-  ║            ledger,habits,reading,contacts,inventory,journal,news,resources] 中挑选 ║
+  ║            ledger,habits,reading,contacts,inventory,journal,news,resources, ║
+  ║            briefing,insight,approvals,cron] 中挑选（共 19 个模块） ║
   ║  - ui:       sidebar | cardGrid | topnav | masonry             ║
   ║  - theme:    light | dark | auto                               ║
-  ║  - style:    12 套预设（见 STYLES / ui-design-system.md）         ║
+  ║  - style:    13 套预设（见 STYLES / ui-design-system.md）         ║
   ║  数据（v1.2 起）：资料库 page 运行时直连 DATABASE_ID 节点，自动双向 ║
   ║      同步（外部改 CSV/资料库→前端轮询刷新；前端改→直写库）。         ║
   ║      本地 file:// 预览无 SDK 时自动降级 localStorage（仅演示用）。   ║
@@ -20,7 +21,7 @@
 -->
 <style>
 :root{--bg:#f5f6f8;--surface:#fff;--surface-2:#eef0f4;--text:#1f2430;--text-dim:#6b7280;
---border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;
+--border:#e3e6ec;--accent:#3b6cff;--accent-weak:#e8efff;--danger:#e5484d;--ok:#2fa66a;--warn:#e8a33d;
 --radius:14px;--shadow:0 4px 18px rgba(20,30,60,.08);--gap:16px}
 [data-theme="dark"]{--bg:#0f1218;--surface:#171b23;--surface-2:#1f2530;--text:#e7ebf2;
 --text-dim:#94a0b3;--border:#2a313d;--accent:#5b8cff;--accent-weak:#1c2740;--shadow:0 4px 18px rgba(0,0,0,.45)}
@@ -61,6 +62,9 @@
 /* mono · 纯粹黑白（minimal 极简：白纸黑字、4px 锐角、零彩色装饰） */
 [data-style="mono"]{--bg:#ffffff;--surface:#fafafa;--surface-2:#f0f0f0;--text:#111111;--text-dim:#777777;--border:#e2e2e2;--accent:#111111;--accent-weak:#eeeeee;--radius:4px}
 [data-style="mono"][data-theme="dark"]{--bg:#0d0d0d;--surface:#141414;--surface-2:#1e1e1e;--text:#f5f5f5;--text-dim:#9a9a9a;--border:#2a2a2a;--accent:#f5f5f5;--accent-weak:#242424}
+/* claw · 企业蓝（借鉴缮语·企业 Claw 经营工作台：商务科技蓝白 + 绿/橙/红状态编码） */
+[data-style="claw"]{--bg:#f0f2f5;--surface:#fff;--surface-2:#f5f7fa;--text:#1f2430;--text-dim:#5f6b7d;--border:#dfe4ec;--accent:#1677ff;--accent-weak:#e6f4ff;--radius:8px}
+[data-style="claw"][data-theme="dark"]{--bg:#0a1628;--surface:#101f35;--surface-2:#16273f;--text:#e6f0ff;--text-dim:#8ba3c2;--border:#223a5c;--accent:#3c8dff;--accent-weak:#12305c}
 *{box-sizing:border-box}
 body{margin:0;padding-bottom:100px;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
 background:var(--bg);color:var(--text);transition:background .2s,color .2s}
@@ -160,7 +164,7 @@ const WORKBENCH_CONFIG = {
   title: "我的工作台",
   ui: "sidebar",            // sidebar | cardGrid | topnav | masonry
   theme: "auto",            // light | dark | auto
-  style: "default",         // default|wb|macaron|ink|ocean|sunset|nord|catppuccin|rosepine|tokyonight|everforest|mono
+  style: "default",         // default|wb|macaron|ink|ocean|sunset|nord|catppuccin|rosepine|tokyonight|everforest|mono|claw
   accent: "#3b6cff",
   modules: ["todo","mem","dashboard","notes","links","resources"],
   // 资料库直连：每个模块对应一个 database 节点 id（来自 create_database.py 的 stdout）。
@@ -535,6 +539,126 @@ register({
   }
 });
 
+/* ============ v1.4 新增模块（借鉴「缮语·企业 Claw」经营工作台） ============ */
+
+register({
+  type:'briefing', title:'今日简报', icon:'📋',
+  schema:[{name:'id',type:'text'},{name:'date',type:'date'},{name:'title',type:'text'},{name:'summary',type:'text'},{name:'level',type:'select'},{name:'action',type:'text'},{name:'status',type:'select'}],
+  seed:[
+    {id:uid(),date:today(),title:'经营概览',summary:'整体经营态势稳健：本周新增线索 12 条，转化 3 单；核心指标均在目标区间内。',level:'正常',action:'',status:'已确认'},
+    {id:uid(),date:today(),title:'异常关注',summary:'存储业务线毛利率下滑 2.3%，库存周转天数增至 58 天，需关注供应链成本。',level:'预警',action:'本周召开专项调度会',status:'待确认'},
+    {id:uid(),date:today(),title:'高价值决策 · 10:00 董事会季度战略评审',summary:'确认参会并准备 Q2 数据材料。',level:'关注',action:'确认参会',status:'待确认'}
+  ],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='标题（如：经营概览）'; const su=el('input'); su.placeholder='摘要 / AI 解读'; const lv=el('select'); ['正常','关注','预警'].forEach(function(v){const o=document.createElement('option');o.value=v;o.textContent=v;lv.appendChild(o);}); lv.value='正常'; const ac=el('input'); ac.placeholder='建议行动（可空）'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(ti,su,lv,ac,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    const lvColor={ '正常':'var(--ok)', '关注':'var(--warn)', '预警':'var(--danger)' };
+    function draw(){ list.innerHTML=''; data.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');}).forEach(function(it){ const c=el('div','note-card');
+      const h=el('div','note-h');
+      const tag=el('span'); tag.textContent=it.level||'正常'; tag.style.cssText='font-size:11px;padding:2px 8px;border-radius:8px;margin-right:8px;color:#fff;background:'+(lvColor[it.level]||'var(--ok)');
+      h.appendChild(tag); h.appendChild(document.createTextNode((it.date?it.date+' · ':'')+(it.title||'')));
+      const p=el('div','note-b'); p.textContent=it.summary||'';
+      c.append(h,p);
+      if(it.action){ const a=el('div','meta'); a.style.margin='6px 0'; a.style.whiteSpace='normal'; a.textContent='建议行动：'+it.action; c.appendChild(a); }
+      const foot=el('div'); foot.style.cssText='display:flex;align-items:center;gap:8px;margin-top:6px';
+      const st=el('span'); st.textContent=it.status||'待确认'; st.style.cssText='font-size:12px;color:'+(it.status==='已确认'?'var(--ok)':'var(--warn)'); foot.appendChild(st);
+      if((it.status||'待确认')!=='已确认'){ const ok=el('button','btn-primary'); ok.textContent='✓ 确认'; ok.style.padding='4px 10px'; ok.onclick=function(){ data[data.indexOf(it)]=Object.assign({},it,{status:'已确认'}); update(data); }; foot.appendChild(ok); }
+      const del=el('button','btn-del'); del.textContent='🗑'; del.style.marginLeft='auto'; del.onclick=function(){if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);}}; foot.appendChild(del);
+      c.appendChild(foot); list.appendChild(c); }); }
+    add.onclick=function(){ if(!ti.value.trim())return; data.unshift({id:uid(),date:today(),title:ti.value.trim(),summary:su.value.trim(),level:lv.value,action:ac.value.trim(),status:'待确认'}); ti.value=su.value=ac.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'insight', title:'外部洞察', icon:'🛰',
+  schema:[{name:'id',type:'text'},{name:'date',type:'date'},{name:'type',type:'select'},{name:'title',type:'text'},{name:'summary',type:'text'},{name:'metric',type:'text'},{name:'advice',type:'text'},{name:'impact',type:'select'},{name:'status',type:'select'}],
+  seed:[
+    {id:uid(),date:today(),type:'政策',title:'数字化转型补贴升级',summary:'单项补贴上限由 300 万提升至 500 万，申报窗口 30 天，优先支持工业互联网与 AI 质检方向。',metric:'¥500万 · +67%',advice:'本周内筛选符合条件的在跟项目优先申报',impact:'重大利好',status:'新'},
+    {id:uid(),date:today(),type:'技术',title:'新一代工业视觉模型发布',summary:'支持故障预测与图纸识别，API 定价下降 40%，故障预测准确率 92%，已在汽车/电子行业试点。',metric:'92% · -40%成本',advice:'评估质检模块基于新模型的升级方案',impact:'积极',status:'新'}
+  ],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const tp=el('select'); ['政策','技术','市场','竞争'].forEach(function(v){const o=document.createElement('option');o.value=v;o.textContent=v;tp.appendChild(o);}); const ti=el('input'); ti.placeholder='情报标题'; const su=el('input'); su.placeholder='摘要'; const me=el('input'); me.placeholder='关键数字（如 ¥500万 · +67%）'; const im=el('select'); ['重大利好','积极','中性','风险'].forEach(function(v){const o=document.createElement('option');o.value=v;o.textContent=v;im.appendChild(o);}); im.value='积极'; const add=el('button','btn-primary'); add.textContent='添加'; row.append(tp,ti,su,me,im,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    const imColor={ '重大利好':'var(--danger)', '积极':'var(--ok)', '中性':'var(--text-dim)', '风险':'var(--warn)' };
+    function draw(){ list.innerHTML=''; data.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');}).forEach(function(it){ const c=el('div','note-card');
+      const h=el('div','note-h');
+      const tag=el('span'); tag.textContent=it.type||'市场'; tag.style.cssText='font-size:11px;padding:2px 8px;border-radius:8px;margin-right:8px;color:#fff;background:var(--accent)';
+      h.appendChild(tag); h.appendChild(document.createTextNode(it.title||''));
+      const p=el('div','note-b'); p.textContent=it.summary||'';
+      c.append(h,p);
+      if(it.metric){ const m=el('div'); m.style.cssText='font-size:20px;font-weight:700;color:var(--accent);margin:6px 0'; m.textContent=it.metric; c.appendChild(m); }
+      if(it.advice){ const a=el('div','meta'); a.style.cssText='margin:6px 0;white-space:normal'; a.textContent='建议：'+it.advice; c.appendChild(a); }
+      const foot=el('div'); foot.style.cssText='display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap';
+      const imp=el('span'); imp.textContent=it.impact||'中性'; imp.style.cssText='font-size:12px;padding:2px 8px;border-radius:8px;color:#fff;background:'+(imColor[it.impact]||'var(--text-dim)'); foot.appendChild(imp);
+      const st=el('span','meta'); st.textContent=it.status||'新'; foot.appendChild(st);
+      if((it.status||'新')==='新'){ const ok=el('button','btn-primary'); ok.textContent='采纳'; ok.style.padding='4px 10px'; ok.onclick=function(){ data[data.indexOf(it)]=Object.assign({},it,{status:'已采纳'}); update(data); }; foot.appendChild(ok); }
+      const del=el('button','btn-del'); del.textContent='🗑'; del.style.marginLeft='auto'; del.onclick=function(){if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);}}; foot.appendChild(del);
+      c.appendChild(foot); list.appendChild(c); }); }
+    add.onclick=function(){ if(!ti.value.trim())return; data.unshift({id:uid(),date:today(),type:tp.value,title:ti.value.trim(),summary:su.value.trim(),metric:me.value.trim(),advice:'',impact:im.value,status:'新'}); ti.value=su.value=me.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'approvals', title:'审批中心', icon:'📨',
+  schema:[{name:'id',type:'text'},{name:'title',type:'text'},{name:'applicant',type:'text'},{name:'amount',type:'number'},{name:'note',type:'text'},{name:'status',type:'select'},{name:'date',type:'date'}],
+  seed:[
+    {id:uid(),title:'Q2 华东区营销预算申请',applicant:'王总监',amount:12800000,note:'环比增幅 +42%，AI 预审：增幅偏高，建议附增量说明',status:'待审',date:today()},
+    {id:uid(),title:'AI 质检系统合同（某汽车集团）',applicant:'李经理',amount:38000000,note:'毛利率 28.5%，付款 4-3-3，AI 预审：条款正常',status:'待审',date:today()}
+  ],
+  render(slot,data,update){ slot.innerHTML='';
+    const kg=el('div','kpi-grid');
+    const kpi=function(l,v,c){ const k=el('div','kpi'); const kv=el('div','kpi-v'); kv.textContent=v; kv.style.color=c; const kl=el('div','kpi-l'); kl.textContent=l; k.append(kv,kl); return k; };
+    const drawKpi=function(){ kg.innerHTML=''; kg.append(kpi('待审批',data.filter(function(x){return x.status==='待审';}).length,'var(--warn)'),kpi('已通过',data.filter(function(x){return x.status==='通过';}).length,'var(--ok)'),kpi('已驳回',data.filter(function(x){return x.status==='驳回';}).length,'var(--danger)')); };
+    drawKpi(); slot.appendChild(kg);
+    const row=el('div','row'); const ti=el('input'); ti.placeholder='审批事项'; const ap=el('input'); ap.placeholder='申请人'; const am=el('input'); am.type='number'; am.placeholder='金额（元）'; const no=el('input'); no.placeholder='预审意见 / 备注'; const add=el('button','btn-primary'); add.textContent='提审'; row.append(ti,ap,am,no,add); slot.appendChild(row);
+    const list=el('div','note-list'); slot.appendChild(list);
+    const stColor={ '待审':'var(--warn)', '通过':'var(--ok)', '驳回':'var(--danger)' };
+    function draw(){ drawKpi(); list.innerHTML='';
+      data.slice().sort(function(a,b){ return ((b.status==='待审')?1:0)-((a.status==='待审')?1:0) || (b.date||'').localeCompare(a.date||''); }).forEach(function(it){ const c=el('div','note-card');
+      const h=el('div','note-h');
+      const tag=el('span'); tag.textContent=it.status||'待审'; tag.style.cssText='font-size:11px;padding:2px 8px;border-radius:8px;margin-right:8px;color:#fff;background:'+(stColor[it.status]||'var(--text-dim)');
+      h.appendChild(tag); h.appendChild(document.createTextNode(it.title||''));
+      const amt=el('div'); amt.style.cssText='font-size:20px;font-weight:700;margin:4px 0'; amt.textContent=(typeof it.amount==='number'?'¥'+it.amount.toLocaleString():'¥'+(it.amount||'0')); c.append(h,amt);
+      const m=el('div','meta'); m.style.whiteSpace='normal'; m.textContent=[it.applicant?'申请人：'+it.applicant:'', it.note||'', it.date||''].filter(Boolean).join(' · '); c.appendChild(m);
+      const foot=el('div'); foot.style.cssText='display:flex;gap:8px;margin-top:6px';
+      if((it.status||'待审')==='待审'){ const ok=el('button','btn-primary'); ok.textContent='通过'; ok.style.padding='4px 10px'; ok.onclick=function(){ data[data.indexOf(it)]=Object.assign({},it,{status:'通过'}); update(data); };
+        const no2=el('button'); no2.textContent='驳回'; no2.style.cssText='padding:4px 10px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--danger)'; no2.onclick=function(){ data[data.indexOf(it)]=Object.assign({},it,{status:'驳回'}); update(data); };
+        foot.append(ok,no2); }
+      const del=el('button','btn-del'); del.textContent='🗑'; del.style.marginLeft='auto'; del.onclick=function(){if(confirm('删除？')){data.splice(data.indexOf(it),1);update(data);}}; foot.appendChild(del);
+      c.appendChild(foot); list.appendChild(c); }); }
+    add.onclick=function(){ if(!ti.value.trim())return; data.unshift({id:uid(),title:ti.value.trim(),applicant:ap.value.trim(),amount:am.value?Number(am.value):0,note:no.value.trim(),status:'待审',date:today()}); ti.value=ap.value=am.value=no.value=''; update(data); };
+    draw();
+  }
+});
+
+register({
+  type:'cron', title:'定时任务', icon:'⏱',
+  schema:[{name:'id',type:'text'},{name:'name',type:'text'},{name:'schedule',type:'text'},{name:'desc',type:'text'},{name:'status',type:'select'},{name:'lastRun',type:'date'}],
+  seed:[
+    {id:uid(),name:'日报自动生成',schedule:'每日 08:30',desc:'汇总昨日待办与速记生成日报',status:'运行中',lastRun:today()},
+    {id:uid(),name:'商机情报推送',schedule:'每 6 小时',desc:'抓取招标网站新发布商机信息',status:'运行中',lastRun:today()},
+    {id:uid(),name:'周报汇总分析',schedule:'每周五 17:00',desc:'汇总当周数据生成周报',status:'已暂停',lastRun:today()}
+  ],
+  render(slot,data,update){ slot.innerHTML='';
+    const row=el('div','row'); const na=el('input'); na.placeholder='任务名'; const sc=el('input'); sc.placeholder='周期（如 每日 08:30）'; const de=el('input'); de.placeholder='说明'; const add=el('button','btn-primary'); add.textContent='新建'; row.append(na,sc,de,add); slot.appendChild(row);
+    const tip=el('div','meta'); tip.style.cssText='margin:0 0 10px;white-space:normal'; tip.textContent='提示：此模块用于登记与展示自动化任务；接入 WorkBuddy 时可由 automation 定时执行并回写结果。'; slot.appendChild(tip);
+    const list=el('div','list'); slot.appendChild(list);
+    function draw(){ list.innerHTML=''; data.forEach(function(it,idx){ const item=el('div','item');
+      const dot=el('span'); dot.style.cssText='width:10px;height:10px;border-radius:50%;flex:0 0 10px;background:'+((it.status||'运行中')==='运行中'?'var(--ok)':'var(--border)'); item.appendChild(dot);
+      const mid=el('div'); mid.style.flex='1'; mid.style.minWidth='0';
+      const t=el('div'); t.style.fontWeight='600'; t.textContent=it.name||'(任务)';
+      const m=el('div','meta'); m.style.whiteSpace='normal'; m.textContent=[it.schedule||'', it.desc||'', it.lastRun?'上次 '+it.lastRun:''].filter(Boolean).join(' · ');
+      mid.append(t,m); item.appendChild(mid);
+      const tg=el('button'); tg.textContent=(it.status||'运行中')==='运行中'?'⏸ 暂停':'▶ 启用'; tg.style.cssText='padding:4px 10px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-dim)'; tg.onclick=function(){ data[idx]=Object.assign({},it,{status:(it.status==='运行中'?'已暂停':'运行中')}); update(data); }; item.appendChild(tg);
+      const del=el('button','btn-del'); del.textContent='🗑'; del.onclick=function(){if(confirm('删除？')){data.splice(idx,1);update(data);}}; item.appendChild(del);
+      list.appendChild(item); }); }
+    add.onclick=function(){ if(!na.value.trim())return; data.unshift({id:uid(),name:na.value.trim(),schedule:sc.value.trim(),desc:de.value.trim(),status:'运行中',lastRun:today()}); na.value=sc.value=de.value=''; update(data); };
+    draw();
+  }
+});
+
 /* ============ 持久化（v1.2：资料库直连 + 本地降级） ============ */
 /* 设计：
    - 若模块在 WORKBENCH_CONFIG.databases 中配置了 databaseId，则运行时通过
@@ -796,7 +920,8 @@ const STYLES=[
   {id:'rosepine',  name:'玫瑰松',     desc:'暮色玫瑰，温润雅致',sw:['#d7827e','#f4e3e0','#faf4ed','#575279']},
   {id:'tokyonight',name:'东京夜',     desc:'霓虹深蓝，都市夜色',sw:['#7aa2f7','#2a2f45','#1a1b26','#c0caf5']},
   {id:'everforest',name:'常青',       desc:'森林抹茶，自然疗愈',sw:['#8da101','#e8efd0','#faf5e9','#4d5c53']},
-  {id:'mono',      name:'纯粹',       desc:'黑白极简，零干扰',  sw:['#111111','#eeeeee','#ffffff','#111111']}
+  {id:'mono',      name:'纯粹',       desc:'黑白极简，零干扰',  sw:['#111111','#eeeeee','#ffffff','#111111']},
+  {id:'claw',      name:'企业蓝', desc:'商务科技，数据密集',sw:['#1677ff','#e6f4ff','#f0f2f5','#0a1628']}
 ];
 function applyStyle(id){
   if(!id) id=localStorage.getItem('wb:style')||CFG.style||'default';

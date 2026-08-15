@@ -46,6 +46,9 @@
 /* mono · 纯粹黑白 */
 [data-style="mono"]{--bg:#ffffff;--surface:#fafafa;--surface-2:#f0f0f0;--text:#111111;--text-dim:#777777;--border:#e2e2e2;--accent:#111111;--accent-weak:#eeeeee;--radius:4px}
 [data-style="mono"][data-theme="dark"]{--bg:#0d0d0d;--surface:#141414;--surface-2:#1e1e1e;--text:#f5f5f5;--text-dim:#9a9a9a;--border:#2a2a2a;--accent:#f5f5f5;--accent-weak:#242424}
+/* claw · 企业蓝（借鉴缮语·企业 Claw 经营工作台） */
+[data-style="claw"]{--bg:#f0f2f5;--surface:#fff;--surface-2:#f5f7fa;--text:#1f2430;--text-dim:#5f6b7d;--border:#dfe4ec;--accent:#1677ff;--accent-weak:#e6f4ff;--radius:8px}
+[data-style="claw"][data-theme="dark"]{--bg:#0a1628;--surface:#101f35;--surface-2:#16273f;--text:#e6f0ff;--text-dim:#8ba3c2;--border:#223a5c;--accent:#3c8dff;--accent-weak:#12305c}
 *{box-sizing:border-box}
 body{margin:0;font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);padding:0 0 40px}
 header{padding:24px 28px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
@@ -108,7 +111,8 @@ const PREVIEWS=[
   {style:'rosepine',  name:'玫瑰松',     desc:'暮色玫瑰，温润雅致'},
   {style:'tokyonight',name:'东京夜',     desc:'霓虹深蓝，都市夜色'},
   {style:'everforest',name:'常青',       desc:'森林抹茶，自然疗愈'},
-  {style:'mono',      name:'纯粹',       desc:'黑白极简，零干扰'}
+  {style:'mono',      name:'纯粹',       desc:'黑白极简，零干扰'},
+  {style:'claw',      name:'企业蓝',     desc:'商务科技，数据密集'}
 ];
 function setTheme(t){
   document.documentElement.setAttribute('data-theme',t);

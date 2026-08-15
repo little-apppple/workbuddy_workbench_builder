@@ -102,6 +102,26 @@
 
 ---
 
+### 16. briefing · 今日简报（v1.4 新增，借鉴缮语·企业 Claw）
+- **用途**：每日简报——KPI 摘要 / AI 解读 + 分级提示（正常/关注/预警）+ 待确认高价值决策
+- **schema**：`id/date/title/summary/level(select 正常|关注|预警)/action/status(select 待确认|已确认)`
+- **交互**：添加简报 → 卡片展示 → "✓ 确认"流转决策状态；level 决定标签色（绿/橙/红）
+
+### 17. insight · 外部洞察（v1.4 新增）
+- **用途**：结构化外部情报（政策/技术/市场/竞争）——关键数字 + 决策建议 + 影响评估，比 news 更决策向
+- **schema**：`id/date/type(select)/title/summary/metric/advice/impact(select 重大利好|积极|中性|风险)/status(select 新|已采纳|已提醒|忽略)`
+- **交互**：添加情报 → 卡片展示（关键数字高亮）→ "采纳"流转状态
+
+### 18. approvals · 审批中心（v1.4 新增）
+- **用途**：轻量审批流——待审事项带金额、申请人、预审意见，一键通过/驳回
+- **schema**：`id/title/applicant/amount(number)/note/status(select 待审|通过|驳回|问询)/date`
+- **交互**：顶部 KPI（待审/已通过/已驳回）实时统计；通过/驳回按钮写回数据
+
+### 19. cron · 定时任务（v1.4 新增）
+- **用途**：自动化任务登记与展示——与 WorkBuddy automations 天然联动（automation 定时执行、模块登记与回写状态）
+- **schema**：`id/name/schedule/desc/status(select 运行中|已暂停)/lastRun(date)`
+- **交互**：状态圆点（绿=运行/灰=暂停）+ 暂停/启用切换
+
 ## 默认推荐组合
 
 > 角色化完整配方（含风格与布局绑定）见 `references/presets.md`，下表仅按场景给模块组合。

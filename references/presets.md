@@ -8,7 +8,7 @@
 
 ## 组合空间
 
-12 套风格 × 4 种布局 × 15 模块。常用配方如下（均为实测组合，风格与布局刻意错开）：
+13 套风格 × 4 种布局 × 19 模块。常用配方如下（均为实测组合，风格与布局刻意错开）：
 
 ## 1. 老板指挥台（管人管事管节奏）
 
@@ -108,3 +108,22 @@
 - **加/减模块**：直接增删 `modules` 数组即可，页面与数据库结构自动适配（见 module-catalog.md）。
 - **深色锁定**：`theme: "dark"`（同理 `"light"`），`"auto"` 跟随系统。
 - **混搭**：布局和风格可以任意组合（如 mono + masonry = 极简灵感墙），本表组合只是经过审美校准的默认值。
+
+## 11. 企业经营 · 缮语配方（v1.4 新增）
+
+> 借鉴「缮语·企业 Claw」AI 企业经营管理工作台，面向高管/经营管理者。
+
+```js
+const WORKBENCH_CONFIG = {
+  title: "企业经营工作台",
+  ui: "sidebar",
+  theme: "auto",
+  style: "claw",            // 企业蓝：商务科技蓝白；dark 态即驾驶舱大屏风
+  accent: "#1677ff",
+  modules: ["briefing","insight","dashboard","approvals","cron","calendar"],
+};
+```
+
+- **模块逻辑**：briefing 每日简报（先看什么）→ insight 外部洞察（外面发生了什么）→ dashboard 概览（经营数字）→ approvals 审批中心（拍板）→ cron 定时任务（自动化）→ calendar 日程
+- **状态色编码**：claw 风格下 正常/通过=绿、关注/待审=橙、预警/驳回=红，全模块一致
+- **自动化联动**：cron 模块登记任务，WorkBuddy automation 定时执行并回写 lastRun/status

@@ -40,7 +40,7 @@
 
 ## UI 风格预设（全局换肤）
 
-12 套预置风格全部基于同一组设计 token 派生，切换时只需改 `html` 的 `data-style` 属性，所有组件、布局、图表自动跟随，**不存在某个模块掉队**。
+13 套预置风格全部基于同一组设计 token 派生，切换时只需改 `html` 的 `data-style` 属性，所有组件、布局、图表自动跟随，**不存在某个模块掉队**。
 
 原生 6 套：
 
@@ -63,10 +63,11 @@
 | `tokyonight` | 东京夜 | Tokyo Night (Night/Day) | 霓虹深蓝、高对比 | Web 开发、快速迭代 |
 | `everforest` | 常青 | Everforest | 森林抹茶、自然疗愈 | 生活记录、慢节奏场景 |
 | `mono` | 纯粹 | minimal 趋势派生 | 纯黑白、4px 锐角 | 极简主义、零干扰清单 |
+| `claw` | 企业蓝 | 缮语·企业 Claw 经营工作台派生 | 商务科技蓝白（#1677ff）、数据密集、深色态为驾驶舱大屏风 | 企业经营、老板/高管场景 |
 
 实现方式：种子文件用 `[data-style="<键>"]` 覆盖同一组 token（`--bg/--surface/--surface-2/--text/--text-dim/--border/--accent/--accent-weak/--radius`），并配套 `[data-style="<键>"][data-theme="dark"]` 深色变体。运行时通过 `applyStyle(id)` 设置 `document.documentElement.setAttribute('data-style', id)` 并持久化到 `localStorage['wb:style']`；所有模块的 Canvas 图表通过 `getComputedStyle(document.documentElement).getPropertyValue('--accent')` 读取当前强调色，**没有硬编码颜色**。
 
-交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 12 套预置风格让用户选择**（弹窗 `.style-grid` 本就是 12 张卡片），并在底部右下角工具栏提供「🎨 风格」入口。注意：除 `default` 外的 11 套风格自带 accent，`WORKBENCH_CONFIG.accent` 自定义色仅对 `default` 生效。
+交互约定：当用户说"换个 UI 风格 / 换肤 / 换配色"时，**必须列出上述 13 套预置风格让用户选择**（弹窗 `.style-grid` 本就是 13 张卡片），并在底部右下角工具栏提供「🎨 风格」入口。注意：除 `default` 外的 12 套风格自带 accent，`WORKBENCH_CONFIG.accent` 自定义色仅对 `default` 生效。
 
 参考：
 - 预设预览器：`examples/style-gallery.html`

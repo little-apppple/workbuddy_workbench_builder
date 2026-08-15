@@ -1537,6 +1537,535 @@
           }
         }
       ]
+    },
+    {
+      "name": "briefing",
+      "title": "工作台·今日简报",
+      "properties": [
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "summary",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "level",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "正常"
+                },
+                {
+                  "text": "关注"
+                },
+                {
+                  "text": "预警"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "action",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "status",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "待确认"
+                },
+                {
+                  "text": "已确认"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "seed": [
+        {
+          "id": {
+            "text": "briefing_seed_1"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "title": {
+            "text": "经营概览"
+          },
+          "summary": {
+            "text": "整体经营态势稳健：本周新增线索 12 条，转化 3 单；核心指标均在目标区间内。"
+          },
+          "level": {
+            "select": "正常"
+          },
+          "action": {
+            "text": ""
+          },
+          "status": {
+            "select": "已确认"
+          }
+        },
+        {
+          "id": {
+            "text": "briefing_seed_2"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "title": {
+            "text": "异常关注"
+          },
+          "summary": {
+            "text": "存储业务线毛利率下滑 2.3%，库存周转天数增至 58 天，需关注供应链成本。"
+          },
+          "level": {
+            "select": "预警"
+          },
+          "action": {
+            "text": "本周召开专项调度会"
+          },
+          "status": {
+            "select": "待确认"
+          }
+        },
+        {
+          "id": {
+            "text": "briefing_seed_3"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "title": {
+            "text": "高价值决策 · 10:00 董事会季度战略评审"
+          },
+          "summary": {
+            "text": "确认参会并准备 Q2 数据材料。"
+          },
+          "level": {
+            "select": "关注"
+          },
+          "action": {
+            "text": "确认参会"
+          },
+          "status": {
+            "select": "待确认"
+          }
+        }
+      ]
+    },
+    {
+      "name": "insight",
+      "title": "工作台·外部洞察",
+      "properties": [
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "name": "type",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "政策"
+                },
+                {
+                  "text": "技术"
+                },
+                {
+                  "text": "市场"
+                },
+                {
+                  "text": "竞争"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "summary",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "metric",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "advice",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "impact",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "重大利好"
+                },
+                {
+                  "text": "积极"
+                },
+                {
+                  "text": "中性"
+                },
+                {
+                  "text": "风险"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "status",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "新"
+                },
+                {
+                  "text": "已采纳"
+                },
+                {
+                  "text": "已提醒"
+                },
+                {
+                  "text": "忽略"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "seed": [
+        {
+          "id": {
+            "text": "insight_seed_1"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "type": {
+            "select": "政策"
+          },
+          "title": {
+            "text": "数字化转型补贴升级"
+          },
+          "summary": {
+            "text": "单项补贴上限由 300 万提升至 500 万，申报窗口 30 天，优先支持工业互联网与 AI 质检方向。"
+          },
+          "metric": {
+            "text": "¥500万 · +67%"
+          },
+          "advice": {
+            "text": "本周内筛选符合条件的在跟项目优先申报"
+          },
+          "impact": {
+            "select": "重大利好"
+          },
+          "status": {
+            "select": "新"
+          }
+        },
+        {
+          "id": {
+            "text": "insight_seed_2"
+          },
+          "date": {
+            "date": "2026-08-15"
+          },
+          "type": {
+            "select": "技术"
+          },
+          "title": {
+            "text": "新一代工业视觉模型发布"
+          },
+          "summary": {
+            "text": "支持故障预测与图纸识别，API 定价下降 40%，故障预测准确率 92%，已在汽车/电子行业试点。"
+          },
+          "metric": {
+            "text": "92% · -40%成本"
+          },
+          "advice": {
+            "text": "评估质检模块基于新模型的升级方案"
+          },
+          "impact": {
+            "select": "积极"
+          },
+          "status": {
+            "select": "新"
+          }
+        }
+      ]
+    },
+    {
+      "name": "approvals",
+      "title": "工作台·审批中心",
+      "properties": [
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "title",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "applicant",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "amount",
+          "config": {
+            "number": 0
+          }
+        },
+        {
+          "name": "note",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "status",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "待审"
+                },
+                {
+                  "text": "通过"
+                },
+                {
+                  "text": "驳回"
+                },
+                {
+                  "text": "问询"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "date",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
+      ],
+      "seed": [
+        {
+          "id": {
+            "text": "approvals_seed_1"
+          },
+          "title": {
+            "text": "Q2 华东区营销预算申请"
+          },
+          "applicant": {
+            "text": "王总监"
+          },
+          "amount": {
+            "number": 12800000
+          },
+          "note": {
+            "text": "环比增幅 +42%，AI 预审：增幅偏高，建议附增量说明"
+          },
+          "status": {
+            "select": "待审"
+          },
+          "date": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "approvals_seed_2"
+          },
+          "title": {
+            "text": "AI 质检系统合同（某汽车集团）"
+          },
+          "applicant": {
+            "text": "李经理"
+          },
+          "amount": {
+            "number": 38000000
+          },
+          "note": {
+            "text": "毛利率 28.5%，付款 4-3-3，AI 预审：条款正常"
+          },
+          "status": {
+            "select": "待审"
+          },
+          "date": {
+            "date": "2026-08-15"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cron",
+      "title": "工作台·定时任务",
+      "properties": [
+        {
+          "name": "id",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "name",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "schedule",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "desc",
+          "config": {
+            "text": ""
+          }
+        },
+        {
+          "name": "status",
+          "config": {
+            "select": {
+              "options": [
+                {
+                  "text": "运行中"
+                },
+                {
+                  "text": "已暂停"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "lastRun",
+          "config": {
+            "date": "2026-08-15"
+          }
+        }
+      ],
+      "seed": [
+        {
+          "id": {
+            "text": "cron_seed_1"
+          },
+          "name": {
+            "text": "日报自动生成"
+          },
+          "schedule": {
+            "text": "每日 08:30"
+          },
+          "desc": {
+            "text": "汇总昨日待办与速记生成日报"
+          },
+          "status": {
+            "select": "运行中"
+          },
+          "lastRun": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "cron_seed_2"
+          },
+          "name": {
+            "text": "商机情报推送"
+          },
+          "schedule": {
+            "text": "每 6 小时"
+          },
+          "desc": {
+            "text": "抓取招标网站新发布商机信息"
+          },
+          "status": {
+            "select": "运行中"
+          },
+          "lastRun": {
+            "date": "2026-08-15"
+          }
+        },
+        {
+          "id": {
+            "text": "cron_seed_3"
+          },
+          "name": {
+            "text": "周报汇总分析"
+          },
+          "schedule": {
+            "text": "每周五 17:00"
+          },
+          "desc": {
+            "text": "汇总当周数据生成周报"
+          },
+          "status": {
+            "select": "已暂停"
+          },
+          "lastRun": {
+            "date": "2026-08-15"
+          }
+        }
+      ]
     }
   ]
 }

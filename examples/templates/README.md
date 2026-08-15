@@ -2,7 +2,7 @@
 
 本目录收录可直接打开、可当新工作台起点的**零依赖单文件 HTML** 模板。
 全部基于 `workbench-builder` 同一套设计 token 系统，保证全局样式一致性：
-12 套预置风格（原生 6 套：`default`/`wb`/`macaron`/`ink`/`ocean`/`sunset`；社区经典 6 套：`nord`/`catppuccin`/`rosepine`/`tokyonight`/`everforest`/`mono`）+ 浅/深色模式一键切换，详见 `references/ui-design-system.md`。
+13 套预置风格（原生 6 套：`default`/`wb`/`macaron`/`ink`/`ocean`/`sunset`；社区经典 6 套：`nord`/`catppuccin`/`rosepine`/`tokyonight`/`everforest`/`mono`；商务 1 套：`claw` 企业蓝）+ 浅/深色模式一键切换，详见 `references/ui-design-system.md`。
 
 > 打开方式：双击用浏览器打开即可（`file://` 离线可用，无 CDN、无外链）。
 > 数据：运行时直连资料库 database 节点自动双向同步；`file://` 预览时降级到 localStorage（仅演示）。
@@ -22,7 +22,7 @@
 | `glass-dashboard.html` | 灵感来自 [ZASENJC/dashboard](https://github.com/ZASENJC/dashboard) (MIT) | 玻璃拟态 Hero | 实时时钟 / 运行时间 / 加载耗时 + 书签统计 | 个人仪表盘首页 |
 | `textured-startpage.html` | 灵感来自 [snownico0722/index-main](https://github.com/snowico0722/index-main) | 中央搜索 + 质感 | 站点分组 + 8 种质感切换 | 质感可换起始页 |
 
-> 现有 8 套模板覆盖代表性风格×布局组合（新风格 nord/catppuccin/rosepine 等可随时通过 `WORKBENCH_CONFIG.style` 套用到任意模板，共 12 风格 × 4 布局可选）。
+> 现有 8 套模板覆盖代表性风格×布局组合（新风格 nord/catppuccin/rosepine 等可随时通过 `WORKBENCH_CONFIG.style` 套用到任意模板，共 13 风格 × 4 布局可选）。
 > 所有外部灵感模板均已**重写为零依赖单文件**，统一使用本 skill 的 token 系统，
 > 禁止外链图标字体 / CDN。对应设计模式与署名见 `references/ui-design-system.md`。
 
