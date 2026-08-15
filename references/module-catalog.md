@@ -5,7 +5,9 @@
 
 > 字段类型约定（对标资料库 database 字段）：`text` / `number` / `date` / `checkbox` / `url` / `select`。CSV 导入导出按这些列名对齐。
 
-> **全部模块均已开箱即用**：下面的 14 个模块都已在 `examples/reference-workbench.html` 的 `MODULE_REGISTRY` 中实现（含 `render`/`seed`/`toCSV`/`fromCSV`），并已在 `assets/deploy/manifest.json` 中配好落库 schema/seed。差别只在于是否默认勾选，而非"有没有代码"。
+> **存储模型（v1.2 · 直连资料库 + 双向同步）**：模块在 `WORKBENCH_CONFIG.databases` 中配置了 `database_id` 时，运行时经平台注入的 `window.__SMART_PAGE__.database` **直读直写**对应 database 节点，**不再以 localStorage 为数据源**；前端改动自动 diff 为 add/update/delete 写回，外部（CSV/资料库）改动经定时轮询自动刷新前端。每行 `id` 字段即数据库 `_id`（主键对齐）。本地 `file://` 预览无 SDK 时优雅降级到 localStorage（仅演示）。新增模块无需改动数据层。
+
+> **全部模块均已开箱即用**：下面的 15 个模块（含新增「资源中心 resources」）都已在 `examples/reference-workbench.html` 的 `MODULE_REGISTRY` 中实现（含 `render`/`seed`/`toCSV`/`fromCSV`），并已在 `assets/deploy/manifest.json` 中配好落库 schema/seed。差别只在于是否默认勾选，而非"有没有代码"。
 
 ---
 

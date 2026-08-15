@@ -91,6 +91,14 @@ def main():
             if "error" in r2:
                 result["errors"].append({"module": mod["name"], "step": "seed", "detail": r2})
 
+    # 把各模块 database_id 写回 HTML 的 WORKBENCH_CONFIG.databases，
+    # 使上传后的页面运行时直连对应 database 节点（与前端数据层对齐）。
+    try:
+        patched = patch_databases(html_path, result["databases"])
+        html_path = patched
+    except Exception as e:
+        result["errors"].append({"step": "patch_databases", "detail": str(e)[:300]})
+
     imp_args = [html_path, "--databases", json.dumps([{"id": i} for i in db_ids], ensure_ascii=False)]
     if args.space_id:
         imp_args += ["--space-id", args.space_id]
@@ -101,6 +109,24 @@ def main():
         result["errors"].append({"step": "import_html", "detail": r3})
 
     print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def patch_databases(html_path, db_map):
+    """把 `databases: { ... }` 块替换为各模块真实的 database_id（仅替换注释/示例占位）。"""
+    html = open(html_path, encoding="utf-8").read()
+    block = "  databases: {\n"
+    for name, db_id in db_map.items():
+        block += '    %s:   "%s",\n' % (name, db_id)
+    block += "  }"
+    if "databases:" not in html:
+        raise ValueError("HTML 中未找到 databases 配置块")
+    # 匹配 databases: { ... }（含多行），用非贪婪 dotall
+    new_html, n = re.subn(r"databases:\s*\{[^}]*\}", block, html, count=1, flags=re.S)
+    if n == 0:
+        raise ValueError("无法定位 databases 块进行替换")
+    tmp = html_path + ".patched.html"
+    open(tmp, "w", encoding="utf-8").write(new_html)
+    return tmp
 
 
 if __name__ == "__main__":

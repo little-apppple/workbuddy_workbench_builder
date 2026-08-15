@@ -3,8 +3,8 @@ name: workbench-builder
 slug: workbuddy-workbench-builder
 displayName: Workbench Builder（工作台构建器）
 description: 基于 WorkBuddy 资料库构建可插拔、单文件交付的个人/团队工作台。覆盖：①存量数据确认与导入(SQL/微信文档/飞书/Notion/多维表) ②可插拔模块选择(todo/mem/dashboard 等，含官方案例映射) ③多套 UI 模板选择 ④强制 CSV 存储 + 单文件内联 HTML 交付 ⑤每日信息源自动更新(新闻/行情等 automation 自动配置) ⑥可选跨平台备份(飞书/ima/github 定时任务)；并在交付前执行**自动化验收**(构建 checklist + 验收 test case)保证 UI 交互逻辑/样式配色/布局完整度与合理性/数据结构完整性/设计一致性/自动化任务符合预期的完整与合理。**本 skill 的交付终态是资料库「我的文档」里的在线内容：单文件内联 HTML 作为资料库 page 节点、各模块数据作为 CSV(database) 节点（同样默认落「我的文档」）；本地 HTML 仅为生成过程中的中间产物，不作为最终交付。** 当用户说"搭个工作台/做个个人面板/用资料库建仪表盘/给我一个本地可运行的看板/每天自动更新工作台数据"时使用。
-version: 1.1.0
-summary: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台；内置 15 模块（含「资源中心」公共资源聚合）、4 布局、5 风格预设，强制资料库 CSV 在线存储与双向同步，并含自动化验收。
+version: 1.2.0
+summary: 基于 WorkBuddy 资料库，零依赖单文件交付可插拔的个人/团队工作台；内置 15 模块、4 布局、5 风格预设；运行时直连资料库 database 节点、自动双向同步（去 localStorage 数据源，本地预览优雅降级），并含自动化验收。
 author: Remo
 level: personal
 license: MIT
@@ -171,12 +171,16 @@ metadata:
 
 `examples/reference-workbench.html` 是**已完整可运行**的种子。它内置：
 
-- `WORKBENCH_CONFIG`：改这一个对象即可切换模块、UI 模板与全局风格（直接满足"模板/风格选择"）。字段包括 `ui`、`theme`、`style`、`accent`、`modules`。
-- `MODULE_REGISTRY`：**14 个模块全部开箱即用**（todo / mem / dashboard / notes / links / kanban / calendar / ledger / habits / reading / contacts / inventory / journal / news），每个含 `schema`（CSV 列）、`seed`、`render`；CSV 导入/导出由全局共享的 `toCSV(rows, schema)` 按各模块 `schema` 列名统一处理（CSV 列 === schema 字段 === 资料库落库字段），故各模块无需各自实现。
+- `WORKBENCH_CONFIG`：改这一个对象即可切换模块、UI 模板与全局风格（直接满足"模板/风格选择"）。字段包括 `ui`、`theme`、`style`、`accent`、`modules`、**`databases`**（每个模块对应一个资料库 `database_id`，由 `deploy_to_library.py` 自动回填）。
+- `MODULE_REGISTRY`：**15 个模块全部开箱即用**（在 14 个基础上新增「资源中心 resources」），每个含 `schema`、`seed`、`render`；CSV 导入/导出由全局共享的 `toCSV(rows, schema)` 按各模块 `schema` 列名统一处理（CSV 列 === schema 字段 === 资料库落库字段），故各模块无需各自实现。
 - `UI_LAYOUTS`：4 套布局（sidebar / cardGrid / topnav / masonry），CSS 变量驱动深/浅色与全局风格。
 - **UI 风格预设系统**：种子内置 5 套风格（`default / macaron / ink / ocean / sunset`），共享同一组 CSS 设计 token；右上角工具栏有「🎨 风格」按钮，点击弹出预设列表供用户选择，切换全局生效并持久化到 `localStorage['wb:style']`。
-- 工具栏：导出全部 CSV（打包下载）、导入 CSV、主题切换、风格切换、重置。
-- 持久化：localStorage 运行时暂存；CSV 导入/导出与资料库 CSV 对齐。
+- 工具栏：导出全部 CSV（打包下载）、导入 CSV（整表替换，直写资料库）、主题切换、风格切换、重置。
+- **持久化（v1.2 直连资料库，双向同步）**：
+  - 模块在 `databases` 中配置了 `database_id` → 运行时经平台注入的 `window.__SMART_PAGE__.database` **直读直写**对应 database 节点，**不再以 localStorage 为数据源**。
+  - 前端增删改 → 经数组 diff 自动翻译成 `addRecord/updateRecord/deleteRecord` 写回资料库；**外部（CSV/资料库）改动 → 定时轮询 `query` 自动刷新前端**（默认 4s），实现双向同步。
+  - 每个模块 UI 行 `id` 即数据库 `_id`，保证前后端主键对齐、diff 准确；空库首次自动灌入 seed 示例数据。
+  - **本地 file:// 预览（无 SDK）自动降级到 localStorage**，保证模板可演示、可验收；这是平台要求的优雅降级，不是数据源。
 - 更多模板示例见 `examples/templates/`（8 套完整模板：5 套预设+布局组合 + 3 套从 GitHub 优秀项目汲取灵感并改写为零依赖/同一 token 系统的导航启动页/玻璃仪表盘/质感起始页）和 `examples/style-gallery.html`（预设预览器）。
 
 > **权威种子 vs 视觉骨架（重要）**：`examples/reference-workbench.html` 是**唯一的权威交付种子**——它已实现全部 14 个模块与 4 套 UI 主题，可直接改成任意工作台交付。**`assets/ui/<模板>.html` 仅是「布局/视觉骨架参考」，不是交付种子**（模块不全、仅展示布局），生成时一律以 `reference-workbench.html` 为准，切勿拿 `assets/ui/*.html` 当成品交付。
