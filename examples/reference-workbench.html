@@ -518,7 +518,8 @@ register({
 /* 设计：
    - 若模块在 WORKBENCH_CONFIG.databases 中配置了 databaseId，则运行时通过
      window.__SMART_PAGE__.database 直读直写该 database 节点（资料库 page 由平台注入 SDK）。
-     UI 行 id 字段即数据库 _id，保证"前端改"与"外部改"可对齐做双向同步。
+     字段按 schema 类型用对应信封读写（text/checkbox/number/date/select/url），与 manifest 建库类型对齐；
+     主键以服务端 _id 为准（存入行 id），UI 改与外部改据此做 diff 双向同步。
    - 无 SDK 环境（本地 file:// 预览）自动降级到 localStorage，保证模板可演示。
    - 资料库模式下定时轮询 query，实现"外部改 CSV/资料库 → 前端自动刷新"。
 */
@@ -533,11 +534,45 @@ let _bootDone = false;            // renderAll 首次渲染完成
 
 function dbIdOf(t){ return (CFG.databases && CFG.databases[t]) || null; }
 
-// 行对象 <-> 数据库 properties（全部字段建为 text，字符串直通）
-function rowToProps(t, row){ const p={}; (REG[t]?REG[t].schema:[]).forEach(c=>{ let v=row[c.name]; if(v==null)v=''; if(typeof v==='object')v=JSON.stringify(v); p[c.name]={text:String(v)}; }); return p; }
+// 行对象 <-> 数据库 properties（与 manifest 建库类型对齐：checkbox/number/date/select/url 各自信封，text 用 text）
+function fieldEnvelope(type, v){
+  switch(type){
+    case 'checkbox': return {checkbox: !!v};
+    case 'number':   { const n=Number(v); return {number: isFinite(n)?n:0}; }
+    case 'date':     return {date: (v==null?'':String(v))};
+    case 'select':   return {select: (v==null?'':String(v))};
+    case 'url':      { const s=(v==null?'':String(v)); return {url:{text:s, link:s}}; }
+    default:         return {text: (v==null?'':(typeof v==='object'?JSON.stringify(v):String(v)))};
+  }
+}
+function fieldValue(type, cell){
+  if(cell && typeof cell==='object'){
+    if('checkbox' in cell) return !!cell.checkbox;
+    if('number'  in cell) return Number(cell.number||0);
+    if('date'    in cell) return cell.date||'';
+    if('select'  in cell) return cell.select||'';
+    if('url'     in cell) return (cell.url && (cell.url.link||cell.url.text))||'';
+    if('text'    in cell) return cell.text;
+    return cell;
+  }
+  return cell;
+}
+function rowToProps(t, row){ const p={}; (REG[t]?REG[t].schema:[]).forEach(c=>{ p[c.name]=fieldEnvelope(c.type, row[c.name]); }); return p; }
 
-// 数据库记录 -> 行对象（_id 存入 id 字段，作为主键）
-function recordToRow(rec){ const o={}; for(const k in rec){ if(k==='_id'){o.id=rec._id;} else if(rec[k]&&typeof rec[k]==='object'&&'text' in rec[k]){o[k]=rec[k].text;} else {o[k]=rec[k];} } if(!o.id)o.id=rec._id||uid(); return o; }
+// 数据库记录 -> 行对象：主键以服务端 _id 为准（存入 id），按 schema 类型还原各字段信封；
+// 忽略冗余的 text 型 id 列，避免覆盖主键导致 diff 错位（真实部署 DB 会返回 id 文本列）。
+function recordToRow(rec, t){
+  const o={}; const schema=(REG[t]&&REG[t].schema)||[]; const typeOf={}; schema.forEach(c=>{ typeOf[c.name]=c.type; });
+  for(const k in rec){
+    if(k==='_id'){ o.id=rec._id; continue; }
+    if(k==='id'){ continue; }
+    o[k]=fieldValue(typeOf[k]||'text', rec[k]);
+  }
+  if(!o.id) o.id=rec._id||uid();
+  return o;
+}
+// 行数组深拷贝（行对象也拷），用于 _cache 与展示数据解耦，避免 UI 改动污染 diff 基准。
+function cloneRows(rows){ return (rows||[]).map(function(r){ const c={}; for(const k in r) c[k]=r[k]; return c; }); }
 
 // ============ 读取（异步，统一返回 Promise<array> ） ============
 function storeGet(t){
@@ -545,8 +580,8 @@ function storeGet(t){
   if(HAS_DB && dbId){
     return DB.query({databaseId:dbId, pageSize:DB_PAGE, sorts:[{property:'id',direction:'ascending'}]})
       .then(function(res){
-        const rows=(res.results||[]).map(recordToRow);
-        _cache[t]=rows;
+        const rows=(res.results||[]).map(function(r){ return recordToRow(r, t); });
+        _cache[t]=cloneRows(rows);   // 深拷贝：与展示数组解耦，UI 改动不污染 diff 基准
         // 空库自动灌入示例数据（首次部署即"开箱即用"，面板不空白）
         if(!rows.length && REG[t].seed && REG[t].seed.length){
           return seedIfEmpty(t, REG[t].seed.slice());
@@ -564,7 +599,7 @@ function seedIfEmpty(t, rows){
   if(!dbId) return Promise.resolve(rows);
   rows = rows.map(function(r){ const c={}; for(const k in r) c[k]=r[k]; if(c.id) delete c.id; return c; });   // 去掉本地 id，交给服务端生成
   const tasks=rows.map(function(r){ return Promise.resolve(DB.addRecord({databaseId:dbId, properties:rowToProps(t,r)})).then(function(rr){ if(rr&&rr.id) r.id=rr.id; }); });
-  return Promise.all(tasks).then(function(){ _cache[t]=rows.slice(); return rows.slice(); }).catch(function(){ return rows.slice(); });
+  return Promise.all(tasks).then(function(){ _cache[t]=cloneRows(rows); return rows.slice(); }).catch(function(){ return rows.slice(); });
 }
 
 // ============ 写入（异步；UI 改 → 直写库 or localStorage） ============
