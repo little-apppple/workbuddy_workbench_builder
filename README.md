@@ -1,8 +1,17 @@
 # workbench-builder
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+![WorkBuddy Skill](https://img.shields.io/badge/WorkBuddy-Skill-brightgreen)
+![Modules](https://img.shields.io/badge/Modules-14-blue)
+![UI Templates](https://img.shields.io/badge/UI%20Templates-4-orange)
+
 基于 **WorkBuddy 资料库** 构建可插拔、单文件交付的个人 / 团队工作台 Skill。
 
 把用户的零散数据（待办、记忆、指标、笔记、链接、看板、账本、习惯……）聚合为一个**零依赖、单文件、可离线、可分享**的 HTML 工作台，并把所有持久化数据落到 WorkBuddy **资料库**的 CSV(database) 节点里。
+
+![工作台动态演示](examples/demo.gif)
+
+> 上图演示了 4 套 UI 模板（sidebar / cardGrid / topnav / masonry）与深色主题切换。更多截图与分步说明见 [`examples/usage-example.md`](./examples/usage-example.md)。
 
 ---
 
@@ -49,7 +58,10 @@ workbench-builder/
 ├── SKILL.md                      # 主流程与约束（权威说明）
 ├── examples/
 │   ├── reference-workbench.html  # 权威交付种子（已内联 14 模块 + 4 模板）
-│   └── official-cases.md         # 资料库官方案例 → 模块组合映射
+│   ├── official-cases.md         # 资料库官方案例 → 模块组合映射
+│   ├── usage-example.md          # 使用示例 + 分步截图说明
+│   ├── preview.png               # 静态界面预览
+│   └── demo.gif                  # 4 套模板 + 深色主题动态演示
 ├── assets/
 │   ├── deploy/
 │   │   ├── deploy_to_library.py  # 一键建库 + 灌数 + 上传 HTML
